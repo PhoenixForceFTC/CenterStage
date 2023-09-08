@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
+import org.firstinspires.ftc.teamcode.Subsystems.Servos;
+import org.firstinspires.ftc.teamcode.util.MotorEncoder;
 
 /**
  * FTC WIRES TeleOp Example
@@ -12,6 +14,9 @@ public class TeleOpMode extends LinearOpMode {
 
 
     private MecanumWheels mecanumWheels;
+    private MotorEncoder motorEncoder;
+    private Servos servos;
+    private boolean isYPressed;
 
 
 
@@ -28,6 +33,8 @@ public class TeleOpMode extends LinearOpMode {
     // driveTrain = new DriveTrain(hardwareMap);
 
         mecanumWheels = new MecanumWheels(this );
+        motorEncoder = new MotorEncoder(this);
+        servos = new Servos(this);
         waitForStart();
         //elbowArm.resetPosition();
 
@@ -36,9 +43,29 @@ public class TeleOpMode extends LinearOpMode {
             while (opModeIsActive()) {
                 mecanumWheels.move();
 
-                //telemetry.addData("Button", gamepad2.y);
-                //telemetry.addData("isYPressed", isYPressed);
-                //telemetry.addData("position == LOW", isYPressed);
+                if(gamepad2.a){servos.GoToPosition(0);}
+                if(gamepad2.b){servos.GoToPosition(1);}
+
+                if (gamepad2.y) {
+
+                    if (!isYPressed) {
+                        telemetry.addData("Y is pressed", gamepad2.y);
+                        telemetry.update();
+                        motorEncoder.moveToTop();
+                    }
+
+                    isYPressed = true;
+                } else {
+
+                    if(isYPressed){
+                        telemetry.addData("y was let go", gamepad2.y);
+                        telemetry.update();
+                        motorEncoder.moveToBottom();
+                    }
+                    isYPressed = false;
+
+                }
+
 
             }
         }

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.Servos;
 import org.firstinspires.ftc.teamcode.util.MotorEncoder;
@@ -14,9 +16,15 @@ public class TeleOpMode extends LinearOpMode {
 
 
     private MecanumWheels mecanumWheels;
+
     private MotorEncoder motorEncoder;
     private Servos servos;
     private boolean isYPressed;
+
+
+    public Claw claw;
+
+
 
 
 
@@ -35,6 +43,7 @@ public class TeleOpMode extends LinearOpMode {
         mecanumWheels = new MecanumWheels(this );
         motorEncoder = new MotorEncoder(this);
         servos = new Servos(this);
+        claw = new Claw(this);
         waitForStart();
         //elbowArm.resetPosition();
 
@@ -42,9 +51,17 @@ public class TeleOpMode extends LinearOpMode {
         while (!isStopRequested()) {
             while (opModeIsActive()) {
                 mecanumWheels.move();
+                claw.controlClaw();
 
-                if(gamepad2.a){servos.GoToPosition(0);}
-                if(gamepad2.b){servos.GoToPosition(1);}
+                //if(gamepad2.a){servos.GoToPosition(0.4);}
+                if(gamepad2.b)
+                {
+                    servos.GoToPosition(1);
+
+                }
+                else{
+                    servos.GoToPosition((float) 0.45);
+                }
 
                 if (gamepad2.y) {
 

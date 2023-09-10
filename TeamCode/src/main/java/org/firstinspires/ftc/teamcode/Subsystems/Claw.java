@@ -11,7 +11,7 @@ public class Claw {
     private OpMode opMode;
 
     private Servo grip;
-    public ClawSensor sensor;
+    //public ClawSensor sensor;
 
     private boolean canAutoClose = false;
     private ButtonToggle clawClosed;
@@ -19,32 +19,32 @@ public class Claw {
     public Claw(OpMode opMode) {
         this.opMode = opMode;
 
-        grip = opMode.hardwareMap.get(Servo.class, "s2");
-        grip.setDirection(Servo.Direction.REVERSE);
-        sensor = new ClawSensor(opMode.hardwareMap);
+        grip = opMode.hardwareMap.get(Servo.class, "CLAW");
+        //grip.setDirection(Servo.Direction.REVERSE);
+        //sensor = new ClawSensor(opMode.hardwareMap);
 
         clawClosed = new ButtonToggle();
     }
 
     public void controlClaw() {
-        clawClosed.update(opMode.gamepad2.b);
+        clawClosed.update(opMode.gamepad2.x);
 
-        if (sensor.conePresent()) {
+        /*if (sensor.conePresent()) {
             if (canAutoClose) {
                 clawClosed.setActive(true);
                 canAutoClose = false;
             }
         } else {
             canAutoClose = true;
-        }
+        }*/
 
         setClawClosed(clawClosed.isActive());
 
-        /*opMode.telemetry.addData("Claw sensor distance", sensor.getDistance());
+        //opMode.telemetry.addData("Claw sensor distance", sensor.getDistance());
         opMode.telemetry.addData("Claw open", !isClosed());
         opMode.telemetry.addData("Can auto close", canAutoClose);
-        opMode.telemetry.addData("Is cone detected", sensor.conePresent());
-        opMode.telemetry.update();*/
+        //opMode.telemetry.addData("Is cone detected", sensor.conePresent());
+        opMode.telemetry.update();
     }
 
     public boolean isClosed() {
@@ -53,9 +53,9 @@ public class Claw {
 
     public void setClawClosed(boolean closed) {
         if (closed) {
-            grip.setPosition(0.095);
+            grip.setPosition(0.5);
         } else {
-            grip.setPosition(0.025  );
+            grip.setPosition(0);
         }
     }
 }

@@ -1,33 +1,31 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 
-public class Claw {
+public class Flip {
     private OpMode opMode;
 
     private Servo grip;
     //public ClawSensor sensor;
 
     private boolean canAutoClose = false;
-    private ButtonToggle clawClosed;
+    private ButtonToggle clawFlipped;
 
-    public Claw(OpMode opMode) {
+    public Flip(OpMode opMode) {
         this.opMode = opMode;
 
-        grip = opMode.hardwareMap.get(Servo.class, "CLAW");
+        grip = opMode.hardwareMap.get(Servo.class, "FLIP");
         //grip.setDirection(Servo.Direction.REVERSE);
         //sensor = new ClawSensor(opMode.hardwareMap);
 
-        clawClosed = new ButtonToggle();
+        clawFlipped = new ButtonToggle();
     }
 
     public void controlClaw() {
-        clawClosed.update(opMode.gamepad2.b);
+        clawFlipped.update(opMode.gamepad2.y);
 
         /*if (sensor.conePresent()) {
             if (canAutoClose) {
@@ -38,24 +36,25 @@ public class Claw {
             canAutoClose = true;
         }*/
 
-        setClawClosed(clawClosed.isActive());
+        setClawClosed(clawFlipped.isActive());
 
         //opMode.telemetry.addData("Claw sensor distance", sensor.getDistance());
         opMode.telemetry.addData("Claw open", !isClosed());
-        opMode.telemetry.addData("Can auto close", canAutoClose);
+      //  opMode.telemetry.addData("Can auto close", canAutoClose);
         //opMode.telemetry.addData("Is cone detected", sensor.conePresent());
         opMode.telemetry.update();
     }
 
     public boolean isClosed() {
-        return clawClosed.isActive();
+        return clawFlipped.isActive();
     }
 
-    public void setClawClosed(boolean closed) {
-        if (closed) {
-            grip.setPosition(0.6);
-        } else {
+    public void setClawClosed(boolean flipped) {
+        if (flipped) {
             grip.setPosition(1);
+        } else {
+            grip.setPosition(0);
         }
     }
 }
+

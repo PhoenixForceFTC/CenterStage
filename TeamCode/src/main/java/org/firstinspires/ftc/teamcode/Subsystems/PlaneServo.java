@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-public class Servos {
+public class PlaneServo {
     private LinearOpMode currentOpMode;
     private Servo rollServo;
-    public Servos (LinearOpMode opMode){
+    public PlaneServo (LinearOpMode opMode){
         currentOpMode = opMode;
         rollServo = opMode.hardwareMap.get(Servo.class, "S1");
     }

@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Belt;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
+import org.firstinspires.ftc.teamcode.Subsystems.Flip;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
-import org.firstinspires.ftc.teamcode.Subsystems.Servos;
-import org.firstinspires.ftc.teamcode.util.MotorEncoder;
+import org.firstinspires.ftc.teamcode.Subsystems.NewLift2;
+import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
+//import org.firstinspires.ftc.teamcode.util.MotorEncoder;
 
 /**
  * FTC WIRES TeleOp Example
@@ -17,12 +20,15 @@ public class TeleOpMode extends LinearOpMode {
 
     private MecanumWheels mecanumWheels;
 
-    private MotorEncoder motorEncoder;
-    private Servos servos;
+    //private MotorEncoder motorEncoder;
+    private PlaneServo planeServo;
     private boolean isYPressed;
+    private NewLift2 newLift2;
+    private Belt belt;
 
 
     public Claw claw;
+    public Flip flip;
 
 
 
@@ -39,28 +45,33 @@ public class TeleOpMode extends LinearOpMode {
 
     /* Create Subsystem Objects*/
     // driveTrain = new DriveTrain(hardwareMap);
-
+        newLift2 = new NewLift2(this);
+        belt = new Belt(this);
         mecanumWheels = new MecanumWheels(this );
-        motorEncoder = new MotorEncoder(this);
-        servos = new Servos(this);
+        //motorEncoder = new MotorEncoder(this);
+        planeServo = new PlaneServo(this);
         claw = new Claw(this);
+        flip = new Flip(this);
         waitForStart();
         //elbowArm.resetPosition();
+        flip.setClawClosed(true);
 
 
         while (!isStopRequested()) {
             while (opModeIsActive()) {
                 mecanumWheels.move();
                 claw.controlClaw();
-
-                //if(gamepad2.a){servos.GoToPosition(0.4);}
-                if(gamepad2.b)
+                flip.controlClaw();
+                newLift2.controlLift(true);
+                belt.controlLift(true);
+                //if(gamepad2.a){planeServo.GoToPosition((float) 0.4);}
+                if(gamepad1.left_trigger > 0.9 && gamepad1.right_trigger > 0.9 && gamepad1.left_bumper && gamepad1.right_bumper)
                 {
-                    servos.GoToPosition(1);
+                    planeServo.GoToPosition(1);
 
                 }
                 else{
-                    servos.GoToPosition((float) 0.45);
+                    planeServo.GoToPosition((float) 0.45);
                 }
 
                 if (gamepad2.y) {
@@ -68,7 +79,7 @@ public class TeleOpMode extends LinearOpMode {
                     if (!isYPressed) {
                         telemetry.addData("Y is pressed", gamepad2.y);
                         telemetry.update();
-                        motorEncoder.moveToTop();
+                        //motorEncoder.moveToTop();
                     }
 
                     isYPressed = true;
@@ -77,8 +88,9 @@ public class TeleOpMode extends LinearOpMode {
                     if(isYPressed){
                         telemetry.addData("y was let go", gamepad2.y);
                         telemetry.update();
-                        motorEncoder.moveToBottom();
+                        //  motorEncoder.moveToBottom();
                     }
+
                     isYPressed = false;
 
                 }
@@ -88,5 +100,7 @@ public class TeleOpMode extends LinearOpMode {
         }
 
         mecanumWheels.stop();
+        newLift2.stop();
+        belt.stop();
     }
 }

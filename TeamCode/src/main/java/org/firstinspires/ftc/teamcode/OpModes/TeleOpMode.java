@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Flip;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.NewLift2;
 import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
-//import org.firstinspires.ftc.teamcode.util.MotorEncoder;
+import org.firstinspires.ftc.teamcode.util.MotorEncoder;
 
 /**
  * FTC WIRES TeleOp Example
@@ -20,7 +20,7 @@ public class TeleOpMode extends LinearOpMode {
 
     private MecanumWheels mecanumWheels;
 
-    //private MotorEncoder motorEncoder;
+    private MotorEncoder motorEncoder;
     private PlaneServo planeServo;
     private boolean isYPressed;
     private NewLift2 newLift2;
@@ -48,13 +48,13 @@ public class TeleOpMode extends LinearOpMode {
         newLift2 = new NewLift2(this);
         belt = new Belt(this);
         mecanumWheels = new MecanumWheels(this );
-        //motorEncoder = new MotorEncoder(this);
+        motorEncoder = new MotorEncoder(this);
         planeServo = new PlaneServo(this);
         claw = new Claw(this);
         flip = new Flip(this);
         waitForStart();
         //elbowArm.resetPosition();
-        flip.setClawClosed(true);
+        flip.setClawClosed(false);
 
 
         while (!isStopRequested()) {
@@ -74,21 +74,21 @@ public class TeleOpMode extends LinearOpMode {
                     planeServo.GoToPosition((float) 0.45);
                 }
 
-                if (gamepad2.y) {
+                if (gamepad1.y) {
 
                     if (!isYPressed) {
-                        telemetry.addData("Y is pressed", gamepad2.y);
+                        telemetry.addData("Y is pressed", gamepad1.y);
                         telemetry.update();
-                        //motorEncoder.moveToTop();
+                        motorEncoder.moveToTop();
                     }
 
                     isYPressed = true;
                 } else {
 
                     if(isYPressed){
-                        telemetry.addData("y was let go", gamepad2.y);
+                        telemetry.addData("y was let go", gamepad1.y);
                         telemetry.update();
-                        //  motorEncoder.moveToBottom();
+                        motorEncoder.moveToBottom();
                     }
 
                     isYPressed = false;

@@ -51,9 +51,9 @@ public class Flip {
 
     public void setClawClosed(boolean flipped) {
         if (flipped) {
-            grip.setPosition(1);
+            grip.setPosition(0.85);
         } else {
-            grip.setPosition(0);
+            grip.setPosition(0.4);
         }
     }
 }

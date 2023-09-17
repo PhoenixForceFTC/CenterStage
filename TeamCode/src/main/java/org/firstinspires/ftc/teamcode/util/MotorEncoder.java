@@ -14,59 +14,19 @@ public class MotorEncoder {
     /*boolean stateOfUp;
     boolean stateOfDown;*/
 
-    private double power = 0.8;
-    private int highPos = 1300;
+    private double power = 0.01;
+    private int highPos =10;
     private int lowPos = 0;
     private Level where = Level.LOW;
 
     public  MotorEncoder(LinearOpMode opMode){
         currentOpMode = opMode;
-        leftLift = currentOpMode.hardwareMap.get(DcMotorEx.class, "TEST");
+        leftLift = currentOpMode.hardwareMap.get(DcMotorEx.class, "TAPE");
         leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     //manual teleop movement
-    public void move(double magnitude){
 
-        if (magnitude > 0.1 || magnitude < -0.1) {
-            leftLift.setDirection(DcMotor.Direction.REVERSE);
-            leftLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-            currentOpMode.telemetry.addLine("in move");
-            leftLift.setPower(magnitude);
-            where = Level.NOWHERE;
-            /*stateOfDown = false;
-            stateOfUp = false;*/
-
-        }
-        else
-        {
-            leftLift.setPower(0);
-        }
-        currentOpMode.telemetry.addData("slide power", magnitude);
-    }
-
-    public void moveLevels(boolean upPressed, boolean downPressed){
-        switch (where){
-            case NOWHERE:
-                if (upPressed){
-                    moveToTop();
-                }
-                if (downPressed){
-                    moveToBottom();
-                }
-            case HIGH:
-                if (downPressed){
-                    moveToBottom();
-                }
-            case LOW:
-                if (upPressed) {
-                    moveToTop();
-                }
-            default:
-                stay();
-        }
-        //currentOpMode.telemetry.addData("slide position", );
-    }
 
     public void moveToTop(){
         leftLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);

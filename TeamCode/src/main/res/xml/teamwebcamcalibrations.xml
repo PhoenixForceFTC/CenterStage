@@ -51,35 +51,24 @@
 
 -->
 <Calibrations>
-
-    <!-- ======================================================================================= -->
-
-    <!-- Microsoft Lifecam HD 3000 v1, Calibrated by PTC using unknown tooling -->
-    <!-- <Camera vid="Microsoft" pid="0x0779">
+<Camera vid="Microsoft" pid="0x0779">
         <Calibration
             size="640 480"
             focalLength="678.154f, 678.17f"
             principalPoint="318.135f, 228.374f"
             distortionCoefficients="0.154576f, -1.19143f, 0f, 0f, 2.06105f, 0f, 0f, 0f"
             />
-    </Camera> -->
+    </Camera>
 
-    <!-- ======================================================================================= -->
-
-    <!-- Microsoft Lifecam HD 3000 v2, Calibrated by PTC using unknown tooling -->
-    <!-- <Camera vid="Microsoft" pid="0x0810">
+<Camera vid="Microsoft" pid="0x0810">
         <Calibration
             size="640 480"
             focalLength="678.154f, 678.17f"
             principalPoint="318.135f, 228.374f"
             distortionCoefficients="0.154576f, -1.19143f, 0f, 0f, 2.06105f, 0f, 0f, 0f"
             />
-    </Camera> -->
-
-    <!-- ======================================================================================= -->
-
-    <!-- Logitech HD Webcam C310, Calibrated by by Robert Atkinson, 2018.05.30 using 3DF Zephyr -->
-    <!-- <Camera vid="Logitech" pid="0x081B">
+    </Camera>
+<Camera vid="Logitech" pid="0x081B">
         <Calibration
             size="640 480"
             focalLength="821.993f, 821.993f"
@@ -93,12 +82,8 @@
             principalPoint="319.759f, 188.917f"
             distortionCoefficients="-0.0258948, 1.06258, 0, 0, -3.40245, 0, 0, 0"
             />
-    </Camera> -->
-
-    <!-- ======================================================================================= -->
-
-    <!-- Logitech HD Pro Webcam C920, Calibrated by Robert Atkinson, 2018.05.30 using 3DF Zephyr -->
-    <!-- <Camera vid="Logitech" pid="0x082D">
+    </Camera>
+ <Camera vid="Logitech" pid="0x082D">
 
         <Calibration
             size="640 480"
@@ -142,20 +127,13 @@
             distortionCoefficients="0.120988, -0.253336 , 0, 0, 0.102445, 0, 0, 0"
             />
 
-    </Camera> -->
-
-    <!-- ======================================================================================= -->
-
-    <!-- Logitech HD Webcam C270, Calibrated by Noah Andrews, 2019.03.13 using 3DF Zephyr -->
-    <!--<Camera vid="Logitech" pid="0x0825">
+    </Camera>
+<Camera vid="Logitech" pid="0x0825">
         <Calibration
             size="640 480"
             focalLength="822.317f, 822.317f"
             principalPoint="319.495f, 242.502f"
             distortionCoefficients="-0.0449369, 1.17277, 0, 0, -3.63244, 0, 0, 0"
             />
-    </Camera> -->
-
-    <!-- ======================================================================================= -->
-
+    </Camera>
 </Calibrations>

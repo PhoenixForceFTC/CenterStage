@@ -44,7 +44,7 @@ public class Claw {
         opMode.telemetry.addData("Claw open", !isClosed());
         opMode.telemetry.addData("Can auto close", canAutoClose);
         //opMode.telemetry.addData("Is cone detected", sensor.conePresent());
-        opMode.telemetry.update();
+
     }
 
     public boolean isClosed() {

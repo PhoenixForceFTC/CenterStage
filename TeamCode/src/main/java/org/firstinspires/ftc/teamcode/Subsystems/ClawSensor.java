@@ -20,17 +20,14 @@ public class ClawSensor {
         average = new MovingAverage(10);
     }
 
-    public boolean conePresent() {
+    public void ConePresent() {
         double distance = distanceSensor.getDistance(DistanceUnit.CM);
-        if (Double.isNaN(distance)) // --- Moving average doesn't like NaN, so set to far away value
+        if (Double.isNaN(distance))
+        { // --- Moving average doesn't like NaN, so set to far away value
             distance = 100.0;
+        }
         average.addData(distance);
 
-        if (!average.isFull()) {
-            return false;
-        }
-
-        return CLOSE_DISTANCE > getDistance();
     }
 
     public double getDistance() {

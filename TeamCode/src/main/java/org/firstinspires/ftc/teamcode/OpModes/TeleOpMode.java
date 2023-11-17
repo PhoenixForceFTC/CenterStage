@@ -1,21 +1,19 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.Subsystems.Belt;
-import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.ClawSensor;
-import org.firstinspires.ftc.teamcode.Subsystems.Flip;
+//import org.firstinspires.ftc.teamcode.Subsystems.Belt;
+//import org.firstinspires.ftc.teamcode.Subsystems.Claw;
+//import org.firstinspires.ftc.teamcode.Subsystems.ClawSensor;
+//import org.firstinspires.ftc.teamcode.Subsystems.Flip;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
+import org.firstinspires.ftc.teamcode.Subsystems.AxonServo;
 //import org.firstinspires.ftc.teamcode.Subsystems.NewLift2;
-import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
-import org.firstinspires.ftc.teamcode.util.MotorEncoder;
+//import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
+//import org.firstinspires.ftc.teamcode.util.MotorEncoder;
 
 /**
  * FTC WIRES TeleOp Example
@@ -27,41 +25,40 @@ public class TeleOpMode extends LinearOpMode {
 
     private MecanumWheels mecanumWheels;
 
-    private MotorEncoder motorEncoder;
-    private PlaneServo planeServo;
+    //    private MotorEncoder motorEncoder;
+//    private PlaneServo planeServo;
+    //private AxonServo axonServo;
     private boolean isYPressed;
     //private NewLift2 newLift2;
-    private Belt belt;
-
-    public ClawSensor sensor;
-    public Claw claw;
-    public Flip flip;
-
-
+//    private Belt belt;
+//
+//    public ClawSensor sensor;
+//    public Claw claw;
+//    public Flip flip;
 
 
-
-
-   // @Override
+    // @Override
 
     /*
      * Constructor for passing all the subsystems in order to make the subsystem be able to use
      * and work/be active
-    */
+     */
 
 
     public void runOpMode() throws InterruptedException {
 
-    /* Create Subsystem Objects*/
-    // driveTrain = new DriveTrain(hardwareMap);
+        /* Create Subsystem Objects*/
+        // driveTrain = new DriveTrain(hardwareMap);
         //newLift2 = new NewLift2(this);
-//        belt = new Belt(this);
-//        mecanumWheels = new MecanumWheels(this );
+        //    belt = new Belt(this);
+        mecanumWheels = new MecanumWheels(this);
 //        motorEncoder = new MotorEncoder(this);
 //        planeServo = new PlaneServo(this);
+        //axonServo = new AxonServo(this);
+
 //        claw = new Claw(this);
 //        flip = new Flip(this);
-        sensor = new ClawSensor(this.hardwareMap);
+        //   sensor = new ClawSensor(this.hardwareMap);
         waitForStart();
         //elbowArm.resetPosition();
 //        flip.setClawClosed(false);
@@ -69,10 +66,10 @@ public class TeleOpMode extends LinearOpMode {
 
         while (!isStopRequested()) {
             while (opModeIsActive()) {
-                  sensor.ConePresent();
+                //     sensor.ConePresent();
 
 
-//                mecanumWheels.move();
+                mecanumWheels.move();
 //                claw.controlClaw();
 //                flip.controlClaw();
 //                //newLift2.controlLift(true);
@@ -86,14 +83,14 @@ public class TeleOpMode extends LinearOpMode {
 //                    planeServo.GoToPosition((float) 0.45);
 //                }
 //
-//                if (gamepad1.y) {
-//
+                if (gamepad1.y) {
+                    //axonServo.goToPosition(1);
 //                    if (!isYPressed) {
 //                        telemetry.addData("Y is pressed", gamepad1.y);
 //
 //                        motorEncoder.goToPickupPosition();
 //                    }
-//
+
 //                    isYPressed = true;
 //                } else {
 //
@@ -105,15 +102,16 @@ public class TeleOpMode extends LinearOpMode {
 //
 //                    isYPressed = false;
 //
-//                }
-                telemetry.addData(" sensor distance:",(sensor.getDistance()));
-                telemetry.update();
+                } else {//axonServo.goToPosition(0);}
+                    //          telemetry.addData(" sensor distance:",(sensor.getDistance()));
+                    telemetry.update();
 
+                }
             }
-        }
 
-//        mecanumWheels.stop();
+            mecanumWheels.stop();
 //        //newLift2.stop();
 //        belt.stop();
+        }
     }
 }

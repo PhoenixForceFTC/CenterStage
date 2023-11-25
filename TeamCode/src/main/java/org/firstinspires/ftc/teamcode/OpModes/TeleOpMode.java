@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.AxonServo;
 //import org.firstinspires.ftc.teamcode.Subsystems.NewLift2;
+import org.firstinspires.ftc.teamcode.Subsystems.Drop;
+import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 //import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
 //import org.firstinspires.ftc.teamcode.util.MotorEncoder;
 
@@ -30,6 +32,8 @@ public class TeleOpMode extends LinearOpMode {
     //private AxonServo axonServo;
     private boolean isYPressed;
     //private NewLift2 newLift2;
+    private Drop drop;
+    private Snagger snagger;
 //    private Belt belt;
 //
 //    public ClawSensor sensor;
@@ -50,6 +54,8 @@ public class TeleOpMode extends LinearOpMode {
         /* Create Subsystem Objects*/
         // driveTrain = new DriveTrain(hardwareMap);
         //newLift2 = new NewLift2(this);
+        drop = new Drop(this);
+        snagger= new Snagger(this);
         //    belt = new Belt(this);
         mecanumWheels = new MecanumWheels(this);
 //        motorEncoder = new MotorEncoder(this);
@@ -70,6 +76,8 @@ public class TeleOpMode extends LinearOpMode {
 
 
                 mecanumWheels.move();
+                drop.move(gamepad2.left_stick_y);
+                snagger.move(gamepad2.right_stick_y);
 //                claw.controlClaw();
 //                flip.controlClaw();
 //                //newLift2.controlLift(true);
@@ -111,6 +119,8 @@ public class TeleOpMode extends LinearOpMode {
 
             mecanumWheels.stop();
 //        //newLift2.stop();
+          drop.stop();
+          snagger.stop();
 //        belt.stop();
         }
     }

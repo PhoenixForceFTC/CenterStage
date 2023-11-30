@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.OpModes.Auto.AutoOpMode;
+
 @Config
 @Autonomous(group="!CompOpModes")
 public class BothBasicPark extends AutoOpMode {

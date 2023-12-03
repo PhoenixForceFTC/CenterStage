@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 /*
@@ -43,9 +44,9 @@ public class  DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 48/25.4; // in
+    public static double WHEEL_RADIUS = 24/25.4; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.5    ; // in based on turn tuning.
+    public static double TRACK_WIDTH = 14.23    ; // in based on turn tuning.
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -53,9 +54,9 @@ public class  DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 0.0165;
+    public static double kV = 0.0136;
     public static double kA = 0.005;
-    public static double kStatic = 0.008;
+    public static double kStatic = 0.0001;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -64,11 +65,18 @@ public class  DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 100; // 30 //80% of our calculated max velocity
-    public static double MAX_ACCEL = 100; // 30 //arbitrarily set to same number as max vel
-    public static double MAX_ANG_VEL = 5.8;
-    public static double MAX_ANG_ACCEL = Math.toRadians(60);
+    public static double MAX_VEL = 30; // 30 //80% of our calculated max velocity
+    public static double MAX_ACCEL = 30; // 30 //arbitrarily set to same number as max vel
+    public static double MAX_ANG_VEL = Math.toRadians(320.1609507772806);
+    public static double MAX_ANG_ACCEL = Math.toRadians(180);
 
+    /*
+     * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
+     */
+    public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
+            RevHubOrientationOnRobot.LogoFacingDirection.UP;
+    public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
+            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;

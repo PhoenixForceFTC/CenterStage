@@ -5,12 +5,17 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @TeleOp
 public class EncoderTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        StandardTrackingWheelLocalizer localizer = new StandardTrackingWheelLocalizer(hardwareMap);
+        List<Integer> lastTrackingEncPositions = new ArrayList<>();
+        List<Integer> lastTrackingEncVels = new ArrayList<>();
+        StandardTrackingWheelLocalizer localizer = new StandardTrackingWheelLocalizer(hardwareMap,lastTrackingEncPositions,lastTrackingEncVels);
 
         int initLeft = localizer.leftEncoder.getCurrentPosition();
         int initRight = localizer.rightEncoder.getCurrentPosition();

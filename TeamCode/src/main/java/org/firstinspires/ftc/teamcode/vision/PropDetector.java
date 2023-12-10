@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.vision;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.OpModes.Auto.AbstractAutonomous.Case;
 import org.firstinspires.ftc.teamcode.OpModes.Auto.AbstractAutonomous.Side;
@@ -12,7 +12,7 @@ import android.util.Size;
 public class PropDetector {
     private VisionPortal portal;
     private ColorPropProcessor proc;
-    public PropDetector(LinearOpMode opMode, boolean right, Side side) {
+    public PropDetector(OpMode opMode, boolean right, Side side) {
         proc = new ColorPropProcessor(right, side);
         portal = new VisionPortal.Builder()
                 .setCamera(opMode.hardwareMap.get(WebcamName.class, "camera"))
@@ -25,6 +25,7 @@ public class PropDetector {
     public void close() {
         portal.close();
     }
+
     public Case getCase() {
         return proc.getCase();
     }

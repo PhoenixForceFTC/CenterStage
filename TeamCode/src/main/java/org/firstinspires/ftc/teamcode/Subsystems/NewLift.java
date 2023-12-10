@@ -80,12 +80,12 @@ public class NewLift {
     }
 
         public void goToHighJunction(){
-            //goToPosition(1);
+            //setPower(1);
             liftPosition = 1;
         }
 
         public void goToPickupPosition(){
-            //goToPosition(0);
+            //setPower(0);
             liftPosition = 0;
         }
 

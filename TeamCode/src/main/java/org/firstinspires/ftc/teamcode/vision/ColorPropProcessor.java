@@ -45,6 +45,7 @@ public class ColorPropProcessor implements VisionProcessor {
     }
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
+
         Imgproc.cvtColor(frame, grayscale, Imgproc.COLOR_RGB2YCrCb);
         grayscale = grayscale.submat(new Rect(0, (int)(height * heightMin), width, (int)(height * heightDiff)));
         Core.inRange(grayscale, lower, upper, grayscale);
@@ -59,6 +60,7 @@ public class ColorPropProcessor implements VisionProcessor {
         } else {
             detectCase = right ? Case.LEFT : Case.RIGHT;
         }
+
         return null;
     }
     @Override

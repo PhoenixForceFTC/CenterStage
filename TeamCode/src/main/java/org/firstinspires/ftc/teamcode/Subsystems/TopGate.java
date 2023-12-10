@@ -1,0 +1,55 @@
+package org.firstinspires.ftc.teamcode.Subsystems;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+
+import org.firstinspires.ftc.teamcode.util.ButtonToggle;
+// This is to control the delivery of the pixels
+//
+public class TopGate {
+    private OpMode opMode;
+    private final double closedPos = -1;
+    private final double openPos = 1;
+    private CRServo gate;
+    private Drop dropSlides;
+    //public ClawSensor sensor;
+
+    private boolean canAutoClose = false;
+    private boolean gateClosed = true ;
+    public TopGate(OpMode opMode, Drop drop) {
+        this.opMode = opMode;
+        dropSlides = drop;
+        gate = opMode.hardwareMap.get(CRServo.class, "GATE2");
+        //grip.setDirection(Servo.Direction.REVERSE);
+        //sensor = new ClawSensor(opMode.hardwareMap);
+
+
+    }
+
+    public void controlGate() {
+        if(dropSlides.reachedTarget() && dropSlides.getPos()!=0) {
+            gateClosed = !opMode.gamepad2.left_bumper;
+        }
+
+
+        setGateClosed(gateClosed);
+
+
+        opMode.telemetry.addData("gate open", !isClosed());
+        opMode.telemetry.addData("gate auto close", canAutoClose);
+
+    }
+
+    public boolean isClosed() {
+        return gateClosed;
+    }
+
+    public void setGateClosed(boolean closed) {
+        if(dropSlides.reachedTarget() && dropSlides.getPos()!=0 && !closed){
+            gate.setPower(openPos);
+        }
+        else{
+            gate.setPower(closedPos);
+        }
+    }
+}

@@ -11,13 +11,15 @@ public class BottomGate {
     private final double closedPos = 1;
     private final double openPos = 0;
     private Servo gate;
+    private Drop dropSlides;
+
     private TeleOpMode teleOp;
     //public ClawSensor sensor;
 
     private boolean canAutoClose = false;
     private ButtonToggle clawClosed;
 
-    public BottomGate(OpMode opMode) {
+    public BottomGate(OpMode opMode, Drop drop) {
         this.opMode = opMode;
 
         gate = opMode.hardwareMap.get(Servo.class, "GATE1");
@@ -28,23 +30,14 @@ public class BottomGate {
     }
 
     public void controlClaw() {
-        clawClosed.update(opMode.gamepad2.dpad_down);
+        if (dropSlides.reachedTarget() && dropSlides.getPos()==0) {
+            clawClosed.update(opMode.gamepad2.dpad_down);
+        }
 
-        /*if (sensor.conePresent()) {
-            if (canAutoClose) {
-                clawClosed.setActive(true);
-                canAutoClose = false;
-            }
-        } else {
-            canAutoClose = true;
-        }*/
 
         setClawClosed(clawClosed.isActive());
-
-        //opMode.telemetry.addData("Claw sensor distance", sensor.getDistance());
         opMode.telemetry.addData("gate open", !isClosed());
         opMode.telemetry.addData("gate auto close", canAutoClose);
-        //opMode.telemetry.addData("Is cone detected", sensor.conePresent());
 
     }
 
@@ -53,10 +46,12 @@ public class BottomGate {
     }
 
     public void setClawClosed(boolean closed) {
-        if (closed) {
-            gate.setPosition(closedPos);
-        } else if(teleOp.reached() && teleOp.returnDrop()==0){
+        if(dropSlides.reachedTarget() && dropSlides.getPos()==0 && !closed){
             gate.setPosition(openPos);
         }
+        else{
+            gate.setPosition(closedPos);
+        }
+
     }
 }

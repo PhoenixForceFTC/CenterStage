@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-//import org.firstinspires.ftc.teamcode.Subsystems.IntakeServo;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeServo;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
 import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
@@ -24,6 +24,7 @@ public class TeleOpMode extends LinearOpMode {
     private OpMode opMode;
     private MecanumWheels mecanumWheels;
     private TopGate topGate;
+    private IntakeServo intakeServo;
 
     //    private MotorEncoder motorEncoder;
     //private IntakeServo axonServo;
@@ -53,6 +54,7 @@ public class TeleOpMode extends LinearOpMode {
         snagger= new Snagger(this);
         topGate= new TopGate(this,drop);
         mecanumWheels = new MecanumWheels(this);
+        intakeServo= new IntakeServo(this);
 //        motorEncoder = new MotorEncoder(this);
 //        planeServo = new PlaneServo(this);
         //axonServo = new IntakeServo(this);
@@ -72,28 +74,26 @@ public class TeleOpMode extends LinearOpMode {
 
                 mecanumWheels.move();
                 topGate.controlGate();
-                drop.controlLift2();
                 snagger.move(gamepad2.right_stick_y);
+                drop.controlLift2();
+                drop.move(gamepad2.left_stick_y);
                 if (gamepad1.y) {
 
                     if (!isYPressed) {
-//                        telemetry.addData("Y is pressed", gamepad1.y);
-                        //axonServo.setPower(1);
-
+                        intakeServo.forward();
                     }
 
                     isYPressed = true;
                 } else {
 //
                     if (isYPressed) {
-//                        telemetry.addData("y was let go", gamepad1.y);
-                        //axonServo.setPower(0);
+                        intakeServo.backward();
 
                     }
-                    telemetry.update();
                     isYPressed = false;
 
                 }
+                telemetry.update();
             }
 
             mecanumWheels.stop();

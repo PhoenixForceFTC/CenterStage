@@ -10,10 +10,11 @@ public class Drop {
     private DcMotorEx rightLift;
     private LinearOpMode opMode;
     private TopArm arm;
-    int LIFT_POSITIONS[] = {0,600,1200,1800};
+    int LIFT_POSITIONS[] = {0,600,1200,1800,100};
     int liftPosition = 0;
 
     boolean dPadPressed = false;
+    private boolean runManually = false;
 
     public Drop(LinearOpMode opMode){
         this.opMode = opMode;
@@ -25,8 +26,48 @@ public class Drop {
         rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         leftLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        runManually = false;
         arm = new TopArm(opMode);
     }
+
+    public void move(double magnitude){
+        if (magnitude > 0.2 || magnitude < -0.2) {
+            leftLift.setTargetPosition(leftLift.getCurrentPosition()+(int)(100*magnitude));
+            rightLift.setTargetPosition(rightLift.getCurrentPosition()+(int)(100*magnitude));
+            leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            opMode.telemetry.addLine("Drop is in manual modde");
+            leftLift.setPower(magnitude);
+            rightLift.setPower(magnitude);
+            /*stateOfDown = false;
+            stateOfUp = false;*/
+            runManually = true;
+
+        }
+        else
+        {
+            if (runManually) {
+                leftLift.setTargetPosition(leftLift.getCurrentPosition());
+                rightLift.setTargetPosition(rightLift.getCurrentPosition());
+                if (rightLift.getCurrentPosition() > 10) {
+                    leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    leftLift.setPower(1.0);
+                    rightLift.setPower(1.0);
+                } else {
+                    leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    leftLift.setPower(0);
+                    rightLift.setPower(0);
+                }
+            }
+        }
+        opMode.telemetry.addData("Drop manual slide power", magnitude);
+        opMode.telemetry.addData("Drop manual encoder pos", leftLift.getCurrentPosition());
+    }
+
     public void liftSleep(){
 
         while (leftLift.isBusy()) {
@@ -54,18 +95,31 @@ public class Drop {
     }
     public void controlLift2() {
         if (opMode.gamepad2.a) {
+            runManually = false;
+            liftPosition = 4;
+            goToPosition(liftPosition);
+            opMode.sleep(1000);
             liftPosition = 0;
+            goToPosition(liftPosition);
         }
         if (opMode.gamepad2.x) {
+            runManually = false;
             liftPosition= 1;
+            goToPosition(liftPosition);
+
         }
         if (opMode.gamepad2.b) {
+            runManually = false;
             liftPosition=2;
+            goToPosition(liftPosition);
+
         }
         if (opMode.gamepad2.y) {
+            runManually = false;
             liftPosition=3;
+            goToPosition(liftPosition);
         }
-        goToPosition(liftPosition);
+
     }
 
 
@@ -93,8 +147,13 @@ public class Drop {
             rightLift.setPower(0);
         }
         if (pos == 0) {
+
             arm.goToIntakePosition();
-        } else {
+        } else if (pos == 4){
+            arm.goToIntermediate();
+
+        }
+        else {
             arm.goToDropPosition();
         }
     }
@@ -125,6 +184,7 @@ public class Drop {
     public int getPos(){
         return liftPosition;
     }
+    public double getTicks(){return leftLift.getCurrentPosition();}
     public void stop() {
         liftPosition=0;
     }

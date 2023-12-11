@@ -11,7 +11,8 @@ public class TopArm {
     private Servo arm;
 
     private final double dropPosition =0.3;
-    private final double intakePosition =0.8;
+    private final double intakePosition = 0.62;
+    private final double intermediate = 0.6;
 
     public TopArm(LinearOpMode opMode){
 
@@ -31,5 +32,9 @@ public class TopArm {
     public void goToIntakePosition(){
         setPosition(intakePosition);
         currentOpMode.telemetry.addData("TopArm: Going to intake position", intakePosition);
+    }
+    public void goToIntermediate(){
+        setPosition(intermediate);
+        currentOpMode.telemetry.addData("TopArm: Going to intake position", intermediate);
     }
 }

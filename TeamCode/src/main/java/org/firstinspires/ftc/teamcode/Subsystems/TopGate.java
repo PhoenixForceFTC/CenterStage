@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 //
 public class TopGate {
     private OpMode opMode;
-    private final double closedPos = -1;
-    private final double openPos = 1;
+    private final double closedPos = 1;
+    private final double openPos = -1;
     private CRServo gate;
     private Drop dropSlides;
     //public ClawSensor sensor;
@@ -27,9 +27,9 @@ public class TopGate {
     }
 
     public void controlGate() {
-        if(dropSlides.reachedTarget() && dropSlides.getPos()!=0) {
+        //if(dropSlides.reachedTarget() && dropSlides.getTicks()>200) {
             gateClosed = !opMode.gamepad2.left_bumper;
-        }
+        //}
 
 
         setGateClosed(gateClosed);
@@ -45,7 +45,7 @@ public class TopGate {
     }
 
     public void setGateClosed(boolean closed) {
-        if(dropSlides.reachedTarget() && dropSlides.getPos()!=0 && !closed){
+        if(dropSlides.reachedTarget() && dropSlides.getTicks()>200 && !closed){
             gate.setPower(openPos);
         }
         else{

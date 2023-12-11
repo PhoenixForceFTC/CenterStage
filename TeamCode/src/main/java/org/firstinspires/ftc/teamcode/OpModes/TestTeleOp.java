@@ -3,7 +3,11 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Subsystems.Drop;
+import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServo;
+import org.firstinspires.ftc.teamcode.Subsystems.BottomGate;
 import org.firstinspires.ftc.teamcode.Subsystems.SlidesServo;
 
 /**
@@ -12,24 +16,36 @@ import org.firstinspires.ftc.teamcode.Subsystems.SlidesServo;
  */
 @TeleOp(name = "test teleop", group = "00-Teleop")
 public class TestTeleOp extends LinearOpMode {
+    private TopGate topGate;
     private OpMode opMode;
     private IntakeServo axonServo;
+    private BottomGate bottomGate;
+    private Drop drop;
     //private SlidesServo slidesServo;
     private boolean isYPressed;
     private boolean isXPressed;
     private boolean isBPressed;
 
+
     //private NewLift2 newLift2;
     public void runOpMode() throws InterruptedException {
+        drop = new Drop(this);
+        bottomGate = new BottomGate(this, drop);
         axonServo = new IntakeServo(this);
        // slidesServo = new SlidesServo(this);
         axonServo.stop();
+        topGate = new TopGate(this, drop);
+
         waitForStart();
         while (!isStopRequested()) {
             while (opModeIsActive()) {
+                drop.controlLift2();
+                drop.move(gamepad2.left_stick_y);
+                topGate.controlGate();
+                bottomGate.controlClaw();
                 if (gamepad1.y) {
                     if (!isYPressed) {
-                       axonServo.forward();
+                   axonServo.forward();
 
                     }
                     isYPressed = true;
@@ -43,13 +59,13 @@ public class TestTeleOp extends LinearOpMode {
                 }
                 if (gamepad1.b) {
                     if (!isBPressed) {
-                        axonServo.backward();
+                        //axonServo.backward();
 
                     }
                     isBPressed = true;
                 } else {
                     if (isBPressed) {
-                        axonServo.stop();
+                       // axonServo.stop();
                     }
                     telemetry.update();
                     isXPressed = false;

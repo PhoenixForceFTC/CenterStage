@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 
 public class BottomGate {
     private OpMode opMode;
-    private final double closedPos = 1;
+    private final double closedPos = 0.5;
     private final double openPos = 0;
     private Servo gate;
     private Drop dropSlides;
@@ -21,7 +21,7 @@ public class BottomGate {
 
     public BottomGate(OpMode opMode, Drop drop) {
         this.opMode = opMode;
-
+        this.dropSlides = drop;
         gate = opMode.hardwareMap.get(Servo.class, "GATE1");
         //grip.setDirection(Servo.Direction.REVERSE);
         //sensor = new ClawSensor(opMode.hardwareMap);
@@ -46,7 +46,7 @@ public class BottomGate {
     }
 
     public void setClawClosed(boolean closed) {
-        if(dropSlides.reachedTarget() && dropSlides.getPos()==0 && !closed){
+        if(dropSlides.reachedTarget() && dropSlides.getTicks()<120 && !closed){
             gate.setPosition(openPos);
         }
         else{

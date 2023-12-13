@@ -10,6 +10,7 @@ public class TopGate {
     private OpMode opMode;
     private final double closedPos = 1;
     private final double openPos = -1;
+    private final double stoppedPos = 0;
     private CRServo gate;
     private Drop dropSlides;
     //public ClawSensor sensor;
@@ -32,7 +33,12 @@ public class TopGate {
         //}
 
 
-        setGateClosed(gateClosed);
+        if(gateClosed){
+            setGateClosed();
+        }
+        else{
+            setGateOpen();
+        }
 
 
         opMode.telemetry.addData("gate open", !isClosed());
@@ -44,12 +50,15 @@ public class TopGate {
         return gateClosed;
     }
 
-    public void setGateClosed(boolean closed) {
-        if(dropSlides.reachedTarget() && dropSlides.getTicks()>200 && !closed){
+    public void setGateOpen() {
+        if(dropSlides.reachedTarget() && dropSlides.getTicks()>120){
             gate.setPower(openPos);
         }
-        else{
+    }
+    public void setGateClosed() {
             gate.setPower(closedPos);
-        }
+    }
+    public void setGateStopped() {
+        gate.setPower(stoppedPos);
     }
 }

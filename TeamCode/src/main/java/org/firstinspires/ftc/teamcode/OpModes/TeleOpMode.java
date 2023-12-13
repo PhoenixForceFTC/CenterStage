@@ -5,12 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.Subsystems.IntakeServo;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
 import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
-
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 /**
  * FTC WIRES TeleOp Example
@@ -24,7 +23,7 @@ public class TeleOpMode extends LinearOpMode {
     private OpMode opMode;
     private MecanumWheels mecanumWheels;
     private TopGate topGate;
-    private IntakeServo intakeServo;
+    private Intake intake;
 
     //    private MotorEncoder motorEncoder;
     //private IntakeServo axonServo;
@@ -54,7 +53,7 @@ public class TeleOpMode extends LinearOpMode {
         snagger= new Snagger(this);
         topGate= new TopGate(this,drop);
         mecanumWheels = new MecanumWheels(this);
-        intakeServo= new IntakeServo(this);
+        intake = new Intake(this,drop,topGate);
 //        motorEncoder = new MotorEncoder(this);
 //        planeServo = new PlaneServo(this);
         //axonServo = new IntakeServo(this);
@@ -74,25 +73,17 @@ public class TeleOpMode extends LinearOpMode {
 
                 mecanumWheels.move();
                 topGate.controlGate();
-                snagger.move(gamepad2.right_stick_y);
+                snagger.move(gamepad2.left_stick_y);
                 drop.controlLift2();
-                drop.move(gamepad2.left_stick_y);
-                if (gamepad1.y) {
-
-                    if (!isYPressed) {
-                        intakeServo.forward();
-                    }
-
-                    isYPressed = true;
-                } else {
-//
-                    if (isYPressed) {
-                        intakeServo.backward();
-
-                    }
-                    isYPressed = false;
-
+                drop.move(gamepad2.right_stick_y);
+                if(gamepad2.left_stick_button){
+                    intake.transferPixel();
+                } else if(gamepad2.left_trigger>0.2){
+                    intake.eatPixel();
+                }else{
+                    intake.stop();
                 }
+
                 telemetry.update();
             }
 

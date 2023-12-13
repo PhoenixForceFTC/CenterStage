@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 
 public class IntakeServo {
-    private LinearOpMode currentOpMode;
+    private OpMode currentOpMode;
     private CRServo cRServo1;
     private CRServo cRServo2;
     private CRServo cRServo3;
 
 
-    public IntakeServo(LinearOpMode opMode){
+    public IntakeServo(OpMode opMode){
         currentOpMode = opMode;
         cRServo1 = opMode.hardwareMap.get(CRServo.class, "CRS1");
         cRServo2 = opMode.hardwareMap.get(CRServo.class, "CRS2");

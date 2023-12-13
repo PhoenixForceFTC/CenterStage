@@ -10,7 +10,7 @@ public class Drop {
     private DcMotorEx rightLift;
     private LinearOpMode opMode;
     private TopArm arm;
-    int LIFT_POSITIONS[] = {0,600,1200,1800,100};
+    int LIFT_POSITIONS[] = {100,200,600,1200,1800};
     int liftPosition = 0;
 
     boolean dPadPressed = false;
@@ -96,29 +96,36 @@ public class Drop {
     public void controlLift2() {
         if (opMode.gamepad2.a) {
             runManually = false;
-            liftPosition = 4;
-            goToPosition(liftPosition);
-            opMode.sleep(1000);
-            liftPosition = 0;
-            goToPosition(liftPosition);
+            goToBottom();
         }
         if (opMode.gamepad2.x) {
             runManually = false;
-            liftPosition= 1;
+            liftPosition= 2;
             goToPosition(liftPosition);
 
         }
         if (opMode.gamepad2.b) {
             runManually = false;
-            liftPosition=2;
+            liftPosition=3;
             goToPosition(liftPosition);
 
         }
         if (opMode.gamepad2.y) {
             runManually = false;
-            liftPosition=3;
+            liftPosition=4;
             goToPosition(liftPosition);
         }
+
+    }
+
+    public void goToBottom() {
+        if(getTicks()>100) {
+            liftPosition = 1;
+            goToPosition(liftPosition);
+            opMode.sleep(1000);
+        }
+            liftPosition = 0;
+            goToPosition(liftPosition);
 
     }
 
@@ -149,7 +156,7 @@ public class Drop {
         if (pos == 0) {
 
             arm.goToIntakePosition();
-        } else if (pos == 4){
+        } else if (pos == 1){
             arm.goToIntermediate();
 
         }
@@ -157,7 +164,11 @@ public class Drop {
             arm.goToDropPosition();
         }
     }
-
+    public void waitUntilMoved(){
+        while(reachedTarget() == false) {
+            opMode.sleep(10);
+        }
+    }
     public boolean reachedTarget()
     {
         int diff = Math.abs(leftLift.getCurrentPosition()-leftLift.getTargetPosition());

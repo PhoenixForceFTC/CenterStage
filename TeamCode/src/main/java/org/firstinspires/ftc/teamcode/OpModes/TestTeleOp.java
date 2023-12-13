@@ -45,27 +45,27 @@ public class TestTeleOp extends LinearOpMode {
                 bottomGate.controlClaw();
                 if (gamepad1.y) {
                     if (!isYPressed) {
-                   axonServo.forward();
+
 
                     }
+                    axonServo.forward();
                     isYPressed = true;
                 } else {
                     if (isYPressed) {
-                        axonServo.stop();
+
 
                     }
+                    axonServo.stop();
                     telemetry.update();
                     isYPressed = false;
                 }
                 if (gamepad1.b) {
                     if (!isBPressed) {
-                        //axonServo.backward();
 
                     }
                     isBPressed = true;
                 } else {
                     if (isBPressed) {
-                       // axonServo.stop();
                     }
                     telemetry.update();
                     isXPressed = false;

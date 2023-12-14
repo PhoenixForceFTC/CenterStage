@@ -10,9 +10,9 @@ public class TopArm {
     private LinearOpMode currentOpMode;
     private Servo arm;
 
-    private final double dropPosition =0.3;
-    private final double intakePosition = 0.66;
-    private final double intermediate = 0.6;
+    private final double dropPosition =0.48;
+    private final double intakePosition = 0.68;
+    private final double intermediate = 0.65;
 
     public TopArm(LinearOpMode opMode){
 

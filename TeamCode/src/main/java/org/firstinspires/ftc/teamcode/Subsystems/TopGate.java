@@ -34,7 +34,7 @@ public class TopGate {
 
 
         if(gateClosed){
-            setGateClosed();
+            //setGateClosed();
         }
         else{
             setGateOpen();

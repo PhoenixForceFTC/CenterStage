@@ -18,11 +18,13 @@ public class Intake {
         bottomGate = new BottomGate(this.opMode,this.drop);
     };
     public void eatPixel(){
+        topGate.setGateStopped();
         intakeServo.forward();
         bottomGate.setClawClosed(true);
 
     }
     public void returnPixel(){
+        topGate.setGateStopped();
         intakeServo.backward();
         bottomGate.setClawClosed(true);
     }
@@ -35,6 +37,7 @@ public class Intake {
 
     }
     public void stop(){
+        topGate.setGateStopped();
         intakeServo.stop();
         bottomGate.setClawClosed(true);
     }

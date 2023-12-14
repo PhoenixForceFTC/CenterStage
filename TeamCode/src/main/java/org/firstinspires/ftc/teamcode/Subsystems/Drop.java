@@ -10,7 +10,10 @@ public class Drop {
     private DcMotorEx rightLift;
     private LinearOpMode opMode;
     private TopArm arm;
-    int LIFT_POSITIONS[] = {100,200,600,1200,1800};
+    int LIFT_POSITIONS[] = {0,100,600,1200,1800};
+                           // 0 = Arm.Intake
+                           // 1 = Arm.Intermediate
+                           // 2+ = Arm.Drop
     int liftPosition = 0;
 
     boolean dPadPressed = false;
@@ -28,6 +31,7 @@ public class Drop {
         rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         runManually = false;
         arm = new TopArm(opMode);
+
     }
 
     public void move(double magnitude){
@@ -51,6 +55,17 @@ public class Drop {
             if (runManually) {
                 leftLift.setTargetPosition(leftLift.getCurrentPosition());
                 rightLift.setTargetPosition(rightLift.getCurrentPosition());
+
+                if(getTicks()< LIFT_POSITIONS[1] - 50){
+                    arm.goToIntakePosition();
+                } else if(getTicks() < LIFT_POSITIONS[2]-50){
+                    arm.goToIntermediate();
+                    opMode.sleep(500);
+                } else{
+                    arm.goToDropPosition();
+                }
+
+
                 if (rightLift.getCurrentPosition() > 10) {
                     leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -119,10 +134,10 @@ public class Drop {
     }
 
     public void goToBottom() {
-        if(getTicks()>100) {
+        if(getTicks()>210) {
             liftPosition = 1;
             goToPosition(liftPosition);
-            opMode.sleep(1000);
+            opMode.sleep(500);
         }
             liftPosition = 0;
             goToPosition(liftPosition);
@@ -131,6 +146,17 @@ public class Drop {
 
 
     public void goToPosition(int pos) {
+        if (pos == 0) {
+
+            arm.goToIntakePosition();
+        } else if (pos == 1){
+            arm.goToIntermediate();
+            opMode.sleep(1000);
+
+        }
+        else {
+            arm.goToDropPosition();
+        }
         leftLift.setTargetPosition(LIFT_POSITIONS[pos]);
         rightLift.setTargetPosition(LIFT_POSITIONS[pos]);
         leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -153,20 +179,11 @@ public class Drop {
             leftLift.setPower(0);
             rightLift.setPower(0);
         }
-        if (pos == 0) {
 
-            arm.goToIntakePosition();
-        } else if (pos == 1){
-            arm.goToIntermediate();
-
-        }
-        else {
-            arm.goToDropPosition();
-        }
     }
     public void waitUntilMoved(){
         while(reachedTarget() == false) {
-            opMode.sleep(10);
+            opMode.sleep(100);
         }
     }
     public boolean reachedTarget()
@@ -197,6 +214,6 @@ public class Drop {
     }
     public double getTicks(){return leftLift.getCurrentPosition();}
     public void stop() {
-        liftPosition=0;
+        goToBottom();
     }
 }

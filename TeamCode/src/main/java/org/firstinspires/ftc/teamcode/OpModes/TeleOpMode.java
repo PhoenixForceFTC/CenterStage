@@ -76,7 +76,7 @@ public class TeleOpMode extends LinearOpMode {
                 snagger.move(gamepad2.left_stick_y);
                 drop.controlLift2();
                 drop.move(gamepad2.right_stick_y);
-                if(gamepad2.left_stick_button){
+                if(gamepad2.dpad_down){
                     intake.transferPixel();
                 } else if(gamepad2.left_trigger>0.2){
                     intake.eatPixel();

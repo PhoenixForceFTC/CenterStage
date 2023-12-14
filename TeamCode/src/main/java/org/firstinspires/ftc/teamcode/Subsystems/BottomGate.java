@@ -46,7 +46,7 @@ public class BottomGate {
     }
 
     public void setClawClosed(boolean closed) {
-        if(dropSlides.reachedTarget() && dropSlides.getTicks()<120 && !closed){
+        if(dropSlides.reachedTarget() && dropSlides.getTicks()<20 && !closed){
             gate.setPosition(openPos);
         }
         else{

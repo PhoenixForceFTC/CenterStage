@@ -9,12 +9,13 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstra
 import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Subsystems.CameraVision;
-import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.ElbowArm;
-import org.firstinspires.ftc.teamcode.Subsystems.Lights;
-import org.firstinspires.ftc.teamcode.Subsystems.NewLift;
+
+import org.firstinspires.ftc.teamcode.Subsystems.Drop;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
+import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -23,11 +24,11 @@ import java.util.Arrays;
 public abstract class AutoOpMode extends LinearOpMode {
 
     public SampleMecanumDrive drive;
-    public NewLift lift;
-    public ElbowArm elbowArm;
-    public Claw claw;
-    public CameraVision camera;
-    public Lights lights;
+    private TopGate topGate;
+    private Intake intake;
+
+    private Drop drop;
+    private Snagger snagger;
 
     private Speed speed = Speed.FAST;
 
@@ -76,16 +77,12 @@ public abstract class AutoOpMode extends LinearOpMode {
 
     public void setup() {
         drive = new SampleMecanumDrive(hardwareMap);
-        camera = new CameraVision(this);
-        lift = new NewLift(this);
-        elbowArm = new ElbowArm(this);
-        claw = new Claw(this);
-        lights = new Lights(this);
-
-        camera.listener(); //replaces waitForStart
-
+        drop = new Drop(this);
+        snagger= new Snagger(this);
+        topGate= new TopGate(this,drop);
+        intake = new Intake(this,drop,topGate);
         while(!isStarted() && !isStopRequested()){
-            camera.detection();
+//            camera.detection();
         }
 
         if (isStopRequested()) return;

@@ -29,7 +29,7 @@ public class TopGate {
 
     public void controlGate() {
         //if(dropSlides.reachedTarget() && dropSlides.getTicks()>200) {
-            gateClosed = !opMode.gamepad2.left_bumper;
+            gateClosed = !opMode.gamepad2.right_bumper;
         //}
 
 

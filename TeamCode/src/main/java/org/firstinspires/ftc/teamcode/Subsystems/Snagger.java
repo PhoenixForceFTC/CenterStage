@@ -47,7 +47,7 @@ public class Snagger {
             leftLift.setPower(0);
             rightLift.setPower(0);
         }
-        currentOpMode.telemetry.addData("slide power", magnitude);
+        currentOpMode.telemetry.addData("Snagger slide power", magnitude);
     }
 
     public void moveLevels(boolean upPressed, boolean downPressed){
@@ -109,27 +109,7 @@ public class Snagger {
         rightLift.setTargetPosition(rightLift.getCurrentPosition());
     }
 
-    /*public void moveToTop(boolean upPressed, boolean downPressed){
-        if (upPressed && !stateOfUp) {
-            slide.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-            slide.setTargetPosition(1300);
-            stateOfUp = true;
-            stateOfDown = false;
-            slide.setPower(1);
-            slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while(slide.isBusy()){}
-        }
 
-        if (downPressed && !stateOfDown) {
-            slide.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-            slide.setTargetPosition(0);
-            stateOfDown = true;
-            stateOfUp = false;
-            slide.setPower(1);
-            slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while(slide.isBusy()){}
-        }
-    }*/
 
     public enum Level {
         LOW,

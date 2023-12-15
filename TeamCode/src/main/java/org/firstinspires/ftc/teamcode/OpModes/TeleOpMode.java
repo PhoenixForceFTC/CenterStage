@@ -30,12 +30,6 @@ public class TeleOpMode extends LinearOpMode {
     private boolean isYPressed;
     private Drop drop;
     private Snagger snagger;
-    public int returnDrop(){
-        return drop.getPos();
-    }
-    public boolean reached(){
-        return drop.reachedTarget();
-    }
     // @Override
 
     /*
@@ -54,16 +48,8 @@ public class TeleOpMode extends LinearOpMode {
         topGate= new TopGate(this,drop);
         mecanumWheels = new MecanumWheels(this);
         intake = new Intake(this,drop,topGate);
-//        motorEncoder = new MotorEncoder(this);
-//        planeServo = new PlaneServo(this);
-        //axonServo = new IntakeServo(this);
 
-//        claw = new Claw(this);
-//        flip = new Flip(this);
-        //   sensor = new ClawSensor(this.hardwareMap);
         waitForStart();
-        //elbowArm.resetPosition();
-//        flip.setClawClosed(false);
 
 
         while (!isStopRequested()) {
@@ -76,12 +62,19 @@ public class TeleOpMode extends LinearOpMode {
                 snagger.move(gamepad2.left_stick_y);
                 drop.controlLift2();
                 drop.move(gamepad2.right_stick_y);
+
                 if(gamepad2.dpad_down){
                     intake.transferPixel();
+                } else if(gamepad2.dpad_up){
+                    intake.returnPixel();
                 } else if(gamepad2.left_trigger>0.2){
                     intake.eatPixel();
                 }else{
                     intake.stop();
+                }
+
+                if(gamepad2.right_stick_button){
+                    drop.resetPosition();
                 }
 
                 telemetry.update();
@@ -90,6 +83,7 @@ public class TeleOpMode extends LinearOpMode {
             mecanumWheels.stop();
           drop.stop();
           snagger.stop();
+          intake.stop();
         }
     }
 }

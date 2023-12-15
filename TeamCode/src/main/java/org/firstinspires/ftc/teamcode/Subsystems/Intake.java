@@ -18,25 +18,27 @@ public class Intake {
         bottomGate = new BottomGate(this.opMode,this.drop);
     };
     public void eatPixel(){
+        opMode.telemetry.addLine("Eating Pixel");
         topGate.setGateStopped();
         intakeServo.forward();
         bottomGate.setClawClosed(true);
 
     }
     public void returnPixel(){
+        opMode.telemetry.addLine("Returning Pixel");
         topGate.setGateStopped();
         intakeServo.backward();
         bottomGate.setClawClosed(true);
     }
     public void transferPixel(){
-        drop.goToBottom();
-        drop.waitUntilMoved();
+        opMode.telemetry.addLine("Transferring Pixel");
         intakeServo.forward();
         bottomGate.setClawClosed(false);
         topGate.setGateClosed();
 
     }
     public void stop(){
+        opMode.telemetry.addLine("Intake is stopped");
         topGate.setGateStopped();
         intakeServo.stop();
         bottomGate.setClawClosed(true);

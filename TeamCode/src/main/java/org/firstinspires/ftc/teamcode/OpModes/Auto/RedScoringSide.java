@@ -6,10 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Config
 @Autonomous(group="!CompOpModes")
 public class RedScoringSide extends AutoOpMode {
-    public static Position START = new Position(7.5, -63.375, 90);
+    public static Position START = new Position(12, -63.375, 90);
     public static Position START_CENTER = new Position(12,-60,90);
-    public static Position SPIKE_LEFT = new Position(12, -36, 135);
-    public static Position SPIKE_LEFT_BACKUP = new Position(12, -44, 135);
+    public static Position SPIKE_LEFT = new Position(12, -36, 90);
+
+    public static Position SPIKE_LEFT_TURN = new Position(12, -36, 165);
+    public static Position SPIKE_LEFT_BACKUP = new Position(12, -44, 165);
     public static Position SPIKE_LEFT_ADJUST_HEADING = new Position(12, -44, 90);
     public static Position SPIKE_CENTER = new Position(12, -36, 90);
     public static Position SPIKE_CENTER_BACKUP = new Position(12, -44, 90);
@@ -18,15 +20,27 @@ public class RedScoringSide extends AutoOpMode {
     public static Position SPIKE_RIGHT = new Position(25, -44.625, 90);
     public static Position SPIKE_RIGHT_BACKUP = new Position(25, -52, 90);
 
+    public static Position AFTER_SPIKE_POSITION = new Position(24, -52, 90);
 
+    public static Position AFTER_SPIKE_TURN = new Position(24, -52, 180);
 
-    public static Position DROP_START_INTERMEDIATE = new Position(36, -60, 180);
+    public static Position DROP_START_INTERMEDIATE = new Position(44, -52, 180);
 
     public static Position DROP_PARK_INTERMEDIATE = new Position(44, -60, 180);
-    public static Position DROP_POSITION = new Position(44, -40, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD = new Position(52, -40, 180);
-    public static Position DROP_POSITION_BACKUP_BOARD = new Position(44, -40, 180);
+    public static Position DROP_POSITION = new Position(44, -36, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD = new Position(52, -36, 180);
+    public static Position DROP_POSITION_BACKUP_BOARD = new Position(44, -36, 180);
 
+
+    public static Position DROP_POSITION_L = new Position(44, -28, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(52, -28, 180);
+    public static Position DROP_POSITION_BACKUP_BOARD_L = new Position(44, -28, 180);
+
+
+
+    public static Position DROP_POSITION_R = new Position(44, -44, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(52, -44, 180);
+    public static Position DROP_POSITION_BACKUP_BOARD_R = new Position(44, -44, 180);
 
     public static Position PARK_POSITION = new Position(60, -60, 180);
 
@@ -34,9 +48,10 @@ public class RedScoringSide extends AutoOpMode {
     public void runOpMode() {
         setup();
         setStartPosition(START);
-        switch (3) {   // camer detection value goes herre
+        switch (1) {   // camer detection value goes herre
             case 1:
                 goTo(SPIKE_LEFT);
+                goTo(SPIKE_LEFT_TURN);
                 intake.returnPixel();
                 sleep(2000);
                 goTo(SPIKE_LEFT_BACKUP);
@@ -61,18 +76,52 @@ public class RedScoringSide extends AutoOpMode {
     }
     public void coneDrop(int casee) {
         intake.stop();
-        goTo(START_CENTER);
+        goTo(AFTER_SPIKE_POSITION);
+        goTo(AFTER_SPIKE_TURN);
         goTo(DROP_START_INTERMEDIATE);
-        goTo(DROP_POSITION);
-        drop.goToPosition(3);
-        setSpeed(Speed.SLOW);
-        goTo(DROP_POSITION_TOUCH_BOARD);
-        sleep(1000);
-        topGate.setGateOpen();
-        telemetry.update();
-        sleep(1000);
-        topGate.setGateStopped();
-        goTo(DROP_POSITION_BACKUP_BOARD);
+
+
+
+        if(casee==1){
+            goTo(DROP_POSITION_L);
+            drop.goToPosition(2);
+            setSpeed(Speed.SLOW);
+            goTo(DROP_POSITION_TOUCH_BOARD_L);
+            sleep(1000);
+            topGate.setGateOpen();
+            telemetry.update();
+            sleep(1000);
+            topGate.setGateStopped();
+            goTo(DROP_POSITION_BACKUP_BOARD_L);
+        }
+        if(casee==2){
+            goTo(DROP_POSITION);
+            drop.goToPosition(2);
+            setSpeed(Speed.SLOW);
+            goTo(DROP_POSITION_TOUCH_BOARD);
+            sleep(1000);
+            topGate.setGateOpen();
+            telemetry.update();
+            sleep(1000);
+            topGate.setGateStopped();
+            goTo(DROP_POSITION_BACKUP_BOARD);
+        }
+        if(casee==3){
+            goTo(DROP_POSITION_R);
+            drop.goToPosition(2);
+            setSpeed(Speed.SLOW);
+            goTo(DROP_POSITION_TOUCH_BOARD_R);
+            sleep(1000);
+            topGate.setGateOpen();
+            telemetry.update();
+            sleep(1000);
+            topGate.setGateStopped();
+            goTo(DROP_POSITION_BACKUP_BOARD_R);
+        }
+
+
+
+
         setSpeed(Speed.MEDIUM);
         drop.goToBottom();
         sleep(1000);

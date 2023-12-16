@@ -17,6 +17,7 @@ public class Drop {
     int liftPosition = 0;
 
     boolean dPadPressed = false;
+    private boolean prePressed = false;
     private boolean runManually = false;
 
     public Drop(LinearOpMode opMode){
@@ -29,58 +30,33 @@ public class Drop {
         rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         leftLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         runManually = false;
         arm = new TopArm(opMode);
 
     }
 
     public void move(double magnitude){
+        if(!runManually){
+            leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        }
+        runManually=true;
         if (magnitude > 0.2 || magnitude < -0.2) {
-            leftLift.setTargetPosition(leftLift.getCurrentPosition()+(int)(100*magnitude));
-            rightLift.setTargetPosition(rightLift.getCurrentPosition()+(int)(100*magnitude));
-            leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
             opMode.telemetry.addLine("Drop is in manual modde");
             leftLift.setPower(magnitude);
             rightLift.setPower(magnitude);
-            /*stateOfDown = false;
-            stateOfUp = false;*/
-            runManually = true;
-
+        }else{
+            leftLift.setPower(0);
+            rightLift.setPower(0);
         }
-        else
-        {
-            if (runManually) {
-                leftLift.setTargetPosition(leftLift.getCurrentPosition());
-                rightLift.setTargetPosition(rightLift.getCurrentPosition());
-
-                if(getTicks()< LIFT_POSITIONS[1] - 50){
-                    arm.goToIntakePosition();
-                } else if(getTicks() < LIFT_POSITIONS[2]-50){
+        if(opMode.gamepad2.right_trigger>0.4){
                     arm.goToIntermediate();
-                    opMode.sleep(500);
                 } else{
                     arm.goToDropPosition();
                 }
-
-
-                if (rightLift.getCurrentPosition() > 20) {
-                    leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    leftLift.setPower(1.0);
-                    rightLift.setPower(1.0);
-                } else {
-                    leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    leftLift.setPower(0);
-                    rightLift.setPower(0);
-                }
-            }
-        }
-        opMode.telemetry.addData("Drop manual slide power", magnitude);
-        opMode.telemetry.addData("Drop manual encoder pos", leftLift.getCurrentPosition());
     }
 
     public void liftSleep(){
@@ -90,6 +66,7 @@ public class Drop {
         }
     }
     public void controlLift(boolean canLift) {
+
         if (opMode.gamepad2.right_bumper) {
             if (liftPosition < LIFT_POSITIONS.length - 1 && !dPadPressed && canLift) {
                 liftPosition++;
@@ -108,7 +85,17 @@ public class Drop {
 
         goToPosition(liftPosition);
     }
+    public void resetEncoders(){
+        leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        leftLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+    }
     public void controlLift2() {
+        if(runManually){
+            resetEncoders();
+        }
+
         if (opMode.gamepad2.a) {
             runManually = false;
             goToBottom();

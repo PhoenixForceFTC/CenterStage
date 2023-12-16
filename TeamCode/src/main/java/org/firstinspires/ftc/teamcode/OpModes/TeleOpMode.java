@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
 import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 
 /**
  * FTC WIRES TeleOp Example
@@ -29,7 +30,8 @@ public class TeleOpMode extends LinearOpMode {
 
     //    private MotorEncoder motorEncoder;
     //private IntakeServo axonServo;
-    private boolean isYPressed;
+    private boolean isBPressed;
+    private ButtonToggle manualMode = new ButtonToggle(false);
     private Drop drop;
     private Snagger snagger;
     // @Override
@@ -66,6 +68,9 @@ public class TeleOpMode extends LinearOpMode {
 
 
 
+
+
+
                 if(gamepad1.left_trigger > 0.5 && gamepad1.right_trigger > 0.5 && gamepad1.left_bumper && gamepad1.right_bumper)
                 {
                     planeServo.GoToPosition((float)0.2);
@@ -73,10 +78,14 @@ public class TeleOpMode extends LinearOpMode {
                 else{
                     planeServo.GoToPosition(0);
                 }
+                
+                manualMode.update(gamepad2.options);
+                if(manualMode.isActive()){
+                    drop.move(gamepad2.right_stick_y);
+                }else{
+                    drop.controlLift2();
+                }
 
-                drop.controlLift2();
-
-                //drop.move(gamepad2.right_stick_y);
 
                 if(gamepad2.dpad_down){
                     intake.transferPixel();

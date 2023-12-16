@@ -24,13 +24,13 @@ import java.util.Arrays;
 public abstract class AutoOpMode extends LinearOpMode {
 
     public SampleMecanumDrive drive;
-    private TopGate topGate;
-    private Intake intake;
+    public TopGate topGate;
+    public Intake intake;
 
-    private Drop drop;
-    private Snagger snagger;
+    public Drop drop;
+    public Snagger snagger;
 
-    private Speed speed = Speed.FAST;
+    public Speed speed = Speed.FAST;
 
     private final ProfileAccelerationConstraint accelConstraint =
             new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL);

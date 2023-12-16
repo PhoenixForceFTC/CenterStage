@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
+import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
 import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 public class TeleOpMode extends LinearOpMode {
     private OpMode opMode;
+    private PlaneServo planeServo;
     private MecanumWheels mecanumWheels;
     private TopGate topGate;
     private Intake intake;
@@ -48,6 +50,7 @@ public class TeleOpMode extends LinearOpMode {
         topGate= new TopGate(this,drop);
         mecanumWheels = new MecanumWheels(this);
         intake = new Intake(this,drop,topGate);
+        planeServo = new PlaneServo(this);
 
         waitForStart();
 
@@ -60,8 +63,20 @@ public class TeleOpMode extends LinearOpMode {
                 mecanumWheels.move();
                 topGate.controlGate();
                 snagger.move(gamepad2.left_stick_y);
+
+
+
+                if(gamepad1.left_trigger > 0.5 && gamepad1.right_trigger > 0.5 && gamepad1.left_bumper && gamepad1.right_bumper)
+                {
+                    planeServo.GoToPosition((float)0.2);
+                }
+                else{
+                    planeServo.GoToPosition(0);
+                }
+
                 drop.controlLift2();
-                drop.move(gamepad2.right_stick_y);
+
+                //drop.move(gamepad2.right_stick_y);
 
                 if(gamepad2.dpad_down){
                     intake.transferPixel();

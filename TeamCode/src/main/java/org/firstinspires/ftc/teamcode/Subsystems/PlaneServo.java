@@ -10,7 +10,7 @@ public class PlaneServo {
     private Servo rollServo;
     public PlaneServo (LinearOpMode opMode){
         currentOpMode = opMode;
-        rollServo = opMode.hardwareMap.get(Servo.class, "S1");
+        rollServo = opMode.hardwareMap.get(Servo.class, "AIR");
     }
 
     public void GoToPosition (float position){

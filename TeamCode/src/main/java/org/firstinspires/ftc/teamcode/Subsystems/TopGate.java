@@ -51,14 +51,19 @@ public class TopGate {
     }
 
     public void setGateOpen() {
-        if(dropSlides.reachedTarget() && dropSlides.getTicks()>120){
+        if(dropSlides.getTicks()>120){
             gate.setPower(openPos);
+            opMode.telemetry.addLine("ran gate");
         }
+        opMode.telemetry.addData("Opening Top Gate", String.valueOf(openPos));
+        opMode.telemetry.addData(" Ticks",dropSlides.getTicks());
     }
     public void setGateClosed() {
-            gate.setPower(closedPos);
+        gate.setPower(closedPos);
+        opMode.telemetry.addLine("Closing Top Gate");
     }
     public void setGateStopped() {
         gate.setPower(stoppedPos);
+        opMode.telemetry.addLine("Stopping Top Gate");
     }
 }

@@ -66,7 +66,7 @@ public class Drop {
                 }
 
 
-                if (rightLift.getCurrentPosition() > 10) {
+                if (rightLift.getCurrentPosition() > 20) {
                     leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     leftLift.setPower(1.0);
@@ -167,12 +167,13 @@ public class Drop {
         if (setToBottom) {
             leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
         } else {
             leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        if (rightLift.getCurrentPosition() > 10 || !setToBottom) {
+        if (rightLift.getCurrentPosition() > 20 || !setToBottom) {
             leftLift.setPower(1.0);
             rightLift.setPower(1.0);
         } else {

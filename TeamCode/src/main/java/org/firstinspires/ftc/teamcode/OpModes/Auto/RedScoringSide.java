@@ -3,9 +3,13 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Vision;
+
 @Config
 @Autonomous(group="!CompOpModes")
 public class RedScoringSide extends AutoOpMode {
+    private Vision vision;
+    private Vision.IDENTIFIED_SPIKE_MARK_LOCATION spikeLocation;
     public static Position START = new Position(12, -63.375, 90);
     public static Position START_CENTER = new Position(12,-60,90);
     public static Position SPIKE_LEFT = new Position(12, -36, 90);
@@ -46,10 +50,24 @@ public class RedScoringSide extends AutoOpMode {
 
     @Override
     public void runOpMode() {
+        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision.initTfod();
+
+
+
+        while (!isStopRequested() && !opModeIsActive()) {
+
+            //Run Vuforia Tensor Flow and keep watching for the identifier in the Signal Cone.
+            vision.runTfodTensorFlow();
+            telemetry.addData("Vision identified Parking Location", vision.getPixelLocation());
+            telemetry.update();
+        }
+        spikeLocation = vision.getPixelLocation();
+        //vision.Stop();
         setup();
         setStartPosition(START);
-        switch (1) {   // camer detection value goes herre
-            case 1:
+        switch (spikeLocation) {   // camer detection value goes herre
+            case LEFT:
                 goTo(SPIKE_LEFT);
                 goTo(SPIKE_LEFT_TURN);
                 intake.returnPixel();
@@ -59,14 +77,14 @@ public class RedScoringSide extends AutoOpMode {
                 coneDrop(1);
 
                 break;
-            case 2:
+            case MIDDLE:
                 goTo(SPIKE_CENTER);
                 intake.returnPixel();
                 sleep(2000);
                 goTo(SPIKE_CENTER_BACKUP);
                 coneDrop(2);
                 break;
-            case 3:
+            case RIGHT:
                 goTo(SPIKE_RIGHT);
                 intake.returnPixel();
                 sleep(2000);

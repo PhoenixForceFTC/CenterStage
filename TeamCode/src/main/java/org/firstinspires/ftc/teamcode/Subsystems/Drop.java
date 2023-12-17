@@ -10,7 +10,7 @@ public class Drop {
     private DcMotorEx rightLift;
     private LinearOpMode opMode;
     private TopArm arm;
-    int LIFT_POSITIONS[] = {0,100,600,1200,1800};
+    int LIFT_POSITIONS[] = {0,100,700,1400,2100};
                            // 0 = Arm.Intake
                            // 1 = Arm.Intermediate
                            // 2+ = Arm.Drop

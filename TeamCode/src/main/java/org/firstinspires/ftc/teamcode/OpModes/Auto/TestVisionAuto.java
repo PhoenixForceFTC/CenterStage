@@ -39,6 +39,7 @@ public class TestVisionAuto extends LinearOpMode {
             vision.runTfodTensorFlow();
             telemetry.addData("Vision identified Parking Location", vision.getPixelLocation());
             telemetry.update();
+
         }
         vision.Stop();
         while (!isStopRequested()) {

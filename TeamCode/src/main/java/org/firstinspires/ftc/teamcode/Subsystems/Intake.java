@@ -30,6 +30,12 @@ public class Intake {
         intakeServo.backward();
         bottomGate.setClawClosed(true);
     }
+    public void returnPixelTeleOpMode(){
+        opMode.telemetry.addLine("Returning Pixel");
+        topGate.setGateStopped();
+        intakeServo.backward2();
+        bottomGate.setClawClosed(true);
+    }
     public void transferPixel(){
         opMode.telemetry.addLine("Transferring Pixel");
         intakeServo.forward();

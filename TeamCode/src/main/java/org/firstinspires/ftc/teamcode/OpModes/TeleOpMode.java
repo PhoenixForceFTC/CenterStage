@@ -90,7 +90,7 @@ public class TeleOpMode extends LinearOpMode {
                 if(gamepad2.dpad_down){
                     intake.transferPixel();
                 } else if(gamepad2.dpad_up){
-                    intake.returnPixel();
+                    intake.returnPixelTeleOpMode();
                 } else if(gamepad2.left_trigger>0.2){
                     intake.eatPixel();
                 }else{

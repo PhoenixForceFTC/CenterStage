@@ -21,8 +21,8 @@ public class BlueScoringSide extends AutoOpMode {
     public static Position SPIKE_CENTER_BACKUP = new Position(12, 44, 270);
 
 
-    public static Position SPIKE_LEFT = new Position(25, 44.625, 270);
-    public static Position SPIKE_LEFT_BACKUP = new Position(25, 52, 270);
+    public static Position SPIKE_LEFT = new Position(23, 44.625, 270);
+    public static Position SPIKE_LEFT_BACKUP = new Position(23, 52, 270);
 
     public static Position AFTER_SPIKE_POSITION = new Position(24, 52, 270);
 
@@ -56,7 +56,6 @@ public class BlueScoringSide extends AutoOpMode {
 
 
         while (!isStopRequested() && !opModeIsActive()) {
-
             //Run Vuforia Tensor Flow and keep watching for the identifier in the Signal Cone.
             vision.runTfodTensorFlow();
             telemetry.addData("Vision identified Parking Location", vision.getPixelLocation());

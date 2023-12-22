@@ -29,5 +29,6 @@ public class IntakeServo {
     }
     public void forward(){setPower(1);}
     public void backward(){setPower(-0.4);}
+    public void backward2(){setPower(-1);}
     public void stop(){setPower(0);}
 }

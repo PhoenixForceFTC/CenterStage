@@ -134,7 +134,6 @@ public class Drop {
 
     public void goToPosition(int pos) {
         if (pos == 0) {
-
             arm.goToIntakePosition();
         } else if (pos == 1){
             arm.goToIntermediate();
@@ -149,9 +148,9 @@ public class Drop {
         leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-        boolean setToBottom = LIFT_POSITIONS[pos] == 0;
+        boolean setToBottom = pos == 0;
 
-        if (setToBottom) {
+        if (setToBottom || rightLift.getCurrentPosition()<20) {
             leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 

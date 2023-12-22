@@ -130,6 +130,9 @@ public class Drop {
             goToPosition(liftPosition);
 
     }
+    public void transfer(){
+        arm.goToTransfer();
+    }
 
 
     public void goToPosition(int pos) {

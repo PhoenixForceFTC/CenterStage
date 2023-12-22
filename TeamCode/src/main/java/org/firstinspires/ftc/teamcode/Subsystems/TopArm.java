@@ -12,6 +12,7 @@ public class TopArm {
 
     private final double dropPosition =0.4;
     private final double intakePosition = 0.68;
+    private final double transferPosition = 0.69;
     private final double intermediate = 0.65;
 
     public TopArm(LinearOpMode opMode){
@@ -36,5 +37,9 @@ public class TopArm {
     public void goToIntermediate(){
         setPosition(intermediate);
         currentOpMode.telemetry.addData("TopArm: Going to intake position", intermediate);
+    }
+    public void goToTransfer(){
+        setPosition(transferPosition);
+        currentOpMode.telemetry.addData("TopArm: Going to intake position", transferPosition);
     }
 }

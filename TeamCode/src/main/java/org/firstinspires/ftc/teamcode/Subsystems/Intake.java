@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 public class Intake {
     private IntakeServo intakeServo;
     private BottomGate bottomGate;
-    private OpMode opMode;
+    private LinearOpMode opMode;
     private Drop drop;
 
     private TopGate topGate;
 
-    public Intake(OpMode opMode,Drop drop,TopGate topGate){
+    public Intake(LinearOpMode opMode, Drop drop, TopGate topGate){
         this.opMode = opMode;
         intakeServo = new IntakeServo(this.opMode);
         this.drop = drop;
@@ -37,11 +38,12 @@ public class Intake {
         bottomGate.setClawClosed(true);
     }
     public void transferPixel(){
-        opMode.telemetry.addLine("Transferring Pixel");
-        intakeServo.forward();
         bottomGate.setClawClosed(false);
+        opMode.sleep(100);
+        drop.transfer();
+        opMode.telemetry.addLine("Transferring Pixel");
+        intakeServo.transfer();
         topGate.setGateClosed();
-
     }
     public void stop(){
         opMode.telemetry.addLine("Intake is stopped");

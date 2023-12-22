@@ -27,7 +27,14 @@ public class IntakeServo {
         cRServo3.setPower(position);
         currentOpMode.telemetry.addData("Intake Servo Power:",position);
     }
+    public void setPower2(double position){
+        cRServo1.setPower(-position);
+        cRServo2.setPower(position);
+        cRServo3.setPower(position);
+        currentOpMode.telemetry.addData("Intake Servo Power:",position);
+    }
     public void forward(){setPower(1);}
+    public void transfer(){setPower2(1);}
     public void backward(){setPower(-0.4);}
     public void backward2(){setPower(-1);}
     public void stop(){setPower(0);}

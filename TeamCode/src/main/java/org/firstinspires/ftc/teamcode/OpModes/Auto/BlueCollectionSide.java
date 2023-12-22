@@ -13,10 +13,10 @@ public class BlueCollectionSide extends AutoOpMode {
     public static Position START = new Position(-36, 63.375, 270);
     public static Position SPIKE_POSITION_R = new Position(-49, 44.625, 270);
     public static Position SPIKE_POSITION_R_BACKUP = new Position(-49, 52, 270);
-    public static Position LEFT_WALL = new Position(-58, 52, 90);
+    public static Position LEFT_WALL = new Position(-58, 52, 270);
     public static Position LEFT_WALL_COLLECTION_INTERMEDIATE = new Position(-58, 12, 270);
     public static Position COLLECTION_SIDE = new Position(-54, 12, 270);
-    public static Position COLLECTION_SIDE_TURN =  new Position(-55, 12, 180);
+    public static Position COLLECTION_SIDE_TURN =  new Position(-54, 12, 180);
     public static Position DROP_SIDE =  new Position(44, 12, 180);
     public static Position SPIKE_CENTER = new Position(-36, 36, 270);
     public static Position SPIKE_CENTER_BACKUP = new Position(-36, 44, 270);

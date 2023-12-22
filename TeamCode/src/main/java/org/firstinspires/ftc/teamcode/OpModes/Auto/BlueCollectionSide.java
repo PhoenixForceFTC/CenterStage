@@ -52,8 +52,6 @@ public class BlueCollectionSide extends AutoOpMode {
         vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
         vision.initTfod();
 
-
-
         while (!isStopRequested() && !opModeIsActive()) {
 
             //Run Vuforia Tensor Flow and keep watching for the identifier in the Signal Cone.
@@ -101,7 +99,7 @@ public class BlueCollectionSide extends AutoOpMode {
         goTo(DROP_SIDE);
         setSpeed(Speed.MEDIUM);
         if(casee==3){
-            goTo(DROP_POSITION_L);
+            goTo(DROP_POSITION_R);
             drop.goToPosition(2);
             setSpeed(Speed.SLOW);
             goTo(DROP_POSITION_TOUCH_BOARD_R);
@@ -136,16 +134,11 @@ public class BlueCollectionSide extends AutoOpMode {
             topGate.setGateStopped();
             goTo(DROP_POSITION_BACKUP_BOARD_L);
         }
-
-
-
-
         setSpeed(Speed.MEDIUM);
         drop.goToBottom();
         sleep(1000);
         goTo(DROP_PARK_INTERMEDIATE);
         goTo(PARK_POSITION);
         sleep(10000);
-
     }
 }

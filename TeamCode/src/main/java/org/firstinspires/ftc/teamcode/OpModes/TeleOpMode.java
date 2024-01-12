@@ -73,7 +73,7 @@ public class TeleOpMode extends LinearOpMode {
 
                 if(gamepad1.left_trigger > 0.5 && gamepad1.right_trigger > 0.5 && gamepad1.left_bumper && gamepad1.right_bumper)
                 {
-                    planeServo.GoToPosition((float)0.02);
+                    planeServo.GoToPosition((float)0.13);
                 }
                 else{
                     planeServo.GoToPosition(0);

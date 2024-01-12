@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class Snagger {
     private DcMotorEx leftLift;
     private DcMotorEx rightLift;
@@ -14,6 +16,8 @@ public class Snagger {
     boolean stateOfDown;*/
 
     private double power = 0.8;
+    private double powerMultiplierL;
+    private double powerMultiplierR;
     private int highPos = 500;
     private int lowPos = 0;
     private Level where = Level.LOW;
@@ -35,8 +39,19 @@ public class Snagger {
             leftLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
             rightLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
             currentOpMode.telemetry.addLine("in move");
-            leftLift.setPower(magnitude);
-            rightLift.setPower(magnitude);
+            if(leftLift.getCurrent(CurrentUnit.AMPS)>5){
+                powerMultiplierL=5*(1/leftLift.getCurrent(CurrentUnit.AMPS));
+            }else{
+                powerMultiplierR=1;
+            }
+            if(rightLift.getCurrent(CurrentUnit.AMPS)>5){
+                powerMultiplierR=5*(1/rightLift.getCurrent(CurrentUnit.AMPS));
+            }else{
+                powerMultiplierR=1;
+            }
+
+            leftLift.setPower(magnitude*powerMultiplierL);
+            rightLift.setPower(magnitude*powerMultiplierR);
             where = Level.NOWHERE;
             /*stateOfDown = false;
             stateOfUp = false;*/
@@ -48,6 +63,9 @@ public class Snagger {
             rightLift.setPower(0);
         }
         currentOpMode.telemetry.addData("Snagger slide power", magnitude);
+
+        currentOpMode.telemetry.addData("Snagger slide amps", "left lift:"+leftLift.getCurrent(CurrentUnit.AMPS));
+        currentOpMode.telemetry.addData("Snagger slide amps", "right lift"+rightLift.getCurrent(CurrentUnit.AMPS));
     }
 
     public void moveLevels(boolean upPressed, boolean downPressed){

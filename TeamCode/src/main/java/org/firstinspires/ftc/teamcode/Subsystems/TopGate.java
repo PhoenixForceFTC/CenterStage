@@ -51,7 +51,7 @@ public class TopGate {
     }
 
     public void setGateOpen() {
-        if(dropSlides.getTicks()>120){
+        if(dropSlides.getTicks()>200){
             gate.setPower(openPos);
             opMode.telemetry.addLine("ran gate");
         }

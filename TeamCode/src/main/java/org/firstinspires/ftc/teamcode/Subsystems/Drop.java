@@ -1,13 +1,26 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 
 
 public class Drop {
     private DcMotorEx leftLift;
     private DcMotorEx rightLift;
+
+
+    private double powerMultiplierL;
+    private double powerMultiplierR;
     private LinearOpMode opMode;
     private TopArm arm;
     int LIFT_POSITIONS[] = {0,100,700,1400,2100};
@@ -19,7 +32,7 @@ public class Drop {
     boolean dPadPressed = false;
     private boolean prePressed = false;
     private boolean runManually = false;
-
+    private final int safetyRange = 100;
     public Drop(LinearOpMode opMode){
         this.opMode = opMode;
         leftLift = this.opMode.hardwareMap.get(DcMotorEx.class, "LD");
@@ -59,12 +72,7 @@ public class Drop {
                 }
     }
 
-    public void liftSleep(){
 
-        while (leftLift.isBusy()) {
-            opMode.sleep(100);
-        }
-    }
     public void controlLift(boolean canLift) {
 
         if (opMode.gamepad2.right_bumper) {
@@ -117,19 +125,30 @@ public class Drop {
             liftPosition=4;
             goToPosition(liftPosition);
         }
-
+        opMode.telemetry.addData("Drop slide amps", "left lift:"+leftLift.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("Drop slide amps", "right lift"+rightLift.getCurrent(CurrentUnit.AMPS));
+        opMode.telemetry.addData("Drop slide position", "left lift:"+leftLift.getCurrentPosition());
+        opMode.telemetry.addData("Drop slide position", "right lift"+rightLift.getCurrentPosition());
     }
 
+    private void goToBottomSecondPart() {
+    }
     public void goToBottom() {
-        if(getTicks()>210) {
+
+        Runnable myMethodWrapper = this::goToBottomSecondPart;
+
+        if(getTicks()>LIFT_POSITIONS[1]+safetyRange) {
             liftPosition = 1;
             goToPosition(liftPosition);
-            opMode.sleep(500);
-        }
+            opMode.sleep();
             liftPosition = 0;
             goToPosition(liftPosition);
+        }
 
     }
+
+
+
     public void transfer(){
         arm.goToTransfer();
     }
@@ -153,7 +172,7 @@ public class Drop {
 
         boolean setToBottom = pos == 0;
 
-        if (setToBottom || rightLift.getCurrentPosition()<20) {
+        if (setToBottom || rightLift.getCurrentPosition()<100) {
             leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
@@ -162,20 +181,32 @@ public class Drop {
             rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        if (rightLift.getCurrentPosition() > 20 || !setToBottom) {
+        if (rightLift.getCurrentPosition() > 100 || !setToBottom) {
+
+            if(leftLift.getCurrent(CurrentUnit.AMPS)>5){
+                powerMultiplierL=5*(1/leftLift.getCurrent(CurrentUnit.AMPS));
+            }else{
+                powerMultiplierL=1;
+            }
+            if(rightLift.getCurrent(CurrentUnit.AMPS)>5){
+                powerMultiplierR=5*(1/rightLift.getCurrent(CurrentUnit.AMPS));
+            }else{
+                powerMultiplierR=1;
+            }
+
             leftLift.setPower(1.0);
             rightLift.setPower(1.0);
         } else {
             leftLift.setPower(0);
             rightLift.setPower(0);
+
+        }
+        if(setToBottom && leftLift.getCurrent(CurrentUnit.AMPS)>5&&rightLift.getCurrentPosition()<200){
+            resetPosition();
         }
 
     }
-    public void waitUntilMoved(){
-        while(reachedTarget() == false) {
-            opMode.sleep(100);
-        }
-    }
+
     public boolean reachedTarget()
     {
         int diff = Math.abs(leftLift.getCurrentPosition()-leftLift.getTargetPosition());
@@ -210,4 +241,5 @@ public class Drop {
     public void stop() {
         goToBottom();
     }
+
 }

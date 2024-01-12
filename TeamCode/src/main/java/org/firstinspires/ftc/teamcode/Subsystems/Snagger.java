@@ -50,8 +50,8 @@ public class Snagger {
                 powerMultiplierR=1;
             }
 
-            leftLift.setPower(magnitude*powerMultiplierL);
-            rightLift.setPower(magnitude*powerMultiplierR);
+            leftLift.setPower(magnitude);
+            rightLift.setPower(magnitude);
             where = Level.NOWHERE;
             /*stateOfDown = false;
             stateOfUp = false;*/

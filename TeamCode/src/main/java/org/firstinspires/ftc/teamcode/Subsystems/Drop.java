@@ -31,6 +31,8 @@ public class Drop {
 
     boolean dPadPressed = false;
     private boolean prePressed = false;
+
+    private boolean previouslyReset = true;
     private boolean runManually = false;
     private final int safetyRange = 100;
     public Drop(LinearOpMode opMode){
@@ -105,8 +107,10 @@ public class Drop {
         }
 
         if (opMode.gamepad2.a) {
+            liftPosition= 0;
             runManually = false;
             goToBottom();
+
         }
         if (opMode.gamepad2.x) {
             runManually = false;
@@ -129,6 +133,11 @@ public class Drop {
         opMode.telemetry.addData("Drop slide amps", "right lift"+rightLift.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.addData("Drop slide position", "left lift:"+leftLift.getCurrentPosition());
         opMode.telemetry.addData("Drop slide position", "right lift"+rightLift.getCurrentPosition());
+        if(leftLift.getCurrent(CurrentUnit.AMPS)>4&&rightLift.getCurrentPosition()<150&&liftPosition==0){
+            resetPosition();
+            previouslyReset = true;
+
+        }
     }
 
     private void goToBottomSecondPart() {
@@ -140,9 +149,16 @@ public class Drop {
         if(getTicks()>LIFT_POSITIONS[1]+safetyRange) {
             liftPosition = 1;
             goToPosition(liftPosition);
-            opMode.sleep();
-            liftPosition = 0;
-            goToPosition(liftPosition);
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            liftPosition = 0;
+                            goToPosition(liftPosition);
+                        }
+                    },
+                    1000 // Delay in milliseconds
+            );
         }
 
     }
@@ -181,7 +197,7 @@ public class Drop {
             rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        if (rightLift.getCurrentPosition() > 100 || !setToBottom) {
+        if (rightLift.getCurrentPosition() > safetyRange/2 || !setToBottom || leftLift.getCurrent(CurrentUnit.AMPS)>4) {
 
             if(leftLift.getCurrent(CurrentUnit.AMPS)>5){
                 powerMultiplierL=5*(1/leftLift.getCurrent(CurrentUnit.AMPS));
@@ -201,16 +217,14 @@ public class Drop {
             rightLift.setPower(0);
 
         }
-        if(setToBottom && leftLift.getCurrent(CurrentUnit.AMPS)>5&&rightLift.getCurrentPosition()<200){
-            resetPosition();
-        }
+        previouslyReset = false;
 
     }
 
     public boolean reachedTarget()
     {
         int diff = Math.abs(leftLift.getCurrentPosition()-leftLift.getTargetPosition());
-        if(diff<5)
+        if(diff<safetyRange/2)
         {
             return true;
 

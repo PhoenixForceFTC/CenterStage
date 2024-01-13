@@ -170,17 +170,33 @@ public class Drop {
     }
 
 
+
     public void goToPosition(int pos) {
         if (pos == 0) {
             arm.goToIntakePosition();
+            goToPositionAfter(pos);
         } else if (pos == 1){
             arm.goToIntermediate();
-            opMode.sleep(1000);
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            goToPositionAfter(pos);
+                        }
+                    },
+                    1000 // Delay in milliseconds
+            );
 
         }
         else {
             arm.goToDropPosition();
+            goToPositionAfter(pos);
         }
+
+    }
+
+
+    private void goToPositionAfter(int pos){
         leftLift.setTargetPosition(LIFT_POSITIONS[pos]);
         rightLift.setTargetPosition(LIFT_POSITIONS[pos]);
         leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);

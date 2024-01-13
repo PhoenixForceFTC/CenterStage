@@ -39,11 +39,19 @@ public class Intake {
     }
     public void transferPixel(){
         bottomGate.setClawClosed(false);
-        opMode.sleep(100);
-        drop.transfer();
-        opMode.telemetry.addLine("Transferring Pixel");
-        intakeServo.transfer();
-        topGate.setGateClosed();
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        drop.transfer();
+                        opMode.telemetry.addLine("Transferring Pixel");
+                        intakeServo.transfer();
+                        topGate.setGateClosed();
+                    }
+                },
+                100 // Delay in milliseconds
+        );
+
     }
     public void stop(){
         opMode.telemetry.addLine("Intake is stopped");

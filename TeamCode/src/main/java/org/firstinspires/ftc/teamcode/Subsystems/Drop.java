@@ -134,9 +134,16 @@ public class Drop {
         opMode.telemetry.addData("Drop slide position", "left lift:"+leftLift.getCurrentPosition());
         opMode.telemetry.addData("Drop slide position", "right lift"+rightLift.getCurrentPosition());
         if(leftLift.getCurrent(CurrentUnit.AMPS)>4&&rightLift.getCurrentPosition()<150&&liftPosition==0){
-            resetPosition();
-            previouslyReset = true;
-
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            resetPosition();
+                            previouslyReset = true;
+                        }
+                    },
+                    100 // Delay in milliseconds
+            );
         }
     }
 

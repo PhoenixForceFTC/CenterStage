@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.util.ButtonToggle;
-
+import org.firstinspires.ftc.teamcode.Subsystems.PixelCounter;
 /**
  * FTC WIRES TeleOp Example
  *
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 public class TeleOpMode extends LinearOpMode {
     private OpMode opMode;
     private PlaneServo planeServo;
+    private PixelCounter pixelCounter;
     private MecanumWheels mecanumWheels;
     private TopGate topGate;
     private Intake intake;
@@ -34,6 +36,10 @@ public class TeleOpMode extends LinearOpMode {
     private ButtonToggle manualMode = new ButtonToggle(false);
     private Drop drop;
     private Snagger snagger;
+
+
+
+
     // @Override
 
     /*
@@ -53,6 +59,7 @@ public class TeleOpMode extends LinearOpMode {
         mecanumWheels = new MecanumWheels(this);
         intake = new Intake(this,drop,topGate);
         planeServo = new PlaneServo(this);
+        pixelCounter = new PixelCounter(this);
 
         waitForStart();
 
@@ -62,10 +69,22 @@ public class TeleOpMode extends LinearOpMode {
                 //     sensor.ConePresent();
 
 
+
+
                 mecanumWheels.move();
                 topGate.controlGate();
                 snagger.move(gamepad2.left_stick_y);
+                intake.lights();
+                manualMode.update(gamepad2.options);
+                if(manualMode.isActive()){
+                    drop.move(gamepad2.right_stick_y);
+                }else{
+                    drop.controlLift2();
+                }
 
+
+                telemetry.addData("drop pixels",pixelCounter.getDropPixels());
+                telemetry.addData("intake pixels",pixelCounter.getIntakePixels());
 
 
 
@@ -78,13 +97,10 @@ public class TeleOpMode extends LinearOpMode {
                 else{
                     planeServo.GoToPosition(0);
                 }
-                
-                manualMode.update(gamepad2.options);
-                if(manualMode.isActive()){
-                    drop.move(gamepad2.right_stick_y);
-                }else{
-                    drop.controlLift2();
-                }
+
+
+
+
 
 
                 if(gamepad2.dpad_down){

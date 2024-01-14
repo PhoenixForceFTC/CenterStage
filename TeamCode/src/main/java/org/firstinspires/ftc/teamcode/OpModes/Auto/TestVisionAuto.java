@@ -41,7 +41,7 @@ public class TestVisionAuto extends LinearOpMode {
             telemetry.update();
 
         }
-        vision.Stop();
+
         while (!isStopRequested()) {
 
             while (opModeIsActive()) {

@@ -31,24 +31,29 @@ public class PixelCounter {
         if (((DistanceSensor) dropClrFront).getDistance(DistanceUnit.CM) < 3) {
             pixels = pixels + 1;
         }
-        opMode.telemetry.addData("drop front",((DistanceSensor) dropClrFront).getDistance(DistanceUnit.CM));
         if (((DistanceSensor) dropClrBack).getDistance(DistanceUnit.CM) < 3) {
             pixels = pixels + 1;
         }
-        opMode.telemetry.addData("drop back",((DistanceSensor) dropClrBack).getDistance(DistanceUnit.CM));
         return pixels;
+    }
+    public void telemetry() {
+        opMode.telemetry.addData("drop front",((DistanceSensor) dropClrFront).getDistance(DistanceUnit.CM));
+        opMode.telemetry.addData("drop back",((DistanceSensor) dropClrBack).getDistance(DistanceUnit.CM));
+        opMode.telemetry.addData("intake front",((DistanceSensor) intakeClrFront).getDistance(DistanceUnit.CM));
+        opMode.telemetry.addData("intake back",((DistanceSensor) intakeClrBack).getDistance(DistanceUnit.CM));
+        opMode.telemetry.addData("drop pixels",getDropPixels());
+        opMode.telemetry.addData("intake pixels",getIntakePixels());
+
     }
     public int getIntakePixels() {
         int pixels = 0;
-        if (((DistanceSensor) intakeClrFront).getDistance(DistanceUnit.CM) < 3) {
+        if (((DistanceSensor) intakeClrFront).getDistance(DistanceUnit.CM) < 1) {
             pixels = pixels + 1;
         }
-        opMode.telemetry.addData("intake front",((DistanceSensor) intakeClrFront).getDistance(DistanceUnit.CM));
 
-        if (((DistanceSensor) intakeClrBack).getDistance(DistanceUnit.CM) < 3) {
+        if (((DistanceSensor) intakeClrBack).getDistance(DistanceUnit.CM) < 1) {
             pixels = pixels + 1;
         }
-        opMode.telemetry.addData("intake back",((DistanceSensor) intakeClrBack).getDistance(DistanceUnit.CM));
         return pixels;
     }
 

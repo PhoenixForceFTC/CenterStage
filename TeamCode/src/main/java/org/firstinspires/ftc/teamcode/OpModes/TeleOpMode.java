@@ -83,8 +83,6 @@ public class TeleOpMode extends LinearOpMode {
                 }
 
 
-                telemetry.addData("drop pixels",pixelCounter.getDropPixels());
-                telemetry.addData("intake pixels",pixelCounter.getIntakePixels());
 
 
 

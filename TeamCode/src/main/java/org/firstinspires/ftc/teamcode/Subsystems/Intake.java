@@ -68,6 +68,7 @@ public class Intake {
         bottomGate.setClawClosed(true);
     }
     public void lights(){
+        pixelCounter.telemetry();
         RevBlinkinLedDriver.BlinkinPattern color;
         if(pixelCounter.getDropPixels()==2){
             color = RevBlinkinLedDriver.BlinkinPattern.GREEN;

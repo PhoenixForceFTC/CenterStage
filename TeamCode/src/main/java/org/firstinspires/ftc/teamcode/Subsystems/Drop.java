@@ -23,7 +23,7 @@ public class Drop {
     private double powerMultiplierR;
     private LinearOpMode opMode;
     private TopArm arm;
-    int LIFT_POSITIONS[] = {0,100,700,1400,2100};
+    int LIFT_POSITIONS[] = {0,100,700,900,1400,2100};
                            // 0 = Arm.Intake
                            // 1 = Arm.Intermediate
                            // 2+ = Arm.Drop
@@ -120,13 +120,13 @@ public class Drop {
         }
         if (opMode.gamepad2.b) {
             runManually = false;
-            liftPosition=3;
+            liftPosition=4;
             goToPosition(liftPosition);
 
         }
         if (opMode.gamepad2.y) {
             runManually = false;
-            liftPosition=4;
+            liftPosition=5;
             goToPosition(liftPosition);
         }
         opMode.telemetry.addData("Drop slide amps", "left lift:"+leftLift.getCurrent(CurrentUnit.AMPS));

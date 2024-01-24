@@ -38,7 +38,7 @@ public abstract class AutoOpMode extends LinearOpMode {
     // In inches per second
     private static final double VERY_SLOW_MAX_VEL = 3;
     private static final double SLOW_MAX_VEL = DriveConstants.MAX_VEL / 4;
-    private static final double MEDIUM_MAX_VEL = DriveConstants.MAX_VEL / 2;
+    private static final double MEDIUM_MAX_VEL = DriveConstants.MAX_VEL / 3;
     private static final double FAST_MAX_VEL = DriveConstants.MAX_VEL;
 
     public enum Speed {

@@ -11,17 +11,18 @@ public class RedCollectionSide extends AutoOpMode {
     private Vision vision;
     private Vision.IDENTIFIED_SPIKE_MARK_LOCATION spikeLocation;
     public static Position START = new Position(-36, -63.375, 90);
-    public static Position SPIKE_POSITION_L = new Position(-49, -44.625, 90);
-    public static Position SPIKE_POSITION_L_BACKUP = new Position(-49, -52, 90);
+    public static Position SPIKE_POSITION_L = new Position(-47.5, -44.625, 90);
+    public static Position SPIKE_POSITION_L_BACKUP = new Position(-47.5, -52, 90);
     public static Position LEFT_WALL = new Position(-58, -52, 90);
     public static Position LEFT_WALL_COLLECTION_INTERMEDIATE = new Position(-58, -12, 90);
     public static Position COLLECTION_SIDE = new Position(-54, -12, 90);
     public static Position COLLECTION_SIDE_TURN =  new Position(-55, -12, 180);
     public static Position DROP_SIDE =  new Position(44, -12, 180);
-    public static Position SPIKE_CENTER = new Position(-36, -36, 90);
-    public static Position SPIKE_CENTER_BACKUP = new Position(-36, -44, 90);
-    public static Position SPIKE_RIGHT = new Position(-36, -36, 90);
-    public static Position SPIKE_RIGHT_TURN = new Position(-36, -36, 15);
+    public static Position SPIKE_CENTER = new Position(-39, -36, 90);
+    public static Position SPIKE_CENTER_BACKUP = new Position(-39, -44, 90);
+    public static Position SPIKE_RIGHT = new Position(-39, -36, 90);
+    public static Position SPIKE_RIGHT_TURN = new Position(-39, -36, 15);
+    public static Position SPIKE_RIGHT_FORWARD = new Position(-36, -36, 15);
 
     public static Position SPIKE_RIGHT_BACKUP = new Position(-36, -44, 15);
     public static Position SPIKE_RIGHT_ADJUST_HEADING = new Position(-36, -44, 90);
@@ -29,23 +30,23 @@ public class RedCollectionSide extends AutoOpMode {
 
 
 
-    public static Position DROP_PARK_INTERMEDIATE = new Position(44, -16, 180);
+    public static Position DROP_PARK_INTERMEDIATE = new Position(44, -18, 180);
     public static Position DROP_POSITION = new Position(44, -40, 180);
     public static Position DROP_POSITION_TOUCH_BOARD = new Position(52, -40, 180);
     public static Position DROP_POSITION_BACKUP_BOARD = new Position(44, -40, 180);
 
 
 
-    public static Position DROP_POSITION_R = new Position(44, -48, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(52, -48, 180);
-    public static Position DROP_POSITION_BACKUP_BOARD_R = new Position(44, -48, 180);
+    public static Position DROP_POSITION_R = new Position(44, -46, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(52, -46, 180);
+    public static Position DROP_POSITION_BACKUP_BOARD_R = new Position(44, -46, 180);
 
-    public static Position DROP_POSITION_L = new Position(44, -32, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(52, -32, 180);
-    public static Position DROP_POSITION_BACKUP_BOARD_L= new Position(44, -32, 180);
+    public static Position DROP_POSITION_L = new Position(44, -34, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(52, -34, 180);
+    public static Position DROP_POSITION_BACKUP_BOARD_L= new Position(44, -34, 180);
 
 
-    public static Position PARK_POSITION = new Position(60, -16, 180);
+    public static Position PARK_POSITION = new Position(60, -18, 180);
 
     @Override
     public void runOpMode() {
@@ -84,8 +85,10 @@ public class RedCollectionSide extends AutoOpMode {
             case RIGHT:
                 goTo(SPIKE_RIGHT);
                 goTo(SPIKE_RIGHT_TURN);
+                goTo(SPIKE_RIGHT_FORWARD);
                 intake.returnPixel();
                 sleep(2000);
+                goTo(SPIKE_RIGHT_TURN);
                 goTo(SPIKE_RIGHT_BACKUP);
                 goTo(SPIKE_RIGHT_ADJUST_HEADING);
                 coneDrop(3);
@@ -102,7 +105,7 @@ public class RedCollectionSide extends AutoOpMode {
         setSpeed(Speed.MEDIUM);
         if(casee==1){
             goTo(DROP_POSITION_L);
-            drop.goToPosition(2);
+            drop.goToPosition(3);
             setSpeed(Speed.SLOW);
             goTo(DROP_POSITION_TOUCH_BOARD_L);
             sleep(1000);
@@ -114,7 +117,7 @@ public class RedCollectionSide extends AutoOpMode {
         }
         if(casee==2){
             goTo(DROP_POSITION);
-            drop.goToPosition(2);
+            drop.goToPosition(3);
             setSpeed(Speed.SLOW);
             goTo(DROP_POSITION_TOUCH_BOARD);
             sleep(1000);
@@ -126,7 +129,7 @@ public class RedCollectionSide extends AutoOpMode {
         }
         if(casee==3){
             goTo(DROP_POSITION_R);
-            drop.goToPosition(2);
+            drop.goToPosition(3);
             setSpeed(Speed.SLOW);
             goTo(DROP_POSITION_TOUCH_BOARD_R);
             sleep(1000);

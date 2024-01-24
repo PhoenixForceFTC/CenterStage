@@ -15,6 +15,7 @@ public class Intake {
     private Lights lights;
 
     private TopGate topGate;
+    private int counter=0;
 
     public Intake(LinearOpMode opMode, Drop drop, TopGate topGate){
         this.opMode = opMode;
@@ -79,8 +80,16 @@ public class Intake {
         }else if(pixelCounter.getIntakePixels()==1){
             color = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
         }else{
-            color = RevBlinkinLedDriver.BlinkinPattern.HOT_PINK;
+            color = RevBlinkinLedDriver.BlinkinPattern.BLACK;
         }
         lights.setPattern(color);
+    }
+    public void buzzController(){
+        counter++;
+        if(counter==10){
+            counter=0;
+                opMode.gamepad1.rumbleBlips(pixelCounter.getIntakePixels());
+                opMode.gamepad2.rumbleBlips(pixelCounter.getIntakePixels());
+        }
     }
 }

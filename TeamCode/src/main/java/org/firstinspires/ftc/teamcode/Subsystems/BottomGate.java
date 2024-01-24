@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 
 public class BottomGate {
     private OpMode opMode;
-    private final double closedPos = 0.5;
-    private final double openPos = 0;
+    private final double closedPos = 0.73;
+    private final double openPos = 0.9;
     private Servo gate;
     private Drop dropSlides;
 
@@ -38,7 +38,6 @@ public class BottomGate {
         setClawClosed(clawClosed.isActive());
         opMode.telemetry.addData("gate open", !isClosed());
         opMode.telemetry.addData("gate auto close", canAutoClose);
-
     }
 
     public boolean isClosed() {

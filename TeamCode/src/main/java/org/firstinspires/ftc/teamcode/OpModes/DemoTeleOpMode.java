@@ -1,31 +1,28 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
+
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
 import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.util.ButtonToggle;
-import org.firstinspires.ftc.teamcode.Subsystems.PixelCounter;
+
 /**
  * FTC WIRES TeleOp Example
  *
  */
-@TeleOp(name = "mecanum drive test", group = "00-Teleop")
+@TeleOp(name = "Presentaion Demo", group = "00-Teleop")
 
 
 
-public class TeleOpMode extends LinearOpMode {
+public class DemoTeleOpMode extends LinearOpMode {
     private OpMode opMode;
     private PlaneServo planeServo;
-    private PixelCounter pixelCounter;
     private MecanumWheels mecanumWheels;
     private TopGate topGate;
     private Intake intake;
@@ -36,10 +33,6 @@ public class TeleOpMode extends LinearOpMode {
     private ButtonToggle manualMode = new ButtonToggle(false);
     private Drop drop;
     private Snagger snagger;
-
-
-
-
     // @Override
 
     /*
@@ -59,62 +52,56 @@ public class TeleOpMode extends LinearOpMode {
         mecanumWheels = new MecanumWheels(this);
         intake = new Intake(this,drop,topGate);
         planeServo = new PlaneServo(this);
-        pixelCounter = new PixelCounter(this);
 
         waitForStart();
 
 
         while (!isStopRequested()) {
             while (opModeIsActive()) {
-                //     sensor.ConePresent();
 
-
-
-
-                mecanumWheels.move();
-                topGate.controlGate();
-                snagger.move(gamepad2.left_stick_y);
-                intake.lights();
-                intake.buzzController();
-                manualMode.update(gamepad2.options);
-                if(manualMode.isActive()){
-                    drop.move(gamepad2.right_stick_y);
-                }else{
-                    drop.controlLift2();
-                }
-
-
-
-
-
-
-
-                if(gamepad1.left_trigger > 0.5 && gamepad1.right_trigger > 0.5 && gamepad1.left_bumper && gamepad1.right_bumper)
+                if(gamepad1.y)
                 {
-                    planeServo.GoToPosition((float)0.13);
-                }
-                else{
-                    planeServo.GoToPosition(0);
-                }
-
-
-
-
-
-
-                if(gamepad2.dpad_down){
-                    intake.transferPixel();
-                } else if(gamepad2.dpad_up){
-                    intake.returnPixelTeleOpMode();
-                } else if(gamepad2.left_trigger>0.2){
+                    //Extend Intake
+                    snagger.move(-1);
+                    sleep(1500);
+                    snagger.stop();
                     intake.eatPixel();
-                }else{
+                    sleep(2500);
+                    intake.stop();
+                }
+                if(gamepad1.x)
+                {
+                    //Expand drop, drop pixel
+                    drop.goToPosition(4);
+                    sleep(3000);
+                    topGate.setGateOpen();
+                    sleep(1000);
+                    topGate.setGateStopped();
+
+                }
+                if(gamepad1.b)
+                {
+                    snagger.move(1);
+                    sleep(1500);
+                    snagger.stop();
+                    sleep(500);
+                    drop.goToPosition(0);
+                    sleep(1000);
+                    drop.stop();
+                }
+                if(gamepad1.a)
+                {
+                    //Plane Launcher
+                    planeServo.GoToPosition((float) 0.1);
+                }
+                if(gamepad1.right_bumper)
+                {
+                    //Transfer Pixel
+                    intake.transferPixel();
+                    sleep(1500);
                     intake.stop();
                 }
 
-                if(gamepad2.right_stick_button){
-                    drop.resetPosition();
-                }
 
                 telemetry.update();
             }

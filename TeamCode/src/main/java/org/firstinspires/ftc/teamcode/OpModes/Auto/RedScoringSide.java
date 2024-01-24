@@ -102,7 +102,7 @@ public class RedScoringSide extends AutoOpMode {
 
         if(casee==1){
             goTo(DROP_POSITION_L);
-            drop.goToPosition(2);
+            drop.goToPosition(3);
             setSpeed(Speed.SLOW);
             goTo(DROP_POSITION_TOUCH_BOARD_L);
             sleep(1000);
@@ -114,7 +114,7 @@ public class RedScoringSide extends AutoOpMode {
         }
         if(casee==2){
             goTo(DROP_POSITION);
-            drop.goToPosition(2);
+            drop.goToPosition(3);
             setSpeed(Speed.SLOW);
             goTo(DROP_POSITION_TOUCH_BOARD);
             sleep(1000);
@@ -126,7 +126,7 @@ public class RedScoringSide extends AutoOpMode {
         }
         if(casee==3){
             goTo(DROP_POSITION_R);
-            drop.goToPosition(2);
+            drop.goToPosition(3);
             setSpeed(Speed.SLOW);
             goTo(DROP_POSITION_TOUCH_BOARD_R);
             sleep(1000);

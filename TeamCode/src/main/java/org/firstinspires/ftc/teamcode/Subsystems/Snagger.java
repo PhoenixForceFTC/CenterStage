@@ -38,8 +38,8 @@ public class Snagger {
         this.opMode = opMode;
         leftLift = this.opMode.hardwareMap.get(DcMotorEx.class, "LS");
         rightLift = this.opMode.hardwareMap.get(DcMotorEx.class, "RS");
-        leftLift.setDirection(DcMotor.Direction.REVERSE);
-        rightLift.setDirection(DcMotor.Direction.FORWARD);
+        leftLift.setDirection(DcMotor.Direction.FORWARD);
+        rightLift.setDirection(DcMotor.Direction.REVERSE);
         leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         leftLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);

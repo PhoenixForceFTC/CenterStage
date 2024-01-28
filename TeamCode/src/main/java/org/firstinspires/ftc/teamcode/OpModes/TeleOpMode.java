@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.util.ButtonToggle;
-import org.firstinspires.ftc.teamcode.Subsystems.PixelCounter;
 /**
  * FTC WIRES TeleOp Example
  *
@@ -25,7 +24,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.PixelCounter;
 public class TeleOpMode extends LinearOpMode {
     private OpMode opMode;
     private PlaneServo planeServo;
-    private PixelCounter pixelCounter;
     private MecanumWheels mecanumWheels;
     private TopGate topGate;
     private Intake intake;
@@ -59,7 +57,6 @@ public class TeleOpMode extends LinearOpMode {
         mecanumWheels = new MecanumWheels(this);
         intake = new Intake(this,drop,topGate);
         planeServo = new PlaneServo(this);
-        pixelCounter = new PixelCounter(this);
 
         waitForStart();
 

@@ -87,11 +87,11 @@ public class RedScoringSideFast extends AutoOpMode {
                 telemetry.update();
                 int counter = 0;
                 intake.eatPixel();
-                while (counter < 40 && pixelCounter.getIntakePixels() < 2) {
+                while (counter < 40 && intake.getIntakePixels() < 2) {
 
                     sleep(100);
                     counter++;
-                    pixelCounter.telemetry();
+                    intake.pixelCounterTelemetry();
                     telemetry.update();
                 }
                 intake.frontWheelReverse();

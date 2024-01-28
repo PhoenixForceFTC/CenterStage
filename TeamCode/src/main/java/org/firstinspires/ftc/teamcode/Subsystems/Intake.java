@@ -98,4 +98,15 @@ public class Intake {
                 opMode.gamepad2.rumbleBlips(pixelCounter.getIntakePixels());
         }
     }
+    public int getIntakePixels(){
+        return pixelCounter.getIntakePixels();
+    }
+    public int getDropPixels(){
+        return pixelCounter.getDropPixels();
+    }
+    public void pixelCounterTelemetry(){
+        pixelCounter.telemetry();
+    }
 }
+
+

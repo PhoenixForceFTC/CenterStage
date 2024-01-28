@@ -34,6 +34,12 @@ public class Intake {
         bottomGate.setClawClosed(true);
 
     }
+    public void frontWheelReverse(){
+        opMode.telemetry.addLine("Returning Pixel");
+        topGate.setGateStopped();
+        intakeServo.frontWheelReverse();
+        bottomGate.setClawClosed(true);
+    }
     public void returnPixel(){
         opMode.telemetry.addLine("Returning Pixel");
         topGate.setGateStopped();

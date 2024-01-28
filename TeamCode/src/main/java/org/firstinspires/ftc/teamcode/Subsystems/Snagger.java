@@ -22,7 +22,7 @@ public class Snagger {
     private double powerMultiplierL;
     private double powerMultiplierR;
     private LinearOpMode opMode;
-    int LIFT_POSITIONS[] = {0,100,700,900,1400,2100};
+    int LIFT_POSITIONS[] = {0,1033,2066,3100};
     // 0 = Arm.Intake
     // 1 = Arm.Intermediate
     // 2+ = Arm.Drop
@@ -50,6 +50,7 @@ public class Snagger {
         runManually = false;
     }
 
+    //magnitude comes from a gampad stick for use in teleop
     public void move(double magnitude){
         if(!runManually){
             leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -66,92 +67,12 @@ public class Snagger {
             rightLift.setPower(0);
         }
     }
-
-
-    public void controlLift(boolean canLift) {
-
-        if (opMode.gamepad2.right_bumper) {
-            if (liftPosition < LIFT_POSITIONS.length - 1 && !dPadPressed && canLift) {
-                liftPosition++;
-            }
-
-            dPadPressed = true;
-        } else if (opMode.gamepad2.right_trigger > .2) {
-            if (liftPosition > 0 && !dPadPressed) {
-                liftPosition--;
-            }
-
-            dPadPressed = true;
-        } else {
-            dPadPressed = false;
-        }
-
-        goToPosition(liftPosition);
-    }
     public void resetEncoders(){
         leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         rightLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         leftLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
-    public void controlLift2() {
-        if(runManually){
-            resetEncoders();
-        }
-
-        if (opMode.gamepad2.a) {
-            liftPosition= 0;
-            runManually = false;
-            goToBottom();
-
-        }
-        if (opMode.gamepad2.x) {
-            runManually = false;
-            liftPosition= 2;
-            goToPosition(liftPosition);
-
-        }
-        if (opMode.gamepad2.b) {
-            runManually = false;
-            liftPosition=4;
-            goToPosition(liftPosition);
-
-        }
-        if (opMode.gamepad2.y) {
-            runManually = false;
-            liftPosition=5;
-            goToPosition(liftPosition);
-        }
-    }
-
-    private void goToBottomSecondPart() {
-    }
-    public void goToBottom() {
-
-        Runnable myMethodWrapper = this::goToBottomSecondPart;
-
-        if(getTicks()>LIFT_POSITIONS[1]+safetyRange) {
-            liftPosition = 1;
-            goToPosition(liftPosition);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            liftPosition = 0;
-                            goToPosition(liftPosition);
-                        }
-                    },
-                    1000 // Delay in milliseconds
-            );
-        }
-
-    }
-
-
-
-
-
-
     public void goToPosition(int pos) {
         if (pos == 0) {
             goToPositionAfter(pos);
@@ -181,8 +102,8 @@ public class Snagger {
         rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         boolean setToBottom = pos == 0;
-            leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         if (rightLift.getCurrentPosition() > safetyRange || !setToBottom || leftLift.getCurrent(CurrentUnit.AMPS)>4) {
 
@@ -196,7 +117,8 @@ public class Snagger {
             }else{
                 powerMultiplierR=1;
             }
-            leftLift.setPower(1.0);rightLift.setPower(1.0);
+            leftLift.setPower(1.0);
+            rightLift.setPower(1.0);
         } else {
             leftLift.setPower(1);
             rightLift.setPower(1);
@@ -241,7 +163,7 @@ public class Snagger {
     }
     public double getTicks(){return leftLift.getCurrentPosition();}
     public void stop() {
-        goToBottom();
+        goToPosition(0);
     }
 
 }

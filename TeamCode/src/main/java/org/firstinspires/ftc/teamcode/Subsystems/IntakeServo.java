@@ -9,6 +9,7 @@ public class IntakeServo {
     private OpMode currentOpMode;
     private CRServo cRServo1;
     private CRServo cRServo2;
+    // outermost wheel
     private CRServo cRServo3;
 
 
@@ -27,14 +28,14 @@ public class IntakeServo {
         cRServo3.setPower(position);
         currentOpMode.telemetry.addData("Intake Servo Power:",position);
     }
+
     public void setPower2(double position){
-        cRServo1.setPower(-position);
         cRServo2.setPower(position);
-        cRServo3.setPower(position);
-        currentOpMode.telemetry.addData("Intake Servo Power:",position);
     }
+
+    public void frontWheelReverse(){setPower2(-1);}
     public void forward(){setPower(1);}
-    public void transfer(){setPower2(1);}
+    public void transfer(){setPower(1);}
     public void backward(){setPower(-0.4);}
     public void backward2(){setPower(-1);}
     public void stop(){setPower(0);}

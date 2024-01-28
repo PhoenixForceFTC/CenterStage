@@ -144,16 +144,6 @@ public class Snagger {
             return false;
         }
     }
-
-    public void moveToTop(){
-        //setPower(1);
-        liftPosition = 1;
-    }
-
-    public void moveToBottom(){
-        //setPower(0);
-        liftPosition = 0;
-    }
     public void resetPosition(){
         leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -6,18 +6,24 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-
+@Config
 
 public class Drop {
+    private PIDController controller;
+    public static double P =0,I=0,D=0;
+    public static double F=0;
+    public int target = 0;
+    public static double ticksPerDegree=384.5/360;
     private DcMotorEx leftLift;
     private DcMotorEx rightLift;
-
 
     private double powerMultiplierL;
     private double powerMultiplierR;
@@ -36,6 +42,7 @@ public class Drop {
     private boolean runManually = false;
     private final int safetyRange = 100;
     public Drop(LinearOpMode opMode){
+        controller=new PIDController(P,I,D);
         this.opMode = opMode;
         leftLift = this.opMode.hardwareMap.get(DcMotorEx.class, "LD");
         rightLift = this.opMode.hardwareMap.get(DcMotorEx.class, "RD");
@@ -51,11 +58,11 @@ public class Drop {
         arm = new TopArm(opMode);
 
     }
-
     public void move(double magnitude){
+        boolean run = false;
         if(!runManually){
-            leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+            leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         }
         runManually=true;
         if (magnitude > 0.2 || magnitude < -0.2) {
@@ -63,10 +70,24 @@ public class Drop {
             opMode.telemetry.addLine("Drop is in manual modde");
             leftLift.setPower(magnitude);
             rightLift.setPower(magnitude);
+            run = true;
         }else{
-            leftLift.setPower(0);
-            rightLift.setPower(0);
+            if(run=true){
+                target = rightLift.getCurrentPosition();
+                run=false;
+            }
+            controller.setPID(P, I, D);
+            double pid = controller.calculate(rightLift.getCurrentPosition(),target);
+            double ff = Math.cos(Math.toRadians(target/ticksPerDegree))*F;
+            double power = pid+ff;
+            opMode.telemetry.addLine("pos: "+rightLift.getCurrentPosition());
+            opMode.telemetry.addLine("target: "+target);
+            leftLift.setPower(power);
+            rightLift.setPower(power);
+
         }
+        opMode.telemetry.addData("Drop slide position", "left lift:"+leftLift.getCurrentPosition());
+        opMode.telemetry.addData("Drop slide position", "right lift"+rightLift.getCurrentPosition());
         if(opMode.gamepad2.right_trigger>0.4){
                     arm.goToIntermediate();
                 } else{
@@ -133,7 +154,7 @@ public class Drop {
         opMode.telemetry.addData("Drop slide amps", "right lift"+rightLift.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.addData("Drop slide position", "left lift:"+leftLift.getCurrentPosition());
         opMode.telemetry.addData("Drop slide position", "right lift"+rightLift.getCurrentPosition());
-        if(leftLift.getCurrent(CurrentUnit.AMPS)>4&&rightLift.getCurrentPosition()<150&&liftPosition==0){
+        if((leftLift.getCurrent(CurrentUnit.AMPS)>4||rightLift.getCurrent(CurrentUnit.AMPS)>4)&&rightLift.getCurrentPosition()<150&&liftPosition==0){
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
                         @Override

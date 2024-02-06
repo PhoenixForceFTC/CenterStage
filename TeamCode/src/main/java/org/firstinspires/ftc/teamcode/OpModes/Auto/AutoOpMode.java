@@ -78,9 +78,9 @@ public abstract class AutoOpMode extends LinearOpMode {
     public void setup() {
         drive = new SampleMecanumDrive(hardwareMap);
         drop = new Drop(this);
-        snagger= new Snagger(this);
-        topGate= new TopGate(this,drop);
-        intake = new Intake(this,drop,topGate);
+        snagger = new Snagger(this);
+        topGate = new TopGate(this, drop);
+        intake = new Intake(this, drop, topGate);
         while(!isStarted() && !isStopRequested()){
 //            camera.detection();
         }

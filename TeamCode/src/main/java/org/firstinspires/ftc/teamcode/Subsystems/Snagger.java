@@ -22,10 +22,13 @@ public class Snagger {
     private double powerMultiplierL;
     private double powerMultiplierR;
     private LinearOpMode opMode;
-    int LIFT_POSITIONS[] = {0,1033,2066,3100};
-    // 0 = Arm.Intake
-    // 1 = Arm.Intermediate
-    // 2+ = Arm.Drop
+//    int LIFT_POSITIONS[] = {0,1033,2066,2900,3100};
+    int LIFT_POSITIONS[] = {0,0,1200,1300,1450};
+    // 0 = Retracted
+    // 1 = ???
+    // 2 = ???
+    // 3 = Full out prior to speed change
+    // 4 = Full out
     int liftPosition = 0;
 
     boolean dPadPressed = false;
@@ -73,10 +76,11 @@ public class Snagger {
         leftLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
+
     public void goToPosition(int pos) {
         if (pos == 0) {
             goToPositionAfter(pos);
-        } else if (pos == 1){
+        } else if (pos == 1) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
                         @Override
@@ -86,16 +90,37 @@ public class Snagger {
                     },
                     1000 // Delay in milliseconds
             );
-
         }
         else {
             goToPositionAfter(pos);
         }
-
     }
 
+    public void goToPosition(int pos, double speed) {
+        if (pos == 0) {
+            goToPositionAfter(pos);
+        } else if (pos == 1) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            goToPositionAfter(pos);
+                        }
+                    },
+                    1000 // Delay in milliseconds
+            );
+        }
+        else {
+            goToPositionAfter(pos);
+        }
+    }
 
-    private void goToPositionAfter(int pos){
+    private void goToPositionAfter(int pos)
+    {
+        goToPositionAfter(pos, 1.0);
+    }
+
+    private void goToPositionAfter(int pos, double speed){
         leftLift.setTargetPosition(LIFT_POSITIONS[pos]);
         rightLift.setTargetPosition(LIFT_POSITIONS[pos]);
         leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -107,28 +132,27 @@ public class Snagger {
 
         if (rightLift.getCurrentPosition() > safetyRange || !setToBottom || leftLift.getCurrent(CurrentUnit.AMPS)>4) {
 
-            if(leftLift.getCurrent(CurrentUnit.AMPS)>5){
+            if(leftLift.getCurrent(CurrentUnit.AMPS)>5) {
                 powerMultiplierL=5*(1/leftLift.getCurrent(CurrentUnit.AMPS));
-            }else{
+            } else {
                 powerMultiplierL=1;
             }
-            if(rightLift.getCurrent(CurrentUnit.AMPS)>5){
+            if(rightLift.getCurrent(CurrentUnit.AMPS)>5) {
                 powerMultiplierR=5*(1/rightLift.getCurrent(CurrentUnit.AMPS));
-            }else{
+            } else {
                 powerMultiplierR=1;
             }
-            leftLift.setPower(1.0);
-            rightLift.setPower(1.0);
+            leftLift.setPower(speed);
+            rightLift.setPower(speed);
         } else {
-            leftLift.setPower(1);
-            rightLift.setPower(1);
+            leftLift.setPower(speed);
+            rightLift.setPower(speed);
         }
         opMode.telemetry.addData("snagger slide amps", "left lift:"+leftLift.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.addData("snagger slide amps", "right lift"+rightLift.getCurrent(CurrentUnit.AMPS));
         opMode.telemetry.addData("snagger slide position", "left lift:"+leftLift.getCurrentPosition());
         opMode.telemetry.addData("snagger slide position", "right lift"+rightLift.getCurrentPosition());
         previouslyReset = false;
-
     }
 
     public boolean reachedTarget()

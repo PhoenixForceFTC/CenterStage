@@ -35,7 +35,7 @@ public class RedScoringSideFastL2 extends AutoOpMode {
 
     //--- Collection positions
     public static AutoOpMode.Position RED_PILE_1_PREPOSITION = new AutoOpMode.Position(12, -12, 180);
-    public static AutoOpMode.Position RED_PILE_1_POSITION = new AutoOpMode.Position(-18, -16, 185);
+    public static AutoOpMode.Position RED_PILE_1_POSITION = new AutoOpMode.Position(-10, -16, 185);
 
 
     public static Position SPIKE_RIGHT = new Position(25, -44.625, 90);
@@ -98,27 +98,40 @@ public class RedScoringSideFastL2 extends AutoOpMode {
         switch (spikeLocation) {
             case LEFT:
                 //--- Drive to spike and eject pixel
-                goTo(SPIKE_LEFT);
-                intake.returnPixel();
-                sleep(200);
-                intake.stop();
+//                goTo(SPIKE_LEFT);
+//                intake.returnPixel();
+//                sleep(200);
+//                intake.stop();
 
                 //--- Deliver pixel
-                drop.goToPosition(3);
-                goTo(DROP_POSITION_TOUCH_BOARD_L);
-                setSpeed(Speed.SLOW);
-                goTo(DROP_POSITION_TOUCH_BOARD_L2);
-                topGate.setGateOpen();
-                sleep(1000);
-                topGate.setGateStopped();
+//                drop.goToPosition(3);
+//                goTo(DROP_POSITION_TOUCH_BOARD_L);
+//                setSpeed(Speed.SLOW); //--- Slow down before moving back a little
+//                goTo(DROP_POSITION_TOUCH_BOARD_L2);
+//                setSpeed(Speed.FAST);
+//                topGate.setGateOpen();
+//                sleep(1000);
+//                topGate.setGateStopped();
 
                 //--- Collect pixels from the pile
+//                intake.stop();
+//                drop.goToPosition(0);
+//                goTo(RED_PILE_1_PREPOSITION);
+//                goTo(RED_PILE_1_POSITION);
+                snagger.goToPosition(3); //--- Almost full out
+                intake.eatPixel();
+                snagger.goToPosition(4, 0.25); //-- Full out at slow speed
+                sleep(2000);
+                snagger.goToPosition(3,0.25); //-- Slight Retract to pull tbe top two pixels off the stack
+                sleep(2000);
+                snagger.goToPosition(4, 0.25); //-- Full out at slow speed
+                sleep(2000);
+                intake.frontWheelReverse();
+                sleep(2000);
+                //sleep(5000);
+                snagger.goToPosition(0); //--- Retract
+                sleep(3000);
                 intake.stop();
-                drop.goToPosition(0);
-                setSpeed(Speed.FAST);
-                goTo(RED_PILE_1_PREPOSITION);
-                goTo(RED_PILE_1_POSITION);
-                snagger.goToPosition(3);
 
 //
 //

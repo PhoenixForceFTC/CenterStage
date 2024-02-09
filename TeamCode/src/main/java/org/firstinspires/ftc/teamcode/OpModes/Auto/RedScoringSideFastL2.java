@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 public class RedScoringSideFastL2 extends AutoOpMode {
     private Vision vision;
 
+    //--- adb connect 192.168.43.1:5555
+
 //    private left left;
 //    private middle middle;
 //    private right right;
@@ -68,6 +70,7 @@ public class RedScoringSideFastL2 extends AutoOpMode {
 
     @Override
     public void runOpMode() {
+
         //--- Initialize positions
 //        left = new left(this);
 //        middle = new middle(this);

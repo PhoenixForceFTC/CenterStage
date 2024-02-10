@@ -32,8 +32,8 @@ public class IntakeServo {
 
     public void frontWheelReverse() { setPower2(1); } //--- switched direction
     public void forward() { setPower(-1); } //--- switched direction
-    public void transfer() { setPower(1); }
+    public void transfer() { setPower(-1); } //--- switched direction
     public void backward() { setPower(0.4); } //--- switched direction
-    public void backward2() { setPower(-1); }
+    public void backward2() { setPower(-1); }  //--- switched direction
     public void stop() { setPower(0); setPower2(0); }
 }

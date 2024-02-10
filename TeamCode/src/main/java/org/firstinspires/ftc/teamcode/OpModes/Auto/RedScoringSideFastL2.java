@@ -29,15 +29,21 @@ public class RedScoringSideFastL2 extends AutoOpMode {
     public static Position START = new Position(14, -63, 90);
 
     //--- Deliver
-    public static AutoOpMode.Position SPIKE_LEFT = new AutoOpMode.Position(10, -34, 180);
+    public static Position SPIKE_LEFT = new AutoOpMode.Position(10, -34, 180);
 
     //--- Drop positions
-    public static AutoOpMode.Position DROP_POSITION_TOUCH_BOARD_L = new AutoOpMode.Position(48, -30, 180);
-    public static AutoOpMode.Position DROP_POSITION_TOUCH_BOARD_L2 = new AutoOpMode.Position(49, -30, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(47, -30, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_L2 = new Position(49, -30, 180);
+
+    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(47, -44, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_R2 = new Position(49, -44, 180);
+
+    public static Position DROP_POSITION_TOUCH_BOARD_C = new Position(47, -37, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_C2 = new Position(49, -37, 180);
 
     //--- Collection positions
     public static AutoOpMode.Position RED_PILE_1_PREPOSITION = new AutoOpMode.Position(12, -12, 180);
-    public static AutoOpMode.Position RED_PILE_1_POSITION = new AutoOpMode.Position(-10, -16, 185);
+    public static AutoOpMode.Position RED_PILE_1_POSITION = new AutoOpMode.Position(-17, -16, 185);
 
 
     public static Position SPIKE_RIGHT = new Position(25, -44.625, 90);
@@ -57,15 +63,10 @@ public class RedScoringSideFastL2 extends AutoOpMode {
     //public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(52, -28, 180);
     public static Position DROP_POSITION_BACKUP_BOARD_L = new Position(44, -28, 180);
     public static Position DROP_POSITION_R = new Position(44, -44, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(52, -44, 180);
-    public static Position DROP_POSITION_BACKUP_BOARD_R = new Position(44, -44, 180);
+
+
 
     public static Position PARK_POSITION = new Position(60, -60, 180);
-
-
-
-
-
 
 
     @Override
@@ -101,26 +102,27 @@ public class RedScoringSideFastL2 extends AutoOpMode {
         switch (spikeLocation) {
             case LEFT:
                 //--- Drive to spike and eject pixel
-//                goTo(SPIKE_LEFT);
-//                intake.returnPixel();
-//                sleep(200);
-//                intake.stop();
+                goTo(SPIKE_LEFT);
+                intake.returnPixel();
+                sleep(200);
+                intake.stop();
 
                 //--- Deliver pixel
-//                drop.goToPosition(3);
-//                goTo(DROP_POSITION_TOUCH_BOARD_L);
-//                setSpeed(Speed.SLOW); //--- Slow down before moving back a little
-//                goTo(DROP_POSITION_TOUCH_BOARD_L2);
-//                setSpeed(Speed.FAST);
-//                topGate.setGateOpen();
-//                sleep(1000);
-//                topGate.setGateStopped();
+                drop.goToPosition(3); //--- Up
+                goTo(DROP_POSITION_TOUCH_BOARD_L);
+                setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
+                goTo(DROP_POSITION_TOUCH_BOARD_L2);
+                setSpeed(Speed.FAST);
+                topGate.setGateOpen();
+                sleep(1000);
+                topGate.setGateStopped();
 
                 //--- Collect pixels from the pile
-//                intake.stop();
-//                drop.goToPosition(0);
-//                goTo(RED_PILE_1_PREPOSITION);
-//                goTo(RED_PILE_1_POSITION);
+                intake.stop();
+                drop.goToPosition(0);
+                goTo(RED_PILE_1_PREPOSITION);
+                goTo(RED_PILE_1_POSITION);
+
                 snagger.goToPosition(3); //--- Almost full out
                 intake.eatPixel();
                 snagger.goToPosition(4, 0.25); //-- Full out at slow speed
@@ -135,6 +137,29 @@ public class RedScoringSideFastL2 extends AutoOpMode {
                 snagger.goToPosition(0); //--- Retract
                 sleep(3000);
                 intake.stop();
+
+
+                //--- Transfer pixels
+                intake.transferPixel();
+
+                //--- Move back to
+                goTo(RED_PILE_1_POSITION);
+                snagger.goToPosition(0);
+                goTo(RED_PILE_1_PREPOSITION);
+                snagger.goToPosition(0);
+                intake.stop();
+
+                drop.goToPosition(3); //--- Up
+                goTo(DROP_POSITION_TOUCH_BOARD_C);
+                setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
+                goTo(DROP_POSITION_TOUCH_BOARD_C2);
+                setSpeed(Speed.FAST);
+
+                //--- Drop the pixel
+                topGate.setGateOpen();
+                sleep(2000);
+                topGate.setGateStopped();
+
 
 //
 //

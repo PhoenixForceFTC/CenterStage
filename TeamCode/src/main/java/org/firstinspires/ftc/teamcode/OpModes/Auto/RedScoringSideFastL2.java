@@ -31,20 +31,26 @@ public class RedScoringSideFastL2 extends AutoOpMode {
     //--- Deliver
     public static Position SPIKE_LEFT = new AutoOpMode.Position(10, -34, 180);
 
-    //--- Drop positions
-    public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(47, -30, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD_L2 = new Position(49, -30, 180);
+    //--- Drop positions (LEFT)
+    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_L = new Position(47, -30, 180);
+    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_L2 = new Position(50, -30, 180);
 
-    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(47, -44, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD_R2 = new Position(49, -44, 180);
-
-    public static Position DROP_POSITION_TOUCH_BOARD_C = new Position(47, -37, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD_C2 = new Position(49, -37, 180);
+    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_C = new Position(44, -37, 180);
+    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_C2 = new Position(50, -37, 180);
 
     //--- Collection positions
     public static AutoOpMode.Position RED_PILE_1_PREPOSITION = new AutoOpMode.Position(12, -12, 180);
-    public static AutoOpMode.Position RED_PILE_1_POSITION = new AutoOpMode.Position(-17, -16, 185);
+    public static AutoOpMode.Position RED_PILE_1_POSITION = new AutoOpMode.Position(-17, -15, 185);
 
+    //--- Parking
+    public static Position PARK_POSITION_CENTER = new Position(44, -15, 180);
+
+    public static Position PARK_POSITION_BOARD = new Position(44, -37, 180);
+
+    public static Position PARK_POSITION_WALL = new Position(44, -60, 180);
+
+    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(47, -44, 180);
+    public static Position DROP_POSITION_TOUCH_BOARD_R2 = new Position(49, -44, 180);
 
     public static Position SPIKE_RIGHT = new Position(25, -44.625, 90);
     public static Position SPIKE_RIGHT_BACKUP = new Position(25, -52, 90);
@@ -66,16 +72,11 @@ public class RedScoringSideFastL2 extends AutoOpMode {
 
 
 
-    public static Position PARK_POSITION = new Position(60, -60, 180);
+
 
 
     @Override
     public void runOpMode() {
-
-        //--- Initialize positions
-//        left = new left(this);
-//        middle = new middle(this);
-//        right = new right(this);
 
         //--- Initialize vision
         vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
@@ -107,17 +108,19 @@ public class RedScoringSideFastL2 extends AutoOpMode {
                 sleep(200);
                 intake.stop();
 
-                //--- Deliver pixel
+                //--- Deliver pixel to backdrop
                 drop.goToPosition(3); //--- Up
-                goTo(DROP_POSITION_TOUCH_BOARD_L);
+                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_L);
                 setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
-                goTo(DROP_POSITION_TOUCH_BOARD_L2);
+                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_L2);
                 setSpeed(Speed.FAST);
+
                 topGate.setGateOpen();
                 sleep(1000);
                 topGate.setGateStopped();
 
                 //--- Collect pixels from the pile
+                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_L);
                 intake.stop();
                 drop.goToPosition(0);
                 goTo(RED_PILE_1_PREPOSITION);
@@ -126,33 +129,26 @@ public class RedScoringSideFastL2 extends AutoOpMode {
                 snagger.goToPosition(3); //--- Almost full out
                 intake.eatPixel();
                 snagger.goToPosition(4, 0.25); //-- Full out at slow speed
-                sleep(2000);
-                snagger.goToPosition(3,0.25); //-- Slight Retract to pull tbe top two pixels off the stack
-                sleep(2000);
-                snagger.goToPosition(4, 0.25); //-- Full out at slow speed
-                sleep(2000);
+                sleep(4000);
                 intake.frontWheelReverse();
-                sleep(2000);
-                //sleep(5000);
                 snagger.goToPosition(0); //--- Retract
                 sleep(3000);
                 intake.stop();
 
-
                 //--- Transfer pixels
                 intake.transferPixel();
 
-                //--- Move back to
+                //--- Move back to backdrop
                 goTo(RED_PILE_1_POSITION);
                 snagger.goToPosition(0);
                 goTo(RED_PILE_1_PREPOSITION);
                 snagger.goToPosition(0);
+                sleep(1000);
                 intake.stop();
-
-                drop.goToPosition(3); //--- Up
-                goTo(DROP_POSITION_TOUCH_BOARD_C);
+                drop.goToPosition(4); //--- Up (higher)
+                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_C);
                 setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
-                goTo(DROP_POSITION_TOUCH_BOARD_C2);
+                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_C2);
                 setSpeed(Speed.FAST);
 
                 //--- Drop the pixel
@@ -160,26 +156,12 @@ public class RedScoringSideFastL2 extends AutoOpMode {
                 sleep(2000);
                 topGate.setGateStopped();
 
+                //--- Move away from board
+                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_C);
+                drop.goToPosition(0); //--- Down
 
-//
-//
-//                telemetry.update();
-//                int counter = 0;
-//                intake.eatPixel();
-//                while (counter < 40 && intake.getIntakePixels() < 2) {
-//
-//                    sleep(100);
-//                    counter++;
-//                    intake.pixelCounterTelemetry();
-//                    telemetry.update();
-//                }
-//                intake.frontWheelReverse();
-//                snagger.goToPosition(0);
-//
-//                sleep(1000);
-//
-//                intake.transferPixel();
-//                sleep(2000);
+                //--- Park
+                goTo(PARK_POSITION_CENTER);
 
                 break;
             case MIDDLE:
@@ -193,61 +175,6 @@ public class RedScoringSideFastL2 extends AutoOpMode {
         sleep(5000);
     }
 
-//    public void coneDrop(int casee) {
-//        intake.stop();
-//        goTo(AFTER_SPIKE_POSITION);
-//        goTo(AFTER_SPIKE_TURN);
-//        goTo(DROP_START_INTERMEDIATE);
-//
-//
-//
-//        if(casee==1){
-//            goTo(DROP_POSITION_L);
-//            drop.goToPosition(3);
-//            setSpeed(Speed.SLOW);
-//            goTo(DROP_POSITION_TOUCH_BOARD_L);
-//            sleep(1000);
-//            topGate.setGateOpen();
-//            telemetry.update();
-//            sleep(1000);
-//            topGate.setGateStopped();
-//            goTo(DROP_POSITION_BACKUP_BOARD_L);
-//        }
-//        if(casee==2){
-//            goTo(DROP_POSITION);
-//            drop.goToPosition(3);
-//            setSpeed(Speed.SLOW);
-//            goTo(DROP_POSITION_TOUCH_BOARD);
-//            sleep(1000);
-//            topGate.setGateOpen();
-//            telemetry.update();
-//            sleep(1000);
-//            topGate.setGateStopped();
-//            goTo(DROP_POSITION_BACKUP_BOARD);
-//        }
-//        if(casee==3){
-//            goTo(DROP_POSITION_R);
-//            drop.goToPosition(3);
-//            setSpeed(Speed.SLOW);
-//            goTo(DROP_POSITION_TOUCH_BOARD_R);
-//            sleep(1000);
-//            topGate.setGateOpen();
-//            telemetry.update();
-//            sleep(1000);
-//            topGate.setGateStopped();
-//            goTo(DROP_POSITION_BACKUP_BOARD_R);
-//        }
-//
-//
-//
-//
-//        setSpeed(Speed.MEDIUM);
-//        drop.goToBottom();
-//        sleep(1000);
-//        goTo(DROP_PARK_INTERMEDIATE);
-//        goTo(PARK_POSITION);
-//        sleep(10000);
-//
-//    }
+
 }
 

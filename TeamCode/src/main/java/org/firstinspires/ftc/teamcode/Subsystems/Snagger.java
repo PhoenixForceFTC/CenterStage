@@ -22,8 +22,9 @@ public class Snagger {
     private double powerMultiplierL;
     private double powerMultiplierR;
     private LinearOpMode opMode;
-//    int LIFT_POSITIONS[] = {0,1033,2066,2900,3100};
-    int LIFT_POSITIONS[] = {0,0,1200,1300,1450};
+//  int LIFT_POSITIONS[] = {0,1033,2066,2900,3100};
+//  int LIFT_POSITIONS[] = {0,0,1200,1300,1450};
+    int LIFT_POSITIONS[] = {0,0,1200,1400,1450};
     // 0 = Retracted
     // 1 = ???
     // 2 = ???

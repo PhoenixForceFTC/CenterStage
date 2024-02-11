@@ -3,9 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.OpModes.Auto.RedScoringSideSubsystems.left;
-import org.firstinspires.ftc.teamcode.OpModes.Auto.RedScoringSideSubsystems.middle;
-import org.firstinspires.ftc.teamcode.OpModes.Auto.RedScoringSideSubsystems.right;
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @Config
@@ -14,10 +11,6 @@ public class RedScoringSideFastL2 extends AutoOpMode {
     private Vision vision;
 
     //--- adb connect 192.168.43.1:5555
-
-//    private left left;
-//    private middle middle;
-//    private right right;
 
     private Vision.IDENTIFIED_SPIKE_MARK_LOCATION spikeLocation;
 
@@ -29,52 +22,41 @@ public class RedScoringSideFastL2 extends AutoOpMode {
     public static Position START = new Position(14, -63, 90);
 
     //--- Deliver
-    public static Position SPIKE_LEFT = new AutoOpMode.Position(10, -34, 180);
-
-    //--- Drop positions (LEFT)
-    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_L = new Position(47, -30, 180);
-    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_L2 = new Position(50, -30, 180);
-
-    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_C = new Position(44, -37, 180);
-    public static Position LEFT__DROP_POSITION_TOUCH_BOARD_C2 = new Position(50, -37, 180);
-
-    //--- Collection positions
-    public static AutoOpMode.Position RED_PILE_1_PREPOSITION = new AutoOpMode.Position(12, -12, 180);
-    public static AutoOpMode.Position RED_PILE_1_POSITION = new AutoOpMode.Position(-17, -15, 185);
+    public static Position LEFT_SPIKE = new AutoOpMode.Position(10, -34, 180);
+    public static Position MIDDLE_SPIKE = new AutoOpMode.Position(22, -28, 180);
+    public static Position RIGHT_SPIKE = new AutoOpMode.Position(30, -36, 180);
+    
+    //--- Collection positions under the scaffolding
+    public static Position COLLECT_SCAFFOLDING_CENTER = new AutoOpMode.Position(-17, -15, 185);
+    public static Position COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE = new AutoOpMode.Position(-10, -15, 185);
+    
+    //--- Before and after going to collect under the scaffolding, we need to have an intermediate position
+    public static Position LEFT_INTERMEDIATE = new AutoOpMode.Position(12, -12, 180);
+    public static Position MIDDLE_INTERMEDIATE = new AutoOpMode.Position(24, -12, 180);
+    public static Position RIGHT_INTERMEDIATE = new AutoOpMode.Position(32, -12, 180);
 
     //--- Parking
-    public static Position PARK_POSITION_CENTER = new Position(44, -15, 180);
+    public static Position PARK_ARENA_CENTER = new Position(44, -15, 180);
+    public static Position PARK_BACKDROP_CENTER = new Position(44, -37, 180);
+    public static Position PARK_ARENA_WALL = new Position(44, -60, 180);
+    
+    //--- Drop positions (LEFT)
+    public static Position LEFT_BACKDROP = new Position(47, -30, 180);
+    public static Position LEFT_BACKDROP_CLOSE = new Position(50, -30, 180);
+    
+    //--- Drop positions (MIDDLE)
+    public static Position MIDDLE_BACKDROP = new Position(47, -37, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, -37, 180);
+    
+    //--- Drop positions (RIGHT)
+    public static Position RIGHT_BACKDROP = new Position(47, -43, 180);
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(50, -43, 180);
+    
+    //--- Shared position to drop the pixel on the backdrop 
+    public static Position BACKDROP_CENTER = new Position(44, -37, 180);
+    public static Position BACKDROP_CENTER_CLOSE = new Position(50, -37, 180);
 
-    public static Position PARK_POSITION_BOARD = new Position(44, -37, 180);
-
-    public static Position PARK_POSITION_WALL = new Position(44, -60, 180);
-
-    public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(47, -44, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD_R2 = new Position(49, -44, 180);
-
-    public static Position SPIKE_RIGHT = new Position(25, -44.625, 90);
-    public static Position SPIKE_RIGHT_BACKUP = new Position(25, -52, 90);
-
-    public static Position AFTER_SPIKE_POSITION = new Position(24, -52, 90);
-    public static Position AFTER_SPIKE_TURN = new Position(24, -52, 180);
-
-    public static Position DROP_START_INTERMEDIATE = new Position(44, -52, 180);
-    public static Position DROP_PARK_INTERMEDIATE = new Position(44, -60, 180);
-    public static Position DROP_POSITION = new Position(44, -36, 180);
-    public static Position DROP_POSITION_TOUCH_BOARD = new Position(52, -36, 180);
-    public static Position DROP_POSITION_BACKUP_BOARD = new Position(44, -36, 180);
-
-
-    public static Position DROP_POSITION_L = new Position(44, -28, 180);
-    //public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(52, -28, 180);
-    public static Position DROP_POSITION_BACKUP_BOARD_L = new Position(44, -28, 180);
-    public static Position DROP_POSITION_R = new Position(44, -44, 180);
-
-
-
-
-
-
+    
     @Override
     public void runOpMode() {
 
@@ -91,7 +73,7 @@ public class RedScoringSideFastL2 extends AutoOpMode {
         }
 
         //--- Read the final position of the spike
-        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.LEFT; //--- Set default value to left
+        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.RIGHT; //--- Set default value to left
         //spikeLocation = vision.getPixelLocation();
         //vision.Stop();
 
@@ -102,79 +84,98 @@ public class RedScoringSideFastL2 extends AutoOpMode {
         //--- Drive based on spike position
         switch (spikeLocation) {
             case LEFT:
-                //--- Drive to spike and eject pixel
-                goTo(SPIKE_LEFT);
-                intake.returnPixel();
-                sleep(200);
-                intake.stop();
-
-                //--- Deliver pixel to backdrop
-                drop.goToPosition(3); //--- Up
-                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_L);
-                setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
-                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_L2);
-                setSpeed(Speed.FAST);
-
-                topGate.setGateOpen();
-                sleep(1000);
-                topGate.setGateStopped();
-
-                //--- Collect pixels from the pile
-                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_L);
-                intake.stop();
-                drop.goToPosition(0);
-                goTo(RED_PILE_1_PREPOSITION);
-                goTo(RED_PILE_1_POSITION);
-
-                snagger.goToPosition(3); //--- Almost full out
-                intake.eatPixel();
-                snagger.goToPosition(4, 0.25); //-- Full out at slow speed
-                sleep(4000);
-                intake.frontWheelReverse();
-                snagger.goToPosition(0); //--- Retract
-                sleep(3000);
-                intake.stop();
-
-                //--- Transfer pixels
-                intake.transferPixel();
-
-                //--- Move back to backdrop
-                goTo(RED_PILE_1_POSITION);
-                snagger.goToPosition(0);
-                goTo(RED_PILE_1_PREPOSITION);
-                snagger.goToPosition(0);
-                sleep(1000);
-                intake.stop();
-                drop.goToPosition(4); //--- Up (higher)
-                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_C);
-                setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
-                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_C2);
-                setSpeed(Speed.FAST);
-
-                //--- Drop the pixel
-                topGate.setGateOpen();
-                sleep(2000);
-                topGate.setGateStopped();
-
-                //--- Move away from board
-                goTo(LEFT__DROP_POSITION_TOUCH_BOARD_C);
-                drop.goToPosition(0); //--- Down
-
-                //--- Park
-                goTo(PARK_POSITION_CENTER);
-
+                //LeftSpike();
+                SpikeMovementPaths(LEFT_SPIKE, LEFT_BACKDROP, LEFT_BACKDROP_CLOSE, LEFT_INTERMEDIATE,
+                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE);
                 break;
             case MIDDLE:
-                //middle.go();
+                SpikeMovementPaths(MIDDLE_SPIKE, MIDDLE_BACKDROP, MIDDLE_BACKDROP_CLOSE, MIDDLE_INTERMEDIATE,
+                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE);
+                //CenterSpike();
                 break;
             case RIGHT:
-                //right.go();
+                SpikeMovementPaths(RIGHT_SPIKE, RIGHT_BACKDROP, RIGHT_BACKDROP_CLOSE, RIGHT_INTERMEDIATE,
+                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE);
+                //RightSpike();
                 break;
         }
 
+        //--- Park
+        goTo(PARK_ARENA_CENTER);
+        //goTo(PARK_ARENA_WALL);
+        //goTo(PARK_BACKDROP_CENTER);
+        
         sleep(5000);
     }
 
+    private void SpikeMovementPaths(Position SpikePos, 
+                           Position BackdropPos, Position BackdropClosePos, 
+                           Position IntermediatePos, 
+                           Position Collect, Position CollectIntermediate,
+                           Position BackdropCenter, Position BackdropCenterClose)
+    {
+        //--- Drive to spike and eject pixel
+        goTo(SpikePos);
+        intake.returnPixel();
+        sleep(200);
+        intake.stop();
+
+        //--- Drive to the backdrop
+        drop.goToPosition(3); //--- Up
+        goTo(BackdropPos);
+        setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
+        goTo(BackdropClosePos);
+        setSpeed(Speed.FAST);
+
+        //--- Deliver pixel
+        topGate.setGateOpen();
+        sleep(1000);
+        topGate.setGateStopped();
+        goTo(BackdropPos);
+
+        //--- Drive under the scaffolding via the intermediate position (to avoid hitting purple pixel)
+        //intake.stop();
+        drop.goToPosition(0);
+        goTo(IntermediatePos);
+        goTo(CollectIntermediate); //--- Move to intermediate point near collection
+        setSpeed(Speed.MEDIUM);
+        goTo(Collect);
+
+        //--- Send out grabber to collect pixels
+        snagger.goToPosition(3); //--- Collector almost full out
+        intake.eatPixel();
+        snagger.goToPosition(4, 0.25); //-- Full out at slow speed
+        sleep(4000);
+        intake.frontWheelReverse(); //--- Reverse front wheel to not trap a 3rd pixel
+        snagger.goToPosition(0); //--- Retract
+        //sleep(3000);
+        //intake.stop();
+
+        //--- Move back to backdrop
+        goTo(Collect); //--- Move to collect spot to correct for movement from grabber
+        snagger.goToPosition(0);
+        goTo(IntermediatePos);
+        snagger.goToPosition(0); //--- Retract grabber as it comes out when we move backwards
+
+        //--- Transfer pixels
+        intake.transferPixel();
+        sleep(2000); //--- Extra sleep to allow transfer to finish (TODO: make this based on sensors)
+        intake.stop();
+        drop.goToPosition(4); //--- Up (higher so we don't know pixels off)
+        goTo(BackdropCenter);
+        setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
+        goTo(BackdropCenterClose);
+        setSpeed(Speed.FAST);
+
+        //--- Drop the pixel
+        topGate.setGateOpen();
+        sleep(2000);
+        topGate.setGateStopped();
+
+        //--- Move away from board
+        goTo(BACKDROP_CENTER);
+        drop.goToPosition(0); //--- Down
+    }
 
 }
 

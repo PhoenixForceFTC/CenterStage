@@ -9,7 +9,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstra
 import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
@@ -64,6 +63,9 @@ public abstract class AutoOpMode extends LinearOpMode {
             X = x;
             Y = y;
             HEADING = heading;
+        }
+        public Position(Position position) {
+            HEADING = position.HEADING;
         }
 
         public Pose2d toPose2d() {

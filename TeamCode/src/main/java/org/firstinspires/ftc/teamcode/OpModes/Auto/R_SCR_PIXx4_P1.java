@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @Config
 @Autonomous(group="!CompOpModes")
-public class RedScoringSideFastL2 extends AutoOpMode {
+public class R_SCR_PIXx4_P1 extends AutoOpMode {
     private Vision vision;
 
     //--- adb connect 192.168.43.1:5555
@@ -148,8 +148,6 @@ public class RedScoringSideFastL2 extends AutoOpMode {
         sleep(4000);
         intake.frontWheelReverse(); //--- Reverse front wheel to not trap a 3rd pixel
         snagger.goToPosition(0); //--- Retract
-        //sleep(3000);
-        //intake.stop();
 
         //--- Move back to backdrop
         goTo(Collect); //--- Move to collect spot to correct for movement from grabber

@@ -24,10 +24,10 @@ public class Snagger {
     private LinearOpMode opMode;
 //  int LIFT_POSITIONS[] = {0,1033,2066,2900,3100};
 //  int LIFT_POSITIONS[] = {0,0,1200,1300,1450};
-    int LIFT_POSITIONS[] = {0,0,1200,1400,1450};
+    int LIFT_POSITIONS[] = {0,800,900,1400,1450,700};
     // 0 = Retracted
-    // 1 = ???
-    // 2 = ???
+    // 1 = Right Pos for spike mark deploy
+    // 2 = Center Turn spike mark deploy
     // 3 = Full out prior to speed change
     // 4 = Full out
     int liftPosition = 0;

@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -82,6 +83,9 @@ public class Drop {
             double power = pid+ff;
             opMode.telemetry.addLine("pos: "+rightLift.getCurrentPosition());
             opMode.telemetry.addLine("target: "+target);
+            TelemetryPacket packet = new TelemetryPacket();
+            packet.put("pos",rightLift.getCurrentPosition());
+            packet.put("target", target);
             leftLift.setPower(power);
             rightLift.setPower(power);
 

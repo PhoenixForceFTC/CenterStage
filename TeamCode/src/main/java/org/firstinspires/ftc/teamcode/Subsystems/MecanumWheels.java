@@ -80,8 +80,8 @@ public class MecanumWheels {
          * rightRearMotor forward - motor clockwise
          */
 
-        leftFrontMotor.setPower(-lFpower);
-        rightFrontMotor.setPower(rFpower);
+        leftFrontMotor.setPower(lFpower);
+        rightFrontMotor.setPower(-rFpower);
         leftRearMotor.setPower(-lRpower);
         rightRearMotor.setPower(rRpower);
 

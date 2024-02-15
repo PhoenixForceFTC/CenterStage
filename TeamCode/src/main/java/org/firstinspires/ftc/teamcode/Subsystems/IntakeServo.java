@@ -20,14 +20,14 @@ public class IntakeServo {
     }
 
     public void setPower(double position){
-        cRServo1.setPower(position); //--- Middle Wheel
-        cRServo2.setPower(position); //--- Front Intake Wheel
+        cRServo1.setPower(-position); //--- Middle Wheel
+        cRServo2.setPower(-position); //--- Front Intake Wheel
         cRServo3.setPower(-position); //--- Bottom Roller
         currentOpMode.telemetry.addData("Intake Servo Power:",position);
     }
 
     public void setPower2(double position){
-        cRServo2.setPower(position);
+        cRServo2.setPower(-position);
     }
 
     public void frontWheelReverse() { setPower2(1); } //--- switched direction

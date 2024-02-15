@@ -19,10 +19,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Drop {
     private PIDController controller;
-    public static double P =0,I=0,D=0;
-    public static double F=0;
-    public int target = 0;
-    public static double ticksPerDegree=384.5/360;
+    public static double P =0.001,I=0,D=0;
+    public static double F=0.01;
+    private int target = 0;
+    private static double ticksPerDegree=384.5/360;
     private DcMotorEx leftLift;
     private DcMotorEx rightLift;
 
@@ -37,7 +37,7 @@ public class Drop {
     int liftPosition = 0;
 
     boolean dPadPressed = false;
-    private boolean prePressed = false;
+    private boolean isTransfering = false;
 
     private boolean previouslyReset = true;
     private boolean runManually = false;
@@ -62,41 +62,43 @@ public class Drop {
     public void move(double magnitude){
         boolean run = false;
         if(!runManually){
-            leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightLift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
+        leftLift.setTargetPosition(leftLift.getCurrentPosition()+(int)(1000*magnitude));
+        rightLift.setTargetPosition(rightLift.getCurrentPosition()+(int)(1000*magnitude));
+        leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         runManually=true;
         if (magnitude > 0.2 || magnitude < -0.2) {
 
             opMode.telemetry.addLine("Drop is in manual modde");
+
+
             leftLift.setPower(magnitude);
             rightLift.setPower(magnitude);
-            run = true;
+            target = rightLift.getCurrentPosition();
         }else{
-            if(run=true){
-                target = rightLift.getCurrentPosition();
-                run=false;
-            }
             controller.setPID(P, I, D);
             double pid = controller.calculate(rightLift.getCurrentPosition(),target);
             double ff = Math.cos(Math.toRadians(target/ticksPerDegree))*F;
             double power = pid+ff;
-            opMode.telemetry.addLine("pos: "+rightLift.getCurrentPosition());
-            opMode.telemetry.addLine("target: "+target);
-            TelemetryPacket packet = new TelemetryPacket();
-            packet.put("pos",rightLift.getCurrentPosition());
-            packet.put("target", target);
             leftLift.setPower(power);
             rightLift.setPower(power);
 
         }
+        opMode.telemetry.addData("pos: ",rightLift.getCurrentPosition());
+        opMode.telemetry.addData("target: ",target);
         opMode.telemetry.addData("Drop slide position", "left lift:"+leftLift.getCurrentPosition());
         opMode.telemetry.addData("Drop slide position", "right lift"+rightLift.getCurrentPosition());
-        if(opMode.gamepad2.right_trigger>0.4){
-                    arm.goToIntermediate();
-                } else{
-                    arm.goToDropPosition();
-                }
+        if(!isTransfering){
+            if(opMode.gamepad2.right_trigger>0.4){
+                arm.goToIntermediate();
+            } else{
+                arm.goToDropPosition();
+            }
+        }
+        isTransfering = false;
     }
 
 
@@ -199,6 +201,7 @@ public class Drop {
 
     public void transfer(){
         arm.goToTransfer();
+        isTransfering = true;
     }
 
 

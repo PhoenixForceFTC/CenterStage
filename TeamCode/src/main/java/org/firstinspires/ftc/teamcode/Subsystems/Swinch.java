@@ -2,14 +2,14 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.OpModes.TeleOpMode;
 
+import org.firstinspires.ftc.teamcode.OpModes.TeleOpMode;
 import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 
-public class BottomGate {
+public class Swinch {
     private OpMode opMode;
-    private final double closedPos = 0.5;
-    private final double openPos = 0.8;
+    private final double closedPos = 0.47;
+    private final double openPos = 1;
     private Servo gate;
     private Drop dropSlides;
 
@@ -19,10 +19,9 @@ public class BottomGate {
     private boolean canAutoClose = false;
     private ButtonToggle clawClosed;
 
-    public BottomGate(OpMode opMode, Drop drop) {
+    public Swinch(OpMode opMode) {
         this.opMode = opMode;
-        this.dropSlides = drop;
-        gate = opMode.hardwareMap.get(Servo.class, "GATE1");
+        gate = opMode.hardwareMap.get(Servo.class, "SWINCH");
         //grip.setDirection(Servo.Direction.REVERSE);
         //sensor = new ClawSensor(opMode.hardwareMap);
 

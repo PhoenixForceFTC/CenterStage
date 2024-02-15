@@ -92,7 +92,10 @@ public class DemoTeleOpMode extends LinearOpMode {
                 if(gamepad1.a)
                 {
                     //Plane Launcher
-                    planeServo.GoToPosition((float) 0.1);
+                    planeServo.GoToPosition((float) 0.13);
+                }
+                else{
+                    planeServo.GoToPosition(0);
                 }
                 if(gamepad1.right_bumper)
                 {

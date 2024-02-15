@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
@@ -12,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
+import org.firstinspires.ftc.teamcode.Subsystems.Swinch;
 import org.firstinspires.ftc.teamcode.Subsystems.PlaneServo;
 import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
@@ -24,13 +24,13 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 @TeleOp(name = "mecanum drive test", group = "00-Teleop")
 
 
-
 public class TeleOpMode extends LinearOpMode {
 
     private OpMode opMode;
     private PlaneServo planeServo;
     private MecanumWheels mecanumWheels;
     private TopGate topGate;
+    private Swinch swinch;
     private Intake intake;
 
     //    private MotorEncoder motorEncoder;
@@ -43,6 +43,7 @@ public class TeleOpMode extends LinearOpMode {
 
 
 
+
     // @Override
 
     /*
@@ -50,9 +51,9 @@ public class TeleOpMode extends LinearOpMode {
      * and work/be active
      */
 
-
+    @Override
     public void runOpMode() throws InterruptedException {
-        Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        this.telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         /* Create Subsystem Objects*/
         // driveTrain = new DriveTrain(hardwareMap);
         //newLift2 = new NewLift2(this);
@@ -62,7 +63,7 @@ public class TeleOpMode extends LinearOpMode {
         mecanumWheels = new MecanumWheels(this);
         intake = new Intake(this,drop,topGate);
         planeServo = new PlaneServo(this);
-
+        swinch = new Swinch(this);
         waitForStart();
 
 
@@ -105,8 +106,13 @@ public class TeleOpMode extends LinearOpMode {
                 if (gamepad2.right_stick_button) {
                     drop.resetPosition();
                 }
-
+                if(gamepad2.left_bumper){
+                    swinch.setClawClosed(false);
+                }else{
+                    swinch.setClawClosed(true);
+                }
                 telemetry.update();
+                //telemetry2.update();
             }
 
 

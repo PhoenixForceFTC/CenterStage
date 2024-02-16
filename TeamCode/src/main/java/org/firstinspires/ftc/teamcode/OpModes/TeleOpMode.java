@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumWheels;
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
@@ -22,7 +18,6 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
  *
  */
 @TeleOp(name = "mecanum drive test", group = "00-Teleop")
-
 
 public class TeleOpMode extends LinearOpMode {
 
@@ -51,9 +46,9 @@ public class TeleOpMode extends LinearOpMode {
      * and work/be active
      */
 
-    @Override
+    //@Override
     public void runOpMode() throws InterruptedException {
-        this.telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        //this.telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         /* Create Subsystem Objects*/
         // driveTrain = new DriveTrain(hardwareMap);
         //newLift2 = new NewLift2(this);

@@ -27,6 +27,7 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
     public static Position RIGHT_SPIKE = new AutoOpMode.Position(27, -36, 180);
     
     //--- Collection positions under the scaffolding
+    public static Position COLLECT_SCAFFOLDING_CENTER_TURN = new AutoOpMode.Position(-21, -17, 195);
     public static Position COLLECT_SCAFFOLDING_CENTER = new AutoOpMode.Position(-21, -17, 185);
     public static Position COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE = new AutoOpMode.Position(-10, -15, 185);
     
@@ -89,16 +90,16 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
             case LEFT:
                 //LeftSpike();
                 SpikeMovementPaths(LEFT_SPIKE, LEFT_BACKDROP, LEFT_BACKDROP_CLOSE, LEFT_INTERMEDIATE,
-                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE);
+                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,COLLECT_SCAFFOLDING_CENTER_TURN);
                 break;
             case MIDDLE:
                 SpikeMovementPaths(MIDDLE_SPIKE, MIDDLE_BACKDROP, MIDDLE_BACKDROP_CLOSE, MIDDLE_INTERMEDIATE,
-                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE);
+                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,COLLECT_SCAFFOLDING_CENTER_TURN);
                 //CenterSpike();
                 break;
             case RIGHT:
                 SpikeMovementPaths(RIGHT_SPIKE, RIGHT_BACKDROP, RIGHT_BACKDROP_CLOSE, RIGHT_INTERMEDIATE,
-                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE);
+                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,COLLECT_SCAFFOLDING_CENTER_TURN);
                 //RightSpike();
                 break;
         }
@@ -114,11 +115,12 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
         sleep(5000);
     }
 
-    private void SpikeMovementPaths(Position SpikePos, 
-                           Position BackdropPos, Position BackdropClosePos, 
-                           Position IntermediatePos, 
+    private void SpikeMovementPaths(Position SpikePos,
+                           Position BackdropPos, Position BackdropClosePos,
+                           Position IntermediatePos,
                            Position Collect, Position CollectIntermediate,
-                           Position BackdropCenter, Position BackdropCenterClose)
+                           Position BackdropCenter, Position BackdropCenterClose,
+                            Position CollectTurn)
     {
         //--- Drive to spike and eject pixel
         goTo(SpikePos);
@@ -145,34 +147,44 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
         goTo(IntermediatePos);
         goTo(CollectIntermediate); //--- Move to intermediate point near collection
         setSpeed(Speed.MEDIUM);
-        goTo(Collect);
+        goTo(COLLECT_SCAFFOLDING_CENTER);
 
-        //--- Send out grabber to collect pixels
+
+        //--- Send out grabber to collect pixels*/
         swinch.setClawClosed(false); //--- Open the claw
-        snagger.goToPosition(3); //--- Collector almost full out
-        intake.eatPixel();
-        snagger.goToPosition(4, 0.25); //-- Full out at slow speed
-        sleep(2000);
+      //  snagger.goToPosition(3); //--- Collector almost full out
+      //  intake.eatPixel();
+        snagger.goToPosition(4, 1); //-- Full out at slow speed
+        sleep(1500);
         swinch.setClawClosed(true); //--- close the claw
-        sleep(1000);
-        snagger.goToPosition(2); //--- Collector almost full out
+        intake.eatPixel();
+        sleep(250);
+        snagger.goToPosition(0, 1);
+        intake.stop();
+        sleep(300);
+      //  snagger.goToPosition(2); //--- Collector almost full out
+     //   intake.eatPixel();
+        intake.eatPixel();
         snagger.goToPosition(4, 0.5); //-- Full out at slow speed
-        sleep(1000);
-        intake.frontWheelReverse(); //--- Reverse front wheel to not trap a 3rd pixel
-        snagger.goToPosition(0); //--- Retract
+        sleep(2500);
 
+     //   intake.frontWheelReverse(); //--- Reverse front wheel to not trap a 3rd pixel
+        snagger.goToPosition(0); //--- Retract
+        intake.stop();
         //--- Move back to backdrop
         goTo(Collect); //--- Move to collect spot to correct for movement from grabber
         snagger.goToPosition(0);
-        goTo(IntermediatePos);
+       goTo(IntermediatePos);
         snagger.goToPosition(0); //--- Retract grabber as it comes out when we move backwards
+
 
         //--- Transfer pixels
         intake.transferPixel();
         sleep(3000); //--- Extra sleep to allow transfer to finish (TODO: make this based on sensors)
-        intake.stop();
+
         drop.goToPosition(4); //--- Up (higher so we don't know pixels off)
         goTo(BackdropCenter);
+        intake.stop();
         setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
         goTo(BackdropCenterClose);
         setSpeed(Speed.FAST);
@@ -184,7 +196,7 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
 
         //--- Move away from board
         goTo(BACKDROP_CENTER);
-        drop.goToPosition(0); //--- Down
+        drop.goToPosition(0); //--- Down*/
     }
 
 }

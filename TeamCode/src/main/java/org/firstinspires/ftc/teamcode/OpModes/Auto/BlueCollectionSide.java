@@ -10,15 +10,15 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 public class BlueCollectionSide extends AutoOpMode {
     private Vision vision;
     private Vision.IDENTIFIED_SPIKE_MARK_LOCATION spikeLocation;
-    public static Position START = new Position(-36, 63.375, 270);
-    public static Position SPIKE_POSITION_R = new Position(-47.5, 44.625, 270);
+    public static Position START = new Position(-39, 63.375, 270);
+    public static Position SPIKE_POSITION_R = new Position(-47.5, 41.625, 270);
     public static Position SPIKE_POSITION_R_BACKUP = new Position(-47.5, 52, 270);
     public static Position LEFT_WALL = new Position(-58, 52, 270);
     public static Position LEFT_WALL_COLLECTION_INTERMEDIATE = new Position(-58, 12, 270);
     public static Position COLLECTION_SIDE = new Position(-54, 12, 270);
     public static Position COLLECTION_SIDE_TURN =  new Position(-54, 12, 180);
     public static Position DROP_SIDE =  new Position(44, 12, 180);
-    public static Position SPIKE_CENTER = new Position(-39, 36, 270);
+    public static Position SPIKE_CENTER = new Position(-41, 34, 270);
     public static Position SPIKE_CENTER_BACKUP = new Position(-39, 44, 270);
     public static Position SPIKE_LEFT = new Position(-39, 36, 270);
     public static Position SPIKE_LEFT_TURN = new Position(-39,36, 345);
@@ -31,17 +31,17 @@ public class BlueCollectionSide extends AutoOpMode {
 
 
     public static Position DROP_PARK_INTERMEDIATE = new Position(46, 16, 180);
-    public static Position DROP_POSITION = new Position(46, 36, 180);
+    public static Position DROP_POSITION = new Position(44, 36, 180);
     public static Position DROP_POSITION_TOUCH_BOARD = new Position(54, 36, 180);
     public static Position DROP_POSITION_BACKUP_BOARD = new Position(46, 36, 180);
 
 
 
-    public static Position DROP_POSITION_L = new Position(46, 42, 180);
+    public static Position DROP_POSITION_L = new Position(44, 42, 180);
     public static Position DROP_POSITION_TOUCH_BOARD_L = new Position(54, 42, 180);
     public static Position DROP_POSITION_BACKUP_BOARD_L = new Position(46, 42, 180);
 
-    public static Position DROP_POSITION_R = new Position(46, 32, 180);
+    public static Position DROP_POSITION_R = new Position(44, 32, 180);
     public static Position DROP_POSITION_TOUCH_BOARD_R = new Position(54, 32, 180);
     public static Position DROP_POSITION_BACKUP_BOARD_R= new Position(46, 32, 180);
 
@@ -69,7 +69,7 @@ public class BlueCollectionSide extends AutoOpMode {
             case RIGHT:
                 goTo(SPIKE_POSITION_R);
                 intake.returnPixel();
-                sleep(2000);
+                sleep(200);
                 goTo(SPIKE_POSITION_R_BACKUP);
                 coneDrop(3);
 
@@ -77,7 +77,7 @@ public class BlueCollectionSide extends AutoOpMode {
             case MIDDLE:
                 goTo(SPIKE_CENTER);
                 intake.returnPixel();
-                sleep(2000);
+                sleep(200);
                 goTo(SPIKE_CENTER_BACKUP);
                 coneDrop(2);
                 break;
@@ -86,7 +86,7 @@ public class BlueCollectionSide extends AutoOpMode {
                 goTo(SPIKE_LEFT_TURN);
                 goTo(SPIKE_LEFT_FORWARD);
                 intake.returnPixel();
-                sleep(2000);
+                sleep(200);
                 goTo(SPIKE_LEFT_TURN);
                 goTo(SPIKE_LEFT_BACKUP);
                 goTo(SPIKE_LEFT_ADJUST_HEADING);
@@ -142,7 +142,6 @@ public class BlueCollectionSide extends AutoOpMode {
         drop.goToBottom();
         sleep(1000);
         goTo(DROP_PARK_INTERMEDIATE);
-        goTo(PARK_POSITION);
         sleep(10000);
     }
 }

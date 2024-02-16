@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
  * FTC WIRES TeleOp Example
  *
  */
-@TeleOp(name = "mecanum drive test", group = "00-Teleop")
+@TeleOp(name = "Phoenix Tuff Tele", group = "00-Teleop")
 
 public class TeleOpMode extends LinearOpMode {
 
@@ -88,7 +88,7 @@ public class TeleOpMode extends LinearOpMode {
                 }
 
 
-                if (gamepad2.dpad_down) {
+                if (gamepad2.left_stick_button) {
                     intake.transferPixel();
                 } else if (gamepad2.dpad_up) {
                     intake.returnPixelTeleOpMode();
@@ -98,9 +98,9 @@ public class TeleOpMode extends LinearOpMode {
                     intake.stop();
                 }
 
-                if (gamepad2.right_stick_button) {
-                    drop.resetPosition();
-                }
+               // if (gamepad2.right_stick_button) {
+               //     drop.resetPosition();
+              //  }
                 if(gamepad2.left_bumper){
                     swinch.setClawClosed(false);
                 }else{

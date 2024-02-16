@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 
 public class Swinch {
     private OpMode opMode;
-    private final double closedPos = 0.47;
+    private final double closedPos = 0.55;
     private final double openPos = 1;
     private Servo gate;
     private Drop dropSlides;

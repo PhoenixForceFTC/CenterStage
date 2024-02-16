@@ -86,7 +86,7 @@ public class Intake {
         }else if(pixelCounter.getIntakePixels()==1){
             color = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
         }else{
-            color = RevBlinkinLedDriver.BlinkinPattern.BLACK;
+            color = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_PARTY_PALETTE;
         }
         lights.setPattern(color);
     }

@@ -22,12 +22,12 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
     public static Position START = new Position(14, -63, 90);
 
     //--- Deliver
-    public static Position LEFT_SPIKE = new AutoOpMode.Position(10, -34, 180);
+    public static Position LEFT_SPIKE = new AutoOpMode.Position(8, -35, 180);
     public static Position MIDDLE_SPIKE = new AutoOpMode.Position(22, -28, 180);
-    public static Position RIGHT_SPIKE = new AutoOpMode.Position(30, -36, 180);
+    public static Position RIGHT_SPIKE = new AutoOpMode.Position(27, -36, 180);
     
     //--- Collection positions under the scaffolding
-    public static Position COLLECT_SCAFFOLDING_CENTER = new AutoOpMode.Position(-17, -15, 185);
+    public static Position COLLECT_SCAFFOLDING_CENTER = new AutoOpMode.Position(-21, -17, 185);
     public static Position COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE = new AutoOpMode.Position(-10, -15, 185);
     
     //--- Before and after going to collect under the scaffolding, we need to have an intermediate position
@@ -73,13 +73,16 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
         }
 
         //--- Read the final position of the spike
-        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.RIGHT; //--- Set default value to left
-        //spikeLocation = vision.getPixelLocation();
+        //spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.RIGHT; //--- Set default value to left
+        spikeLocation = vision.getPixelLocation();
         //vision.Stop();
 
         //--- Initialize
         setup();
         setStartPosition(START);
+
+        //--- Initialize
+        swinch.setClawClosed(true); //--- close the claw
 
         //--- Drive based on spike position
         switch (spikeLocation) {
@@ -100,11 +103,14 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
                 break;
         }
 
+        //--- Finalize
+        swinch.setClawClosed(true); //--- close the claw
+
         //--- Park
         goTo(PARK_ARENA_CENTER);
         //goTo(PARK_ARENA_WALL);
         //goTo(PARK_BACKDROP_CENTER);
-        
+
         sleep(5000);
     }
 
@@ -142,10 +148,16 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
         goTo(Collect);
 
         //--- Send out grabber to collect pixels
+        swinch.setClawClosed(false); //--- Open the claw
         snagger.goToPosition(3); //--- Collector almost full out
         intake.eatPixel();
         snagger.goToPosition(4, 0.25); //-- Full out at slow speed
-        sleep(4000);
+        sleep(2000);
+        swinch.setClawClosed(true); //--- close the claw
+        sleep(1000);
+        snagger.goToPosition(2); //--- Collector almost full out
+        snagger.goToPosition(4, 0.5); //-- Full out at slow speed
+        sleep(1000);
         intake.frontWheelReverse(); //--- Reverse front wheel to not trap a 3rd pixel
         snagger.goToPosition(0); //--- Retract
 
@@ -157,7 +169,7 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
 
         //--- Transfer pixels
         intake.transferPixel();
-        sleep(2000); //--- Extra sleep to allow transfer to finish (TODO: make this based on sensors)
+        sleep(3000); //--- Extra sleep to allow transfer to finish (TODO: make this based on sensors)
         intake.stop();
         drop.goToPosition(4); //--- Up (higher so we don't know pixels off)
         goTo(BackdropCenter);

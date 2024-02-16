@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.Drop;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Snagger;
+import org.firstinspires.ftc.teamcode.Subsystems.Swinch;
 import org.firstinspires.ftc.teamcode.Subsystems.TopGate;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -25,6 +26,7 @@ public abstract class AutoOpMode extends LinearOpMode {
     public SampleMecanumDrive drive;
     public TopGate topGate;
     public Intake intake;
+    public Swinch swinch;
 
     public Drop drop;
     public Snagger snagger;
@@ -83,6 +85,7 @@ public abstract class AutoOpMode extends LinearOpMode {
         snagger = new Snagger(this);
         topGate = new TopGate(this, drop);
         intake = new Intake(this, drop, topGate);
+        swinch = new Swinch(this);
         while(!isStarted() && !isStopRequested()){
 //            camera.detection();
         }

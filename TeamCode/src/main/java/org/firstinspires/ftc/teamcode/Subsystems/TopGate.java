@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.ButtonToggle;
 //
 public class TopGate {
     private OpMode opMode;
-    private final double closedPos = 1;
+    private final double closedPos = 0.2;
     private final double openPos = -1;
     private final double stoppedPos = 0;
     private CRServo gate;
@@ -63,7 +63,7 @@ public class TopGate {
         opMode.telemetry.addLine("Closing Top Gate");
     }
     public void setGateStopped() {
-        gate.setPower(stoppedPos);
+        gate.setPower(closedPos);
         opMode.telemetry.addLine("Stopping Top Gate");
     }
 }

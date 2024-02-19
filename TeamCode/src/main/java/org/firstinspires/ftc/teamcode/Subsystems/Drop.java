@@ -12,7 +12,6 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @Config
@@ -137,7 +136,6 @@ public class Drop {
             liftPosition= 0;
             runManually = false;
             goToBottom();
-
         }
         if (opMode.gamepad2.x) {
             runManually = false;

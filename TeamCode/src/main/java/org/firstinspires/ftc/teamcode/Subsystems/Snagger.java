@@ -24,7 +24,14 @@ public class Snagger {
     private LinearOpMode opMode;
 //  int LIFT_POSITIONS[] = {0,1033,2066,2900,3100};
 //  int LIFT_POSITIONS[] = {0,0,1200,1300,1450};
-    int LIFT_POSITIONS[] = {0,800,900,1400,1470,1500};
+    //int LIFT_POSITIONS[] = {0,800,900,1400,1470,1500};
+    int LIFT_POSITIONS[] = {0,650,815,650,960};
+
+    //815 is center position
+    //650 left and right
+    //960 is stack
+
+
     // 0 = Retracted
     // 1 = Right Pos for spike mark deploy
     // 2 = Center Turn spike mark deploy
@@ -60,16 +67,20 @@ public class Snagger {
             leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightLift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         }
-        runManually=true;
-        if (magnitude > 0.2 || magnitude < -0.2) {
 
-            opMode.telemetry.addLine("Drop is in manual modde");
-            leftLift.setPower(magnitude);
-            rightLift.setPower(magnitude);
-        }else{
-            leftLift.setPower(0);
-            rightLift.setPower(0);
+        if(runManually){
+            if (magnitude > 0.2 || magnitude < -0.2) {
+                opMode.telemetry.addLine("Drop is in manual modde");
+                leftLift.setPower(-magnitude);
+                rightLift.setPower(-magnitude);
+            }else{
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+            }
         }
+        opMode.telemetry.addData("Snagger slide position", "left lift:"+leftLift.getCurrentPosition());
+        opMode.telemetry.addData("snagger slide position", "right lift"+rightLift.getCurrentPosition());
+        runManually=true;
     }
     public void resetEncoders(){
         leftLift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -116,6 +127,15 @@ public class Snagger {
         }
     }
 
+    public void controlLift2() {
+        if (opMode.gamepad2.dpad_left) {
+            runManually = false;
+            liftPosition=0;
+            goToPosition(liftPosition);
+        }
+
+    }
+
     private void goToPositionAfter(int pos)
     {
         goToPositionAfter(pos, 1.0);
@@ -126,13 +146,10 @@ public class Snagger {
         rightLift.setTargetPosition(LIFT_POSITIONS[pos]);
         leftLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
         boolean setToBottom = pos == 0;
         leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         if (rightLift.getCurrentPosition() > safetyRange || !setToBottom || leftLift.getCurrent(CurrentUnit.AMPS)>4) {
-
             if(leftLift.getCurrent(CurrentUnit.AMPS)>5) {
                 powerMultiplierL=5*(1/leftLift.getCurrent(CurrentUnit.AMPS));
             } else {
@@ -162,13 +179,13 @@ public class Snagger {
         if(diff<safetyRange/2)
         {
             return true;
-
         }
         else
         {
             return false;
         }
     }
+
     public void resetPosition(){
         leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

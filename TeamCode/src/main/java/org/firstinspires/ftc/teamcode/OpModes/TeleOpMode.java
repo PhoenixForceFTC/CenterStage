@@ -34,13 +34,7 @@ public class TeleOpMode extends LinearOpMode {
     private ButtonToggle manualMode = new ButtonToggle(false);
     private Drop drop;
     private Snagger snagger;
-
-
-
-
-
     // @Override
-
     /*
      * Constructor for passing all the subsystems in order to make the subsystem be able to use
      * and work/be active
@@ -65,9 +59,12 @@ public class TeleOpMode extends LinearOpMode {
         while (!isStopRequested()) {
             while (opModeIsActive()) {
                 //     sensor.ConePresent();
-
-
                 mecanumWheels.move();
+                if ((!gamepad1.dpad_left)&&snagger.reachedTarget()) {
+                    snagger.move(gamepad2.left_stick_y);
+                } else {
+                    snagger.controlLift2();
+                }
                 topGate.controlGate();
                 snagger.move(gamepad2.left_stick_y);
                 intake.lights();

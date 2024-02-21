@@ -25,8 +25,8 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     public static Position CENTERPOS_L = new Position(-36, 59, 292);
 
     public static Position CENTERPOS_R = new Position(-36, 59, 248);
-    public static Position STACK1 = new Position(-36, 59, 215);
-    public static Position STACK1STRAFE = new Position(-36, 55, 215);
+    public static Position STACK1 = new Position(-36, 59, 210);
+    public static Position STACK1STRAFE = new Position(-40, 59, 230);
     
     @Override
     public void runOpMode() {
@@ -115,7 +115,15 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         snagger.goToPosition(4);
         sleep(2000);
         goTo(STACK1STRAFE);
+        snagger.goToPosition(5);
         intake.eatPixel();
+        sleep(1000);
+        intake.eatPixel();
+        intake.stop();
+        swinch.setClawClosed(true);
+        snagger.goToPosition(0);
+        sleep(700);
+        intake.transferPixel();
         sleep(1000);
 
     }

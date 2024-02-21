@@ -31,7 +31,7 @@ public class MecanumWheels {
     }
 
     public void move(){
-        move(opMode.gamepad1.left_stick_x, opMode.gamepad1.left_stick_y, -opMode.gamepad1.right_stick_x);
+        move(opMode.gamepad1.left_stick_x, opMode.gamepad1.left_stick_y, -opMode.gamepad1.right_stick_x*0.7);
     }
 
     public void move(double xMagnitude, double yMagnitude, double turn){

@@ -74,8 +74,8 @@ public class Drop {
             opMode.telemetry.addLine("Drop is in manual modde");
 
 
-            leftLift.setPower(magnitude);
-            rightLift.setPower(magnitude);
+            leftLift.setPower(-magnitude);
+            rightLift.setPower(-magnitude);
             target = rightLift.getCurrentPosition();
         }else{
             controller.setPID(P, I, D);

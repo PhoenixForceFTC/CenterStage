@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.sun.source.tree.ConditionalExpressionTree;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
@@ -27,6 +26,27 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     public static Position CENTERPOS_R = new Position(-36, 59, 248);
     public static Position STACK1 = new Position(-36, 59, 210);
     public static Position STACK1STRAFE = new Position(-40, 59, 230);
+    public static Position INTERMEDIATE = new Position(12, 12, 180);
+    public static Position PARK_ARENA_CENTER = new Position(44, 15, 180);
+    public static Position PARK_BACKDROP_CENTER = new Position(44, 37, 180);
+    public static Position PARK_ARENA_WALL = new Position(44, 60, 180);
+
+    //--- Drop positions (LEFT)
+    public static Position RIGHT_BACKDROP = new Position(47, 30, 180);
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(50, 30, 180);
+
+    //--- Drop positions (MIDDLE)
+    public static Position MIDDLE_BACKDROP = new Position(47, 37, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, 37, 180);
+
+    //--- Drop positions (RIGHT)
+    public static Position LEFT_BACKDROP = new Position(47, 43, 180);
+    public static Position LEFT_BACKDROP_CLOSE = new Position(50, 43, 180);
+
+    //--- Shared position to drop the pixel on the backdrop
+    public static Position BACKDROP_CENTER = new Position(44, 37, 180);
+    public static Position BACKDROP_CENTER_CLOSE = new Position(50, 37, 180);
+    public static Position COLLECT_SCAFFOLDING_CENTER = new Position(-17, 15, 180);
     
     @Override
     public void runOpMode() {
@@ -57,14 +77,40 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
             case LEFT:
                 //LeftSpike();
                 goTo(CENTERPOS);
-                SpikeMovementPaths(CENTERPOS_L);
+                SpikeMovementPaths(
+                        CENTERPOS_L,
+                        STACK1,
+                        STACK1STRAFE,
+                        LEFT_BACKDROP ,
+                        LEFT_BACKDROP_CLOSE ,
+                        BACKDROP_CENTER,
+                        BACKDROP_CENTER_CLOSE,
+                        COLLECT_SCAFFOLDING_CENTER,
+                        INTERMEDIATE);
                 break;
             case MIDDLE:
-                SpikeMovementPaths(CENTERPOS);
+                SpikeMovementPaths(
+                        CENTERPOS,
+                        STACK1,
+                        STACK1STRAFE,
+                        MIDDLE_BACKDROP ,
+                        MIDDLE_BACKDROP_CLOSE ,
+                        BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,
+                        COLLECT_SCAFFOLDING_CENTER,
+                        INTERMEDIATE);
                 break;
             case RIGHT:
                 goTo(CENTERPOS);
-                SpikeMovementPaths(CENTERPOS_R);
+                SpikeMovementPaths(
+                        CENTERPOS_R,
+                        STACK1,
+                        STACK1STRAFE,
+                        RIGHT_BACKDROP ,
+                        RIGHT_BACKDROP_CLOSE ,
+                        BACKDROP_CENTER,
+                        BACKDROP_CENTER_CLOSE,
+                        COLLECT_SCAFFOLDING_CENTER,
+                        INTERMEDIATE);
                 break;
         }
 
@@ -76,7 +122,16 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         sleep(5000);
     }
 
-    private void SpikeMovementPaths(Position CenterPos)
+    private void SpikeMovementPaths(Position CenterPos,
+                                    Position Stack,
+                                    Position StackStrafe,
+                                    Position BackdropPos,
+                                    Position BackdropClosePos,
+                                    Position BackdropCenter,
+                                    Position BackdropCenterClose,
+                                    Position Collect,
+                                    Position IntermediatePos
+                                    )
     {
      goTo(CenterPos);
         switch (spikeLocation) {
@@ -111,10 +166,10 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                 sleep(2000);
                 break;
         }
-        goTo(STACK1);
+        goTo(Stack);
         snagger.goToPosition(4);
         sleep(2000);
-        goTo(STACK1STRAFE);
+        goTo(StackStrafe);
         snagger.goToPosition(5);
         intake.eatPixel();
         sleep(1000);
@@ -125,7 +180,17 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         sleep(700);
         intake.transferPixel();
         sleep(1000);
-
+        splineTo(Collect);
+        goTo(IntermediatePos);
+        drop.goToPosition(3); //--- Up
+        splineTo(BackdropPos);
+        setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
+        goTo(BackdropClosePos);
+        setSpeed(Speed.FAST);
+        topGate.setGateOpen();
+        sleep(1000);
+        topGate.setGateStopped();
+        goTo(BackdropPos);
     }
 
 }

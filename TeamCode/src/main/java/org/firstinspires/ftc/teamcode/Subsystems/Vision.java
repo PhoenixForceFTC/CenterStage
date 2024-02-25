@@ -173,7 +173,7 @@ public class Vision {
             opMode.telemetry.addData("- Position", "%.0f / %.0f", x, y);
             opMode.telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
             if (recognition.getLabel() == "Pixel") {
-                if (x < 185) {
+                if (x < 200) {
                     identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.LEFT;
                 } else {
                     identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;

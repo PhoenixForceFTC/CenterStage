@@ -26,7 +26,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     public static Position CENTERPOS_R = new Position(-36, 59, 248);
     public static Position STACK1 = new Position(-36, 59, 210);
     public static Position STACK1STRAFE = new Position(-40, 59, 230);
-    public static Position INTERMEDIATE = new Position(12, 12, 180);
+    public static Position INTERMEDIATE = new Position(20, 59, 180);
     public static Position PARK_ARENA_CENTER = new Position(44, 15, 180);
     public static Position PARK_BACKDROP_CENTER = new Position(44, 37, 180);
     public static Position PARK_ARENA_WALL = new Position(44, 60, 180);
@@ -37,16 +37,16 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
 
     //--- Drop positions (MIDDLE)
     public static Position MIDDLE_BACKDROP = new Position(47, 37, 180);
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, 37, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(53, 37, 180);
 
     //--- Drop positions (RIGHT)
     public static Position LEFT_BACKDROP = new Position(47, 43, 180);
-    public static Position LEFT_BACKDROP_CLOSE = new Position(50, 43, 180);
+    public static Position LEFT_BACKDROP_CLOSE = new Position(53, 43, 180);
 
     //--- Shared position to drop the pixel on the backdrop
     public static Position BACKDROP_CENTER = new Position(44, 37, 180);
-    public static Position BACKDROP_CENTER_CLOSE = new Position(50, 37, 180);
-    public static Position COLLECT_SCAFFOLDING_CENTER = new Position(-17, 15, 180);
+    public static Position BACKDROP_CENTER_CLOSE = new Position(53, 37, 180);
+    public static Position COLLECT_SCAFFOLDING_CENTER = new Position(-36, 60, 180);
     
     @Override
     public void runOpMode() {
@@ -64,8 +64,8 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         }
 
         //--- Read the final position of the spike
-        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.RIGHT; //--- Set default value to left
-        //spikeLocation = vision.getPixelLocation();
+        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.LEFT; //--- Set default value to left
+        //spikeLocation = vision.getPixelLocation.LEFT();
         //vision.Stop();
 
         //--- Initialize
@@ -180,10 +180,13 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         sleep(700);
         intake.transferPixel();
         sleep(1000);
-        splineTo(Collect);
+
+
+        goTo(Collect);
         goTo(IntermediatePos);
+        intake.stop();
         drop.goToPosition(3); //--- Up
-        splineTo(BackdropPos);
+        goTo(BackdropPos);
         setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
         goTo(BackdropClosePos);
         setSpeed(Speed.FAST);
@@ -191,6 +194,8 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         sleep(1000);
         topGate.setGateStopped();
         goTo(BackdropPos);
+        drop.goToPosition(0);
+        intake.stop();
     }
 
 }

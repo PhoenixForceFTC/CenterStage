@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @Config
 @Autonomous(group="!CompOpModes")
-public class B_SCR_PIXx4_P1 extends AutoOpMode {
+public class B_SCR_PIXx2_P1 extends AutoOpMode {
     private Vision vision;
 
     //--- adb connect 192.168.43.1:5555
@@ -42,15 +42,15 @@ public class B_SCR_PIXx4_P1 extends AutoOpMode {
 
     //--- Drop positions (LEFT)
     public static Position RIGHT_BACKDROP = new Position(47, 30, 180);
-    public static Position RIGHT_BACKDROP_CLOSE = new Position(50, 30, 180);
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 30, 180);
 
     //--- Drop positions (MIDDLE)
     public static Position MIDDLE_BACKDROP = new Position(47, 37, 180);
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, 37, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(53, 37, 180);
 
     //--- Drop positions (RIGHT)
     public static Position LEFT_BACKDROP = new Position(47, 43, 180);
-    public static Position LEFT_BACKDROP_CLOSE = new Position(50, 43, 180);
+    public static Position LEFT_BACKDROP_CLOSE = new Position(53, 43, 180);
 
     //--- Shared position to drop the pixel on the backdrop
     public static Position BACKDROP_CENTER = new Position(44, 37, 180);
@@ -73,8 +73,8 @@ public class B_SCR_PIXx4_P1 extends AutoOpMode {
         }
 
         //--- Read the final position of the spike
-        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.RIGHT; //--- Set default value to left
-        //spikeLocation = vision.getPixelLocation();
+        //spikeLocation = Vision.getPixelLocation(); //--- Set default value to left
+        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
         //vision.Stop();
 
         //--- Initialize
@@ -101,9 +101,9 @@ public class B_SCR_PIXx4_P1 extends AutoOpMode {
         }
 
         //--- Park
-        goTo(PARK_ARENA_CENTER);
-        //goTo(PARK_ARENA_WALL);
-        //goTo(PARK_BACKDROP_CENTER);
+      //  goTo(PARK_ARENA_CENTER);
+      //  goTo(PARK_ARENA_WALL);
+      //  goTo(PARK_BACKDROP_CENTER);
 
         sleep(5000);
     }
@@ -117,7 +117,7 @@ public class B_SCR_PIXx4_P1 extends AutoOpMode {
         //--- Drive to spike and eject pixel
         goTo(SpikePos);
         intake.returnPixel();
-        sleep(200);
+        sleep(300);
         intake.stop();
 
         //--- Drive to the backdrop
@@ -133,45 +133,9 @@ public class B_SCR_PIXx4_P1 extends AutoOpMode {
         topGate.setGateStopped();
         goTo(BackdropPos);
 
-        //--- Drive under the scaffolding via the intermediate position (to avoid hitting purple pixel)
-        //intake.stop();
-        drop.goToPosition(0);
-        goTo(IntermediatePos);
-        goTo(CollectIntermediate); //--- Move to intermediate point near collection
-        setSpeed(Speed.MEDIUM);
-        goTo(Collect);
-
-        //--- Send out grabber to collect pixels
-        snagger.goToPosition(3); //--- Collector almost full out
-        intake.eatPixel();
-        snagger.goToPosition(4, 0.25); //-- Full out at slow speed
-        sleep(4000);
-        intake.frontWheelReverse(); //--- Reverse front wheel to not trap a 3rd pixel
-        snagger.goToPosition(0); //--- Retract
-
-        //--- Move back to backdrop
-        goTo(Collect); //--- Move to collect spot to correct for movement from grabber
-        snagger.goToPosition(0);
-        goTo(IntermediatePos);
-        snagger.goToPosition(0); //--- Retract grabber as it comes out when we move backwards
-
-        //--- Transfer pixels
-        intake.transferPixel();
-        sleep(2000); //--- Extra sleep to allow transfer to finish (TODO: make this based on sensors)
+        //--- PARK
         intake.stop();
-        drop.goToPosition(4); //--- Up (higher so we don't know pixels off)
-        goTo(BackdropCenter);
-        setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
-        goTo(BackdropCenterClose);
-        setSpeed(Speed.FAST);
-
-        //--- Drop the pixel
-        topGate.setGateOpen();
-        sleep(2000);
-        topGate.setGateStopped();
-
-        //--- Move away from board
-        goTo(BACKDROP_CENTER);
+        goTo(PARK_ARENA_WALL);
         drop.goToPosition(0); //--- Down
     }
 

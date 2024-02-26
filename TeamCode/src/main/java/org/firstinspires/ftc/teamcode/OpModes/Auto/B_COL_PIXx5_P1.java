@@ -64,8 +64,8 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         }
 
         //--- Read the final position of the spike
-        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.LEFT; //--- Set default value to left
-        //spikeLocation = vision.getPixelLocation.LEFT();
+       // spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.LEFT; //--- Set default value to left
+        spikeLocation = vision.getPixelLocation();
         //vision.Stop();
 
         //--- Initialize

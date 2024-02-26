@@ -41,15 +41,15 @@ public class B_SCR_PIXx2_P1 extends AutoOpMode {
     public static Position PARK_ARENA_WALL = new Position(44, 60, 180);
 
     //--- Drop positions (LEFT)
-    public static Position RIGHT_BACKDROP = new Position(47, 30, 180);
-    public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 30, 180);
+    public static Position RIGHT_BACKDROP = new Position(47, 28, 180);
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 28, 180);
 
     //--- Drop positions (MIDDLE)
-    public static Position MIDDLE_BACKDROP = new Position(47, 37, 180);
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(53, 37, 180);
+    public static Position MIDDLE_BACKDROP = new Position(47, 35, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(53, 35, 180);
 
     //--- Drop positions (RIGHT)
-    public static Position LEFT_BACKDROP = new Position(47, 43, 180);
+    public static Position LEFT_BACKDROP = new Position(47, 40, 180);
     public static Position LEFT_BACKDROP_CLOSE = new Position(53, 43, 180);
 
     //--- Shared position to drop the pixel on the backdrop
@@ -73,8 +73,8 @@ public class B_SCR_PIXx2_P1 extends AutoOpMode {
         }
 
         //--- Read the final position of the spike
-        //spikeLocation = Vision.getPixelLocation(); //--- Set default value to left
-        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
+        spikeLocation = vision.getPixelLocation(); //--- Set default value to left
+        //spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
         //vision.Stop();
 
         //--- Initialize

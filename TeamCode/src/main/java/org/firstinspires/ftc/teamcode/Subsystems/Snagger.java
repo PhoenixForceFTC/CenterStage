@@ -25,7 +25,7 @@ public class Snagger {
 //  int LIFT_POSITIONS[] = {0,1033,2066,2900,3100};
 //  int LIFT_POSITIONS[] = {0,0,1200,1300,1450};
     //int LIFT_POSITIONS[] = {0,800,900,1400,1470,1500};
-    int LIFT_POSITIONS[] = {0,650,815,650,930,900};
+    int LIFT_POSITIONS[] = {0,650,815,650,930,1100,50};
 
     //815 is center position
     //650 left and right

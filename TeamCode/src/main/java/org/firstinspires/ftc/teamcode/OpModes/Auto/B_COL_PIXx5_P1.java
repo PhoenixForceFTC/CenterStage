@@ -19,7 +19,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     //------------------------------------------------------------
 
     //--- Collecting Side, align left side of the tile
-    public static Position START = new Position(-36, 63, 270);
+    public static Position START = new Position(-39, 63, 270);
     public static Position CENTERPOS = new Position(-36, 59, 270);
     public static Position CENTERPOS_L = new Position(-36, 59, 292);
 
@@ -33,20 +33,26 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
 
     //--- Drop positions (LEFT)
     public static Position RIGHT_BACKDROP = new Position(47, 30, 180);
-    public static Position RIGHT_BACKDROP_CLOSE = new Position(50, 30, 180);
+
+    public static Position RIGHT_BACKDROP_LEFT = new Position(53, 30, 180);
+    //Position to drop the white pixel slightly left of the drop pos
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 30, 180);
 
     //--- Drop positions (MIDDLE)
-    public static Position MIDDLE_BACKDROP = new Position(47, 37, 180);
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(53, 37, 180);
+    public static Position MIDDLE_BACKDROP = new Position(42, 32, 180);
+    public static Position MIDDLE_BACKDROP_LEFT = new Position(50, 38, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, 32, 180);
 
     //--- Drop positions (RIGHT)
     public static Position LEFT_BACKDROP = new Position(47, 43, 180);
+
+    public static Position LEFT_BACKDROP_RIGHT = new Position(53, 43, 180);
     public static Position LEFT_BACKDROP_CLOSE = new Position(53, 43, 180);
 
     //--- Shared position to drop the pixel on the backdrop
     public static Position BACKDROP_CENTER = new Position(44, 37, 180);
     public static Position BACKDROP_CENTER_CLOSE = new Position(53, 37, 180);
-    public static Position COLLECT_SCAFFOLDING_CENTER = new Position(-36, 60, 180);
+    public static Position COLLECT_SCAFFOLDING_CENTER = new Position(-36, 61, 180);
     
     @Override
     public void runOpMode() {
@@ -82,6 +88,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         STACK1,
                         STACK1STRAFE,
                         LEFT_BACKDROP ,
+                        LEFT_BACKDROP_RIGHT,
                         LEFT_BACKDROP_CLOSE ,
                         BACKDROP_CENTER,
                         BACKDROP_CENTER_CLOSE,
@@ -94,6 +101,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         STACK1,
                         STACK1STRAFE,
                         MIDDLE_BACKDROP ,
+                        MIDDLE_BACKDROP_LEFT ,
                         MIDDLE_BACKDROP_CLOSE ,
                         BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,
                         COLLECT_SCAFFOLDING_CENTER,
@@ -106,6 +114,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         STACK1,
                         STACK1STRAFE,
                         RIGHT_BACKDROP ,
+                        RIGHT_BACKDROP_LEFT,
                         RIGHT_BACKDROP_CLOSE ,
                         BACKDROP_CENTER,
                         BACKDROP_CENTER_CLOSE,
@@ -126,6 +135,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                                     Position Stack,
                                     Position StackStrafe,
                                     Position BackdropPos,
+                                    Position BackdropPos2,
                                     Position BackdropClosePos,
                                     Position BackdropCenter,
                                     Position BackdropCenterClose,
@@ -137,65 +147,70 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
         switch (spikeLocation) {
             case LEFT:
                 snagger.goToPosition(1);
-                sleep(2000);
+                sleep(1250);
                 intake.returnPixel();
                 sleep(200);
                 intake.stop();
                 sleep(300);
                 snagger.goToPosition(0);
-                sleep(2000);
+                sleep(1250);
                 break;
             case MIDDLE:
                 snagger.goToPosition(2);
-                sleep(2000);
+                sleep(1250);
                 intake.returnPixel();
                 sleep(200);
                 intake.stop();
                 sleep(300);
                 snagger.goToPosition(0);
-                sleep(2000);
+                sleep(1250);
+                goTo(Stack);
+                snagger.goToPosition(4);
+                sleep(500);
+                goTo(StackStrafe);
+                //   snagger.goToPosition(5);
+                sleep(500);
+                goTo(Stack);
+                snagger.goToPosition(5);
+                swinch.setClawClosed(true);
+                intake.eatPixel();
+                sleep(750);
+                snagger.goToPosition(6);
+                sleep(700);
+                intake.transferPixel();
+                sleep(3000);
+
+
+                goTo(Collect);
+                goTo(IntermediatePos);
+                intake.stop();
+                drop.goToPosition(4); //--- Up
+                goTo(BackdropPos);
+                setSpeed(Speed.MEDIUM); //--- Slow down before moving back a little
+                goTo(BackdropPos2);
+                topGate.setGateOpen();
+                sleep(750);
+                topGate.setGateStopped();
+                goTo(BackdropClosePos);
+                topGate.setGateOpen();
+                sleep(750);
+                topGate.setGateStopped();
+                goTo(BackdropPos);
+                drop.goToPosition(0);
+                intake.stop();;
                 break;
             case RIGHT:
                 snagger.goToPosition(3);
-                sleep(2000);
+                sleep(1250);
                 intake.returnPixel();
                 sleep(200);
                 intake.stop();
                 sleep(300);
                 snagger.goToPosition(0);
-                sleep(2000);
+                sleep(1250);
                 break;
         }
-        goTo(Stack);
-        snagger.goToPosition(4);
-        sleep(2000);
-        goTo(StackStrafe);
-        snagger.goToPosition(5);
-        intake.eatPixel();
-        sleep(1000);
-        intake.eatPixel();
-        intake.stop();
-        swinch.setClawClosed(true);
-        snagger.goToPosition(0);
-        sleep(700);
-        intake.transferPixel();
-        sleep(1000);
 
-
-        goTo(Collect);
-        goTo(IntermediatePos);
-        intake.stop();
-        drop.goToPosition(3); //--- Up
-        goTo(BackdropPos);
-        setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
-        goTo(BackdropClosePos);
-        setSpeed(Speed.FAST);
-        topGate.setGateOpen();
-        sleep(1000);
-        topGate.setGateStopped();
-        goTo(BackdropPos);
-        drop.goToPosition(0);
-        intake.stop();
     }
 
 }

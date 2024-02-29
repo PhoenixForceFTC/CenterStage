@@ -64,7 +64,7 @@ public class R_COL_PIXx5_P1 extends AutoOpMode {
     public void runOpMode() {
 
         //--- Initialize vision
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.RED_COL);
         vision.initTfod();
 
         //--- Wait for Start

@@ -71,7 +71,7 @@ public class RedScoringSideFastL2RB extends AutoOpMode {
 //        right = new right(this);
 
         //--- Initialize vision
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.RED_SCORING);
         vision.initTfod();
 
         //--- Wait for Start

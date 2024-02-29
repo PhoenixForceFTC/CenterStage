@@ -50,7 +50,7 @@ public class RedScoringSide extends AutoOpMode {
 
     @Override
     public void runOpMode() {
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.RED_SCORING);
         vision.initTfod();
 
 

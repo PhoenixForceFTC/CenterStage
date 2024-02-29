@@ -49,7 +49,7 @@ public class RedScoringSideFast extends AutoOpMode {
         left = new left(this);
         middle = new middle(this);
         right = new right(this);
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.RED_SCORING);
         vision.initTfod();
 
 

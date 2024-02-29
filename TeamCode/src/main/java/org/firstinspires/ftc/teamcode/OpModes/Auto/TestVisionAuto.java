@@ -28,7 +28,7 @@ public class TestVisionAuto extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
 
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.RED_COL);
         vision.initTfod();
 
 

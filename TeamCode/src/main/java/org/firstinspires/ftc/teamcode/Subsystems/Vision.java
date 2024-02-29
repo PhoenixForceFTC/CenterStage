@@ -57,13 +57,16 @@ public class Vision {
     };
 
     public enum START_POSITION{
-        BLUE_LEFT,
-        BLUE_RIGHT,
-        RED_LEFT,
-        RED_RIGHT
+        BLUE_SCOREING,
+        BLUE_COL,
+        RED_SCORING,
+        RED_COL
     }
 
+
+
     private START_POSITION startPosition;
+    private int x_cutoff;
 
     public enum IDENTIFIED_SPIKE_MARK_LOCATION {
         UNKNOWN,
@@ -77,6 +80,12 @@ public class Vision {
     public Vision(OpMode opMode, START_POSITION startPosition){
         this.startPosition = startPosition;
         this.opMode = opMode;
+        if (startPosition==START_POSITION.BLUE_COL || startPosition == START_POSITION.RED_COL){
+            x_cutoff=200;
+        }
+        else {
+            x_cutoff=350;
+        }
     }
 
     public IDENTIFIED_SPIKE_MARK_LOCATION getPixelLocation(){
@@ -172,8 +181,8 @@ public class Vision {
             opMode.telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             opMode.telemetry.addData("- Position", "%.0f / %.0f", x, y);
             opMode.telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-            if (recognition.getLabel() == "Pixel" && recognition.getWidth()<250) {
-                if (x < 200) {
+            if (recognition.getLabel() == "Pixel" && recognition.getWidth()<300) {
+                if (x < x_cutoff) {
                     identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.LEFT;
                 } else {
                     identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;

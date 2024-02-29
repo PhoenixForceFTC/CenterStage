@@ -50,7 +50,7 @@ public class BlueCollectionSide extends AutoOpMode {
 
     @Override
     public void runOpMode() {
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.BLUE_COL);
         vision.initTfod();
 
         while (!isStopRequested() && !opModeIsActive()) {

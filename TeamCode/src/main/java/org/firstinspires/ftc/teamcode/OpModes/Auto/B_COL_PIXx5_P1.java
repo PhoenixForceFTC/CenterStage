@@ -58,7 +58,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     public void runOpMode() {
 
         //--- Initialize vision
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.BLUE_COL);
         vision.initTfod();
 
         //--- Wait for Start
@@ -136,7 +136,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                                     Position IntermediatePos
                                     )
     {
-     goTo(CenterPos);
+                goTo(CenterPos);
                 snagger.goToPosition(2);
                 sleep(1250);
                 intake.returnPixel();

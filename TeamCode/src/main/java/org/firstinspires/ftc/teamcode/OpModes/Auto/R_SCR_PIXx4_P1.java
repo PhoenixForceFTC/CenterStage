@@ -62,7 +62,7 @@ public class R_SCR_PIXx4_P1 extends AutoOpMode {
     public void runOpMode() {
 
         //--- Initialize vision
-        vision = new Vision(this, Vision.START_POSITION.BLUE_LEFT);
+        vision = new Vision(this, Vision.START_POSITION.RED_SCORING);
         vision.initTfod();
 
         //--- Wait for Start

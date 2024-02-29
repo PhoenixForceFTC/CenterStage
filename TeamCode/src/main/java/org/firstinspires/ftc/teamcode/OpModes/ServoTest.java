@@ -11,7 +11,7 @@ public class ServoTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        servo1 = hardwareMap.get(Servo.class, "GATE1");
+        servo1 = hardwareMap.get(Servo.class, "SWINCH");
 
         telemetry.addData("Servo1 : ", servo1.getPosition());
 

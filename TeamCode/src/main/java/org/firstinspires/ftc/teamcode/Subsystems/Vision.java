@@ -172,18 +172,16 @@ public class Vision {
             opMode.telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             opMode.telemetry.addData("- Position", "%.0f / %.0f", x, y);
             opMode.telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-            if (recognition.getLabel() == "Pixel") {
+            if (recognition.getLabel() == "Pixel" && recognition.getWidth()<250) {
                 if (x < 200) {
                     identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.LEFT;
                 } else {
                     identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
                 }
-                    foundPixel=true;
-                    break;
-                }
+                foundPixel=true;
+                break;
 
-
-
+            }
 
         }   // end for() loop
         if (!foundPixel){

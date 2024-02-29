@@ -39,9 +39,9 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 30, 180);
 
     //--- Drop positions (MIDDLE)
-    public static Position MIDDLE_BACKDROP = new Position(42, 32, 180);
+    public static Position MIDDLE_BACKDROP = new Position(42, 31, 180);
     public static Position MIDDLE_BACKDROP_LEFT = new Position(50, 38, 180);
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, 32, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, 31, 180);
 
     //--- Drop positions (RIGHT)
     public static Position LEFT_BACKDROP = new Position(47, 43, 180);
@@ -90,8 +90,6 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         LEFT_BACKDROP ,
                         LEFT_BACKDROP_RIGHT,
                         LEFT_BACKDROP_CLOSE ,
-                        BACKDROP_CENTER,
-                        BACKDROP_CENTER_CLOSE,
                         COLLECT_SCAFFOLDING_CENTER,
                         INTERMEDIATE);
                 break;
@@ -103,7 +101,6 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         MIDDLE_BACKDROP ,
                         MIDDLE_BACKDROP_LEFT ,
                         MIDDLE_BACKDROP_CLOSE ,
-                        BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,
                         COLLECT_SCAFFOLDING_CENTER,
                         INTERMEDIATE);
                 break;
@@ -116,8 +113,6 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         RIGHT_BACKDROP ,
                         RIGHT_BACKDROP_LEFT,
                         RIGHT_BACKDROP_CLOSE ,
-                        BACKDROP_CENTER,
-                        BACKDROP_CENTER_CLOSE,
                         COLLECT_SCAFFOLDING_CENTER,
                         INTERMEDIATE);
                 break;
@@ -137,25 +132,11 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                                     Position BackdropPos,
                                     Position BackdropPos2,
                                     Position BackdropClosePos,
-                                    Position BackdropCenter,
-                                    Position BackdropCenterClose,
                                     Position Collect,
                                     Position IntermediatePos
                                     )
     {
      goTo(CenterPos);
-        switch (spikeLocation) {
-            case LEFT:
-                snagger.goToPosition(1);
-                sleep(1250);
-                intake.returnPixel();
-                sleep(200);
-                intake.stop();
-                sleep(300);
-                snagger.goToPosition(0);
-                sleep(1250);
-                break;
-            case MIDDLE:
                 snagger.goToPosition(2);
                 sleep(1250);
                 intake.returnPixel();
@@ -169,7 +150,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                 sleep(500);
                 goTo(StackStrafe);
                 //   snagger.goToPosition(5);
-                sleep(500);
+                sleep(750);
                 goTo(Stack);
                 snagger.goToPosition(5);
                 swinch.setClawClosed(true);
@@ -197,21 +178,9 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                 topGate.setGateStopped();
                 goTo(BackdropPos);
                 drop.goToPosition(0);
-                intake.stop();;
-                break;
-            case RIGHT:
-                snagger.goToPosition(3);
-                sleep(1250);
-                intake.returnPixel();
-                sleep(200);
                 intake.stop();
-                sleep(300);
-                snagger.goToPosition(0);
-                sleep(1250);
-                break;
         }
 
     }
 
-}
 

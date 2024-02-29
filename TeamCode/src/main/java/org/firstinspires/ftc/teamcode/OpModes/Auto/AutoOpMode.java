@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.Arrays;
-
+//next year use trajectory build upon initialiation
 public abstract class AutoOpMode extends LinearOpMode {
 
     public SampleMecanumDrive drive;

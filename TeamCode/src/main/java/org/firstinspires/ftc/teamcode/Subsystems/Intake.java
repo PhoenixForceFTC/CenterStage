@@ -77,11 +77,11 @@ public class Intake {
     public void lights(){
         pixelCounter.telemetry();
         RevBlinkinLedDriver.BlinkinPattern color;
-        if(pixelCounter.getDropPixels()==2){
+        /*if(pixelCounter.getDropPixels()==2){
             color = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         }else if(pixelCounter.getDropPixels()==1){
             color = RevBlinkinLedDriver.BlinkinPattern.BEATS_PER_MINUTE_FOREST_PALETTE;
-        }else if(pixelCounter.getIntakePixels()==2){
+        }else */if(pixelCounter.getIntakePixels()==2){
             color = RevBlinkinLedDriver.BlinkinPattern.RED;
         }else if(pixelCounter.getIntakePixels()==1){
             color = RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED;
@@ -101,9 +101,9 @@ public class Intake {
     public int getIntakePixels(){
         return pixelCounter.getIntakePixels();
     }
-    public int getDropPixels(){
+/*    public int getDropPixels(){
         return pixelCounter.getDropPixels();
-    }
+    }*/
     public void pixelCounterTelemetry(){
         pixelCounter.telemetry();
     }

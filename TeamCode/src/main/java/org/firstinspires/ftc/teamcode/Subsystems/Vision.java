@@ -51,7 +51,7 @@ public class Vision {
     //Vision parameters
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
-    private static final String TFOD_MODEL_ASSET = "model_phx.tflite";
+    private static final String TFOD_MODEL_ASSET = "ScoringSideProp.tflite";
     private static final String[] LABELS = {
             "Pixel"
     };
@@ -81,10 +81,10 @@ public class Vision {
         this.startPosition = startPosition;
         this.opMode = opMode;
         if (startPosition==START_POSITION.BLUE_COL || startPosition == START_POSITION.RED_COL){
-            x_cutoff=200;
+            x_cutoff=350;
         }
         else {
-            x_cutoff=350;
+            x_cutoff=200;
         }
     }
 

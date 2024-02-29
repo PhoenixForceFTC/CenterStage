@@ -67,6 +67,7 @@ public class TeleOpMode extends LinearOpMode {
                 }
                 topGate.controlGate();
                 snagger.move(gamepad2.left_stick_y);
+                intake.lights();
                 intake.buzzController();
                 manualMode.update(gamepad2.options);
                 if (manualMode.isActive()) {

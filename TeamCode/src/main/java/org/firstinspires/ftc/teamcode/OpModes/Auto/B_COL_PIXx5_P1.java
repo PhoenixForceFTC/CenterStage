@@ -32,11 +32,11 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     public static Position PARK_ARENA_WALL = new Position(44, 60, 180);
 
     //--- Drop positions (LEFT)
-    public static Position RIGHT_BACKDROP = new Position(47, 30, 180);
+    public static Position RIGHT_BACKDROP = new Position(4, 30, 180);
 
-    public static Position RIGHT_BACKDROP_LEFT = new Position(53, 30, 180);
+    public static Position RIGHT_BACKDROP_LEFT = new Position(50, 31, 180);
     //Position to drop the white pixel slightly left of the drop pos
-    public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 30, 180);
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(48, 25, 180);
 
     //--- Drop positions (MIDDLE)
     public static Position MIDDLE_BACKDROP = new Position(42, 31, 180);
@@ -46,8 +46,8 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     //--- Drop positions (RIGHT)
     public static Position LEFT_BACKDROP = new Position(47, 43, 180);
 
-    public static Position LEFT_BACKDROP_RIGHT = new Position(53, 43, 180);
-    public static Position LEFT_BACKDROP_CLOSE = new Position(53, 43, 180);
+    public static Position LEFT_BACKDROP_RIGHT = new Position(50, 30, 180);
+    public static Position LEFT_BACKDROP_CLOSE = new Position(50, 39, 180);
 
     //--- Shared position to drop the pixel on the backdrop
     public static Position BACKDROP_CENTER = new Position(44, 37, 180);

@@ -61,7 +61,7 @@ public class B_SCR_PIXx2_P1 extends AutoOpMode {
     public void runOpMode() {
 
         //--- Initialize vision
-        vision = new Vision(this, Vision.START_POSITION.BLUE_COL);
+        vision = new Vision(this, Vision.START_POSITION.BLUE_SCOREING);
         vision.initTfod();
 
         //--- Wait for Start
@@ -117,7 +117,7 @@ public class B_SCR_PIXx2_P1 extends AutoOpMode {
         //--- Drive to spike and eject pixel
         goTo(SpikePos);
         intake.returnPixel();
-        sleep(250);
+        sleep(200);
         intake.stop();
 
         //--- Drive to the backdrop

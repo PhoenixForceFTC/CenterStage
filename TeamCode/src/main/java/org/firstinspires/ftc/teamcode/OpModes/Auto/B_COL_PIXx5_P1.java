@@ -154,57 +154,78 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                                     Position IntermediatePos
                                     )
     {
+                //--- Move away from wall
                 goTo(CenterPos);
+
+                //--- Deliver Purple Pixel
                 snagger.goToPosition(2);
                 sleep(1250);
                 intake.returnPixel();
                 sleep(200);
                 intake.stop();
                 sleep(300);
+
+                //--- Move intake back in
                 snagger.goToPosition(0);
                 sleep(1250);
+
+                //--- Align with the stack
                 goTo(Stack);
                 snagger.goToPosition(4);
                 sleep(500);
-                goTo(StackStrafe);
+                goTo(StackStrafe);  //--- Sweep the stack
+
                 //   snagger.goToPosition(5);
                 sleep(750);
-                goTo(Stackreturn);
+                goTo(Stackreturn);  //--- Pulls back, realigns with stack
                 snagger.goToPosition(5);
-                swinch.setClawClosed(true);
+                //swinch.setClawClosed(true);
                 intake.eatPixel();
                 sleep(1000);
-                intake.frontWheelReverse();//
+
+                //--- Kick it back out if we have extra pixel
+                intake.frontWheelReverse();
                 sleep(200);
+
+                //--- Transfer Pixel
                 snagger.goToPosition(6);
                 sleep(1250);
                 intake.transferPixel();
                 sleep(3000);
+
+                //--- Go under the scaffolding
                 goTo(Collect);
                 goTo(IntermediatePos);
+
+                //--- Move the deployment up
                 intake.stop();
                 drop.goToPosition(3); //--- Up
+
+                //--- Deliver to the backboard
                 goTo(BackdropPos);
                 setSpeed(Speed.MEDIUM);
                // goTo(BackdropClosePos);
-                goTo(BackdropPos2);  // white pixel
+
+                //--- Deliver white pixel
+                goTo(BackdropPos2);
                 setSpeed(Speed.VERY_SLOW);
-                goTo(BackdropPos2Close);
+                goTo(BackdropPos2Close); //--- Approach backboard
                 topGate.setGateOpen();
                 sleep(720);
                 topGate.setGateStopped();
-                setSpeed(Speed.FAST);
                 sleep(500);
-                goTo(BackdropClosePos); // yellow pixel
+
+                //--- Deliver the yellow pixel
+                setSpeed(Speed.FAST);
+                goTo(BackdropClosePos); //-- yellow pixel
                 sleep(500);
                 topGate.setGateOpen();
                 sleep(750);
                 topGate.setGateStopped();
+
+                //--- Move away from backdrop
                 goTo(BackdropPos);
                 drop.goToPosition(0);
                 intake.stop();
         }
-
     }
-
-

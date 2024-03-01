@@ -26,6 +26,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     public static Position CENTERPOS_R = new Position(-36, 59, 248);
     public static Position STACK1 = new Position(-36, 59, 210);
     public static Position STACK1STRAFE = new Position(-40, 59, 230);
+    public static Position STACKRETURN = new Position(-36, 59, 203);
     public static Position INTERMEDIATE = new Position(20, 59, 180);
     public static Position PARK_ARENA_CENTER = new Position(44, 15, 180);
     public static Position PARK_BACKDROP_CENTER = new Position(44, 37, 180);
@@ -38,16 +39,25 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     //Position to drop the white pixel slightly left of the drop pos
     public static Position RIGHT_BACKDROP_CLOSE = new Position(48, 25, 180);
 
+    public static Position RIGHT_BACKDROP_LEFT_CLOSE = new Position(48, 25, 180);
+
+
     //--- Drop positions (MIDDLE)
     public static Position MIDDLE_BACKDROP = new Position(42, 31, 180);
-    public static Position MIDDLE_BACKDROP_LEFT = new Position(50, 38, 180);
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(50, 31, 180);
+
+    public static Position MIDDLE_BACKDROP_LEFT_CLOSE = new Position(50, 40, 180);
+    public static Position MIDDLE_BACKDROP_LEFT = new Position(47, 39, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(51, 31, 180);
+
+
 
     //--- Drop positions (RIGHT)
     public static Position LEFT_BACKDROP = new Position(47, 43, 180);
 
     public static Position LEFT_BACKDROP_RIGHT = new Position(50, 30, 180);
     public static Position LEFT_BACKDROP_CLOSE = new Position(50, 39, 180);
+
+    public static Position LEFT_BACKDROP_RIGHT_CLOSE = new Position(50, 39, 180);
 
     //--- Shared position to drop the pixel on the backdrop
     public static Position BACKDROP_CENTER = new Position(44, 37, 180);
@@ -87,8 +97,10 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         CENTERPOS_L,
                         STACK1,
                         STACK1STRAFE,
+                        STACKRETURN,
                         LEFT_BACKDROP ,
                         LEFT_BACKDROP_RIGHT,
+                        LEFT_BACKDROP_RIGHT_CLOSE,
                         LEFT_BACKDROP_CLOSE ,
                         COLLECT_SCAFFOLDING_CENTER,
                         INTERMEDIATE);
@@ -98,8 +110,10 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         CENTERPOS,
                         STACK1,
                         STACK1STRAFE,
+                        STACKRETURN,
                         MIDDLE_BACKDROP ,
                         MIDDLE_BACKDROP_LEFT ,
+                        MIDDLE_BACKDROP_LEFT_CLOSE,
                         MIDDLE_BACKDROP_CLOSE ,
                         COLLECT_SCAFFOLDING_CENTER,
                         INTERMEDIATE);
@@ -110,8 +124,10 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                         CENTERPOS_R,
                         STACK1,
                         STACK1STRAFE,
+                        STACKRETURN,
                         RIGHT_BACKDROP ,
                         RIGHT_BACKDROP_LEFT,
+                        RIGHT_BACKDROP_LEFT_CLOSE,
                         RIGHT_BACKDROP_CLOSE ,
                         COLLECT_SCAFFOLDING_CENTER,
                         INTERMEDIATE);
@@ -129,8 +145,10 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
     private void SpikeMovementPaths(Position CenterPos,
                                     Position Stack,
                                     Position StackStrafe,
+                                    Position Stackreturn,
                                     Position BackdropPos,
                                     Position BackdropPos2,
+                                    Position BackdropPos2Close,
                                     Position BackdropClosePos,
                                     Position Collect,
                                     Position IntermediatePos
@@ -151,28 +169,34 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                 goTo(StackStrafe);
                 //   snagger.goToPosition(5);
                 sleep(750);
-                goTo(Stack);
+                goTo(Stackreturn);
                 snagger.goToPosition(5);
                 swinch.setClawClosed(true);
                 intake.eatPixel();
-                sleep(750);
+                sleep(1000);
+                intake.frontWheelReverse();//
+                sleep(200);
                 snagger.goToPosition(6);
-                sleep(700);
+                sleep(1250);
                 intake.transferPixel();
                 sleep(3000);
-
-
                 goTo(Collect);
                 goTo(IntermediatePos);
                 intake.stop();
-                drop.goToPosition(4); //--- Up
+                drop.goToPosition(3); //--- Up
                 goTo(BackdropPos);
-                setSpeed(Speed.MEDIUM); //--- Slow down before moving back a little
-                goTo(BackdropPos2);
+                setSpeed(Speed.MEDIUM);
+               // goTo(BackdropClosePos);
+                goTo(BackdropPos2);  // white pixel
+                setSpeed(Speed.VERY_SLOW);
+                goTo(BackdropPos2Close);
                 topGate.setGateOpen();
-                sleep(750);
+                sleep(720);
                 topGate.setGateStopped();
-                goTo(BackdropClosePos);
+                setSpeed(Speed.FAST);
+                sleep(500);
+                goTo(BackdropClosePos); // yellow pixel
+                sleep(500);
                 topGate.setGateOpen();
                 sleep(750);
                 topGate.setGateStopped();

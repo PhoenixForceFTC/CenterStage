@@ -22,24 +22,16 @@ public class R_SCR_PIXx2_P1 extends AutoOpMode {
     public static Position START = new Position(14, -63, 90);
 
     //--- Deliver
-    public static Position LEFT_SPIKE = new Position(8, -35, 180);
+    public static Position LEFT_SPIKE = new Position(7, -35, 180);
     public static Position MIDDLE_SPIKE = new Position(22, -28, 180);
     public static Position RIGHT_SPIKE = new Position(27, -36, 180);
-    
-    //--- Collection positions under the scaffolding
-    public static Position COLLECT_SCAFFOLDING_CENTER_TURN = new Position(-21, -17, 195);
-    public static Position COLLECT_SCAFFOLDING_CENTER = new Position(-21, -17, 185);
-    public static Position COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE = new Position(-10, -15, 185);
-    
-    //--- Before and after going to collect under the scaffolding, we need to have an intermediate position
-    public static Position LEFT_INTERMEDIATE = new Position(12, -12, 180);
-    public static Position MIDDLE_INTERMEDIATE = new Position(24, -12, 180);
-    public static Position RIGHT_INTERMEDIATE = new Position(32, -12, 180);
-
     //--- Parking
     public static Position PARK_ARENA_CENTER = new Position(44, -15, 180);
+    public static Position PARK_ARENA_CENTER_PUSH = new Position(60, -15, 180);
     public static Position PARK_BACKDROP_CENTER = new Position(44, -37, 180);
-    public static Position PARK_ARENA_WALL = new Position(44, -60, 180);
+    public static Position PARK_BACKDROP_CENTER_PUSH = new Position(60, -37, 180);
+    public static Position PARK_ARENA_WALL = new Position(44, -63, 180);
+    public static Position PARK_ARENA_WALL_PUSH = new Position(60, -63, 180);
     
     //--- Drop positions (LEFT)
     public static Position LEFT_BACKDROP = new Position(47, -30, 180);
@@ -52,10 +44,7 @@ public class R_SCR_PIXx2_P1 extends AutoOpMode {
     //--- Drop positions (RIGHT)
     public static Position RIGHT_BACKDROP = new Position(47, -43, 180);
     public static Position RIGHT_BACKDROP_CLOSE = new Position(50, -43, 180);
-    
-    //--- Shared position to drop the pixel on the backdrop 
-    public static Position BACKDROP_CENTER = new Position(44, -37, 180);
-    public static Position BACKDROP_CENTER_CLOSE = new Position(50, -37, 180);
+
 
     
     @Override
@@ -89,17 +78,17 @@ public class R_SCR_PIXx2_P1 extends AutoOpMode {
         switch (spikeLocation) {
             case LEFT:
                 //LeftSpike();
-                SpikeMovementPaths(LEFT_SPIKE, LEFT_BACKDROP, LEFT_BACKDROP_CLOSE, LEFT_INTERMEDIATE,
-                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,COLLECT_SCAFFOLDING_CENTER_TURN);
+                SpikeMovementPaths(LEFT_SPIKE, LEFT_BACKDROP, LEFT_BACKDROP_CLOSE
+                );
                 break;
             case MIDDLE:
-                SpikeMovementPaths(MIDDLE_SPIKE, MIDDLE_BACKDROP, MIDDLE_BACKDROP_CLOSE, MIDDLE_INTERMEDIATE,
-                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,COLLECT_SCAFFOLDING_CENTER_TURN);
+                SpikeMovementPaths(MIDDLE_SPIKE, MIDDLE_BACKDROP, MIDDLE_BACKDROP_CLOSE
+                );
                 //CenterSpike();
                 break;
             case RIGHT:
-                SpikeMovementPaths(RIGHT_SPIKE, RIGHT_BACKDROP, RIGHT_BACKDROP_CLOSE, RIGHT_INTERMEDIATE,
-                        COLLECT_SCAFFOLDING_CENTER, COLLECT_SCAFFOLDING_CENTER_INTERMEDIATE, BACKDROP_CENTER, BACKDROP_CENTER_CLOSE,COLLECT_SCAFFOLDING_CENTER_TURN);
+                SpikeMovementPaths(RIGHT_SPIKE, RIGHT_BACKDROP, RIGHT_BACKDROP_CLOSE
+                );
                 //RightSpike();
                 break;
         }
@@ -110,39 +99,38 @@ public class R_SCR_PIXx2_P1 extends AutoOpMode {
         //--- Park
      //   goTo(PARK_ARENA_CENTER);
         goTo(PARK_ARENA_WALL);
+        goTo(PARK_ARENA_WALL_PUSH);
         //goTo(PARK_BACKDROP_CENTER);
 
         sleep(5000);
     }
 
     private void SpikeMovementPaths(Position SpikePos,
-                           Position BackdropPos, Position BackdropClosePos,
-                           Position IntermediatePos,
-                           Position Collect, Position CollectIntermediate,
-                           Position BackdropCenter, Position BackdropCenterClose,
-                            Position CollectTurn)
+                           Position BackdropPos, Position BackdropClosePos)
     {
         //--- Drive to spike and eject pixel
         goTo(SpikePos);
+        sleep(300);
         intake.returnPixel();
-        sleep(250);
+        sleep(200);
         intake.stop();
+        sleep(300);
 
         //--- Drive to the backdrop
         drop.goToPosition(3); //--- Up
         goTo(BackdropPos);
         setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
         goTo(BackdropClosePos);
-        setSpeed(Speed.FAST);
 
         //--- Deliver pixel
         topGate.setGateOpen();
         sleep(1000);
         topGate.setGateStopped();
+        goTo(BackdropPos);
+        setSpeed(Speed.FAST);
         drop.goToPosition(0);
         intake.stop();
 
-       ; //--- Down*/
     }
 
 }

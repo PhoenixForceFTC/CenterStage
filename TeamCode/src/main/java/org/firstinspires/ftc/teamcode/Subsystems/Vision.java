@@ -80,7 +80,7 @@ public class Vision {
     public Vision(OpMode opMode, START_POSITION startPosition){
         this.startPosition = startPosition;
         this.opMode = opMode;
-        if (startPosition==START_POSITION.BLUE_COL || startPosition == START_POSITION.RED_COL){
+        if (startPosition==START_POSITION.BLUE_SCOREING || startPosition == START_POSITION.RED_COL){
             x_cutoff=350;
         }
         else {
@@ -181,7 +181,7 @@ public class Vision {
             opMode.telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             opMode.telemetry.addData("- Position", "%.0f / %.0f", x, y);
             opMode.telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-            if (recognition.getLabel() == "Pixel" && recognition.getWidth()<300) {
+            if (recognition.getLabel() == "Pixel" && recognition.getWidth()<200) {
                 if (x < x_cutoff) {
                     identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.LEFT;
                 } else {

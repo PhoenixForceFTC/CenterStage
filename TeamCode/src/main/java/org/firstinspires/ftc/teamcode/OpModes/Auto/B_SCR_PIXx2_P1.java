@@ -22,9 +22,9 @@ public class B_SCR_PIXx2_P1 extends AutoOpMode {
     public static Position START = new Position(14, 63, 270);
 
     //--- Deliver
-    public static Position RIGHT_SPIKE = new Position(10, 34, 180);
+    public static Position RIGHT_SPIKE = new Position(8, 35, 180);
     public static Position MIDDLE_SPIKE = new Position(22, 28, 180);
-    public static Position LEFT_SPIKE = new Position(30, 36, 180);
+    public static Position LEFT_SPIKE = new Position(29, 36, 180);
 
     //--- Collection positions under the scaffolding
     public static Position COLLECT_SCAFFOLDING_CENTER = new Position(-17, 15, 185);
@@ -37,20 +37,23 @@ public class B_SCR_PIXx2_P1 extends AutoOpMode {
 
     //--- Parking
     public static Position PARK_ARENA_CENTER = new Position(44, 15, 180);
+    public static Position PARK_ARENA_CENTER_PUSH = new Position(60, 15, 180);
     public static Position PARK_BACKDROP_CENTER = new Position(44, 37, 180);
-    public static Position PARK_ARENA_WALL = new Position(44, 60, 180);
+    public static Position PARK_BACKDROP_CENTER_PUSH = new Position(60, 37, 180);
+    public static Position PARK_ARENA_WALL = new Position(44, 62, 180);
+    public static Position PARK_ARENA_WALL_PUSH = new Position(60, 62, 180);
 
     //--- Drop positions (LEFT)
-    public static Position RIGHT_BACKDROP = new Position(47, 28, 180);
-    public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 28, 180);
+    public static Position RIGHT_BACKDROP = new Position(47, 29, 180);
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(53, 29, 180);
 
     //--- Drop positions (MIDDLE)
-    public static Position MIDDLE_BACKDROP = new Position(47, 35, 180);
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(53, 35, 180);
+    public static Position MIDDLE_BACKDROP = new Position(47, 36, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(53, 36, 180);
 
     //--- Drop positions (RIGHT)
-    public static Position LEFT_BACKDROP = new Position(47, 40, 180);
-    public static Position LEFT_BACKDROP_CLOSE = new Position(53, 43, 180);
+    public static Position LEFT_BACKDROP = new Position(47, 44, 180);
+    public static Position LEFT_BACKDROP_CLOSE = new Position(53, 44, 180);
 
     //--- Shared position to drop the pixel on the backdrop
     public static Position BACKDROP_CENTER = new Position(44, 37, 180);
@@ -116,27 +119,27 @@ public class B_SCR_PIXx2_P1 extends AutoOpMode {
     {
         //--- Drive to spike and eject pixel
         goTo(SpikePos);
+        sleep(300);
         intake.returnPixel();
         sleep(200);
         intake.stop();
-
+        sleep(300);
         //--- Drive to the backdrop
         drop.goToPosition(3); //--- Up
         goTo(BackdropPos);
         setSpeed(Speed.VERY_SLOW); //--- Slow down before moving back a little
         goTo(BackdropClosePos);
         setSpeed(Speed.FAST);
-
         //--- Deliver pixel
         topGate.setGateOpen();
         sleep(1000);
         topGate.setGateStopped();
         goTo(BackdropPos);
-
-        //--- PARK
         intake.stop();
-        goTo(PARK_ARENA_WALL);
         drop.goToPosition(0); //--- Down
+        goTo(PARK_ARENA_WALL);
+        //--- PARK
+        goTo(PARK_ARENA_WALL_PUSH);
     }
 
 }

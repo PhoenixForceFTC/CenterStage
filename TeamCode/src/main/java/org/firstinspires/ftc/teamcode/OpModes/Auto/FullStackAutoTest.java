@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.OpModes.Auto.AutoOpMode;
 
 @Config
+@Disabled
 @Autonomous(group="!CompOpModes")
 public class FullStackAutoTest extends AutoOpMode {
     public static Position START = new Position(-40, -12, 0);

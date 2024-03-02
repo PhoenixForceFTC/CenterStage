@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Config
+@Disabled
 @Autonomous(group="!CompOpModes")
 public class TestAutoOpMode extends AutoOpMode {
     public static Position START = new Position(-40.5, -63.375, 90);

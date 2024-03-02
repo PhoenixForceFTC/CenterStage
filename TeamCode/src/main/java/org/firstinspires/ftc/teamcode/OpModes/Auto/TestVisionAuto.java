@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
  FTC WIRES TeleOp Example**/
 
+@Disabled
 @TeleOp(name = "Test Teleop Vision", group = "00-Teleop")
 public class TestVisionAuto extends LinearOpMode {
 

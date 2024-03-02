@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @Config
+@Disabled
 @Autonomous(group="!CompOpModes")
 public class RedScoringSide extends AutoOpMode {
     private Vision vision;

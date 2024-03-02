@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.OpModes.Auto.AbstractAutonomous.Side;
 import org.firstinspires.ftc.teamcode.vision.PropDetector;
+
+@Disabled
 @Autonomous(name="camera test", group="test")
 public class VisionTest extends AbstractAutonomous{
 

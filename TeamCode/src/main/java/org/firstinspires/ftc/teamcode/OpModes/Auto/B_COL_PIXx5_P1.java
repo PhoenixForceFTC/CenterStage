@@ -212,6 +212,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
 
                 //--- Move the deployment up
                 intake.stop();
+                topGate.setGateClosed();
                 drop.goToPosition(3); //--- Up
 
                 //--- Deliver to the backboard
@@ -222,7 +223,7 @@ public class B_COL_PIXx5_P1 extends AutoOpMode {
                 //--- Deliver white pixel
                 goTo(BackdropPos2);
                 setSpeed(Speed.VERY_SLOW);
-                topGate.setGateClosed();
+
                 goTo(BackdropPos2Close); //--- Approach backboard
                 intake.stop();
                 topGate.setGateOpen();

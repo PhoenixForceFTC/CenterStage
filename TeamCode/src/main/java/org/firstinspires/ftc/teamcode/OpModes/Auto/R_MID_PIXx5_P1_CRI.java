@@ -19,9 +19,9 @@ public class R_MID_PIXx5_P1_CRI extends AutoOpMode {
 
     //--- Collecting Side, align left side of the tile
     public static Position START = new Position(-36, -63, 360-270);
-    public static Position CENTERPOS = new Position(-36, -59, 360-270);
+    public static Position CENTERPOS = new Position(-36, -58, 360-270);
     public static Position CENTERPOS_R = new Position(-36, -59, 360-292);//292
-    public static Position CENTERPOS_L = new Position(-30, -59, 360-244); //248
+    public static Position CENTERPOS_L = new Position(-32, -59, 360-244); //248
     public static Position INTERMEDIATE = new Position(20, -59, 180);
     public static Position PARK_ARENA_CENTER = new Position(44, -13, 180);
     public static Position PARK_BACKDROP_CENTER = new Position(44, -37, 180);
@@ -29,27 +29,27 @@ public class R_MID_PIXx5_P1_CRI extends AutoOpMode {
 
 
     //--- Drop positions (LEFT)
-    public static Position LEFT_BACKDROP = new Position(41, -30, 180);
+    public static Position LEFT_BACKDROP = new Position(45, -30, 180);
 
-    public static Position LEFT_BACKDROP_MIDDLE = new Position(41, -36, 180);
+    public static Position LEFT_BACKDROP_MIDDLE = new Position(45, -36, 180);
     //Position to drop the white pixel slightly left of the drop pos
     public static Position LEFT_BACKDROP_MIDDLE_CLOSE = new Position(51, -36, 180);
     public static Position LEFT_BACKDROP_CLOSE = new Position(50, -30, 180);
 
 
     //--- Drop positions (MIDDLE)
-    public static Position MIDDLE_BACKDROP = new Position(42, -36, 180); //
-    public static Position MIDDLE_BACKDROP_LEFT = new Position(47, -42, 180); /// 39
+    public static Position MIDDLE_BACKDROP = new Position(44, -36, 180); //
+    public static Position MIDDLE_BACKDROP_LEFT = new Position(49, -42, 180); /// 39
     public static Position MIDDLE_BACKDROP_LEFT_CLOSE = new Position(50, -42, 180); /// 40
-    public static Position MIDDLE_BACKDROP_CLOSE = new Position(51, -36, 180);
+    public static Position MIDDLE_BACKDROP_CLOSE = new Position(49, -36, 180);
 
 
 
     //--- Drop positions (RIGHT)
-    public static Position RIGHT_BACKDROP = new Position(43, -40, 180); /// x47
+    public static Position RIGHT_BACKDROP = new Position(45, -43, 180); /// x47
 
-    public static Position RIGHT_BACKDROP_MIDDLE = new Position(43, -31, 180); ///x50
-    public static Position RIGHT_BACKDROP_CLOSE = new Position(50, -40, 180);
+    public static Position RIGHT_BACKDROP_MIDDLE = new Position(45, -31, 180); ///x50
+    public static Position RIGHT_BACKDROP_CLOSE = new Position(50, -43, 180);
 
     public static Position RIGHT_BACKDROP_MIDDLE_CLOSE = new Position(51, -31, 180);
 
@@ -75,7 +75,7 @@ public class R_MID_PIXx5_P1_CRI extends AutoOpMode {
 
         //--- Read the final position of the spike
         // spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.LEFT; //--- Set default value to left
-        spikeLocation = Vision.IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
+        spikeLocation = vision.getPixelLocation();
         //vision.Stop();
 
         //--- Initialize

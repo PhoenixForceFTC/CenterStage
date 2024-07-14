@@ -92,7 +92,7 @@ public class Intake {
     }
     public void buzzController(){
         counter++;
-        if(counter==10){
+        if(counter==20){
             counter=0;
                 opMode.gamepad1.rumbleBlips(pixelCounter.getIntakePixels());
                 opMode.gamepad2.rumbleBlips(pixelCounter.getIntakePixels());

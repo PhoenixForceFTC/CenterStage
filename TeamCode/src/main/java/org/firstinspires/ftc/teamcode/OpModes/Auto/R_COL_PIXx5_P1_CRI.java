@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
-
 @Config
 @Autonomous(group="!CompOpModes")
 public class R_COL_PIXx5_P1_CRI extends AutoOpMode {
@@ -20,7 +18,7 @@ public class R_COL_PIXx5_P1_CRI extends AutoOpMode {
 
     //--- Collecting Side, align left side of the tile
     public static Position START = new Position(-87, -63, 360-270);
-    public static Position CENTERPOS = new Position(-84, -58, 360-270);
+    public static Position CENTERPOS = new Position(-84, -57, 360-270);
     public static Position CENTERPOS_R = new Position(-84, -59, 360-292);//292
     public static Position CENTERPOS_L = new Position(-84, -59, 360-244); //248
     public static Position STACK1 = new Position(-84, -59, 360-210);
@@ -192,23 +190,22 @@ public class R_COL_PIXx5_P1_CRI extends AutoOpMode {
         snagger.goToPosition(5);
         //swinch.setClawClosed(true);
         intake.eatPixel();
-        sleep(1200); // 1000
+        sleep(2000); // 1000
 
         //--- Kick it back out if we have extra pixel
         intake.frontWheelReverse();
         sleep(200);
-        int intakePixels = intake.getIntakePixels();
+
         //--- Transfer Pixel
         snagger.goToPosition(6);
         sleep(1250);
         intake.transferPixel();
         snagger.goToPosition(6);
         sleep(2000);
-
         //--- Go under the scaffolding
         goTo(Collect);
         goTo(IntermediatePos);
-
+        int intakePixels = intake.getIntakePixels();
         //--- Move the deployment up
         intake.stop();
         topGate.setGateClosed();
@@ -218,7 +215,6 @@ public class R_COL_PIXx5_P1_CRI extends AutoOpMode {
         goTo(BackdropPos);
         setSpeed(Speed.MEDIUM);
         // goTo(BackdropClosePos);
-//        if(intakePixels>0&&(intake.getIntakePixels()<1)) {
         if(intakePixels>0) {
                 //--- Deliver white pixel
                 goTo(BackdropPos2);
@@ -226,7 +222,7 @@ public class R_COL_PIXx5_P1_CRI extends AutoOpMode {
                 goTo(BackdropPos2Close); //--- Approach backboard
                 intake.stop();
                 topGate.setGateOpen();
-                sleep(720);
+                sleep(720);  // white pixel
                 topGate.setGateStopped();
                 sleep(500);
             }
